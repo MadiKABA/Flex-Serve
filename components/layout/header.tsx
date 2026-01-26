@@ -37,10 +37,10 @@ export default function Header() {
     // Navigation principale
     const navigation: NavigationItem[] = [
         { name: 'Accueil', href: '/' },
-        { name: 'Portfolio', href: '/portfolio' },
+        { name: 'Services', href: '/Services' },
         {
-            name: 'Services',
-            href: '/services',
+            name: 'Portfolio',
+            href: '/Portfolio',
             hasDropdown: true,
             submenu: services
         },
