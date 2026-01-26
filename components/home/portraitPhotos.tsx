@@ -15,7 +15,7 @@ const portraitPhotos = [
 
 export default function PortraitGallery() {
     return (
-        <section className="py-5 px-6 bg-[#2E4A6F]/25">
+        <section className="pt-5 pb-1 px-6 bg-[#2E4A6F]/25">
             <div className="max-w-7xl mx-auto">
 
                 {/* GRID GALERIE */}
