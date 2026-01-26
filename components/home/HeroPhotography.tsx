@@ -146,34 +146,6 @@ export default function HeroFlexServe() {
                 </div>
             </div>
 
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, ease: 'easeOut' }}
-                className="pointer-events-none absolute bottom-0 left-0 w-full"
-            >
-                {/* Ink / Water drip transition */}
-                <div className="pointer-events-none absolute bottom-0 left-0 w-full overflow-hidden leading-none">
-                    <svg
-                        viewBox="0 0 1440 120"
-                        preserveAspectRatio="none"
-                        className="block h-[120px] w-full"
-                    >
-                        <path
-                            fill="rgba(245,242,232,0.9)"
-                            d="M0,40 
-         C120,80 240,0 360,20 
-         C480,40 600,100 720,90 
-         C840,80 960,20 1080,30 
-         C1200,40 1320,70 1440,50 
-         L1440,120 
-         L0,120 
-         Z"
-                        />
-                    </svg>
-                </div>
-
-            </motion.div>
         </section>
     );
 }
