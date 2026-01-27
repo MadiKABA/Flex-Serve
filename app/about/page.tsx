@@ -1,6 +1,7 @@
 import AboutCTA from "@/components/about/AboutCTA";
 import AboutHero from "@/components/about/AboutHero";
 import AboutValuesSection from "@/components/about/AboutValuesSection";
+import PartnersSection from "@/components/about/PartnersSection";
 
 
 export default function Home() {
@@ -9,6 +10,7 @@ export default function Home() {
             <AboutHero />
             <AboutValuesSection />
             <AboutCTA />
+            <PartnersSection />
         </main>
     );
 }
