@@ -16,7 +16,7 @@ const portraitPhotos = [
 export default function PortraitGallery() {
     return (
         <section className="pt-5 pb-1 px-6 bg-[#2E4A6F]/25">
-            <div className="max-w-7xl mx-auto">
+            <div className="container mx-auto sm:px-6 lg:px-2">
 
                 {/* GRID GALERIE */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1 auto-rows-[280px]">

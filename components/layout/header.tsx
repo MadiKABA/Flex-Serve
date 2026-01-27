@@ -94,7 +94,7 @@ export default function Header() {
             role="banner"
         >
             <nav
-                className="container mx-auto pr-6 sm:px-6 lg:px-8"
+                className="container mx-auto  sm:px-6 lg:px-8"
                 aria-label="Navigation principale"
             >
                 <div className="flex items-center justify-between h-20">
@@ -105,7 +105,7 @@ export default function Header() {
                             className="flex items-center gap-2 group"
                             aria-label="FlexServe - Retour à l'accueil"
                         >
-                            <div className="relative">
+                            <div className="relative bg-">
                                 <Image
                                     src="/logo.png"
                                     alt="FlexServe Logo"

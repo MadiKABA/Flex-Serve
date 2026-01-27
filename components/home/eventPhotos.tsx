@@ -18,7 +18,7 @@ export default function EventsGallery() {
     return (
         <section className="px-6 relative overflow-hidden">
 
-            <div className="max-w-7xl mx-auto">
+            <div className="container mx-auto sm:px-6 lg:px-2">
 
                 {/* GRILLE ASYMÉTRIQUE (BENTO) */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-1 auto-rows-[200px]">

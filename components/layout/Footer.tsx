@@ -13,7 +13,7 @@ export default function Footer() {
 
     return (
         <footer className="relative bg-[#2E4A6F] backdrop-blur-lg text-[#EAE7DC] py-16 overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="container sm:px-6 lg:px-12 mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
 
                 {/* CONTACT */}
                 <motion.div

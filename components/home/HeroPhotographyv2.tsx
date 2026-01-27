@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function HeroFlexServev2() {
     return (
-        <section className="relative overflow-hidden bg-[#2E4A6F]/70 min-h-screen flex flex-col">
+        <section className="pt-24 relative overflow-hidden bg-[#2E4A6F]/70 min-h-screen flex flex-col">
             {/* SVG DECOR TOP */}
             <div className="absolute top-0 left-0 w-full pointer-events-none">
                 <svg
