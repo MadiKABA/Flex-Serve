@@ -37,7 +37,7 @@ export default function Header() {
     // Navigation principale
     const navigation: NavigationItem[] = [
         { name: 'Accueil', href: '/' },
-        { name: 'Services', href: '/Services' },
+        { name: 'Services', href: '/services' },
         {
             name: 'Portfolio',
             href: '/Portfolio',
