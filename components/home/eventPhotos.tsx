@@ -16,8 +16,10 @@ const eventPhotos = [
 
 export default function EventsGallery() {
     return (
-        <section className="px-6">
+        <section className="px-6 relative overflow-hidden">
+
             <div className="max-w-7xl mx-auto">
+
                 {/* GRILLE ASYMÉTRIQUE (BENTO) */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-1 auto-rows-[200px]">
                     {eventPhotos.map((event, index) => (
