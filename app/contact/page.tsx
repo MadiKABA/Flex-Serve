@@ -1,5 +1,5 @@
-import ContactContent from "@/components/about/contact/ContactContent";
-import ContactHero from "@/components/about/contact/ContactHero";
+import ContactContent from "@/components/contact/ContactContent";
+import ContactHero from "@/components/contact/ContactHero";
 
 
 export default function Home() {

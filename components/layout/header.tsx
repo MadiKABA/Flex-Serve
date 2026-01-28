@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'; // ← Ajouter cet import
 import { Menu, X, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 
-interface ServiceItem {
+interface PortfolioItem {
     name: string;
     href: string;
 }
@@ -15,23 +15,23 @@ interface NavigationItem {
     name: string;
     href: string;
     hasDropdown?: boolean;
-    submenu?: ServiceItem[];
+    submenu?: PortfolioItem[];
 }
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    const [isServicesOpen, setIsServicesOpen] = useState(false);
+    const [isPortfoliosOpen, setIsPortfoliosOpen] = useState(false);
 
     // Récupérer le chemin actuel
     const pathname = usePathname();
 
     // Services dynamiques
-    const services: ServiceItem[] = [
-        { name: 'Portrait', href: '/services/portrait' },
-        { name: 'Événementiel', href: '/services/evenementiel' },
-        { name: 'Mariage', href: '/services/mariage' },
-        { name: 'PUB', href: '/services/videographie' },
+    const portfolios: PortfolioItem[] = [
+        { name: 'Portrait', href: '/portfolio/portrait' },
+        { name: 'Événementiel', href: '/portfolio/evenementiel' },
+        { name: 'Mariage', href: '/portfolio/mariage' },
+        { name: 'PUB', href: '/portfolio/pub' },
     ];
 
     // Navigation principale
@@ -42,7 +42,7 @@ export default function Header() {
             name: 'Portfolio',
             href: '/Portfolio',
             hasDropdown: true,
-            submenu: services
+            submenu: portfolios
         },
         { name: 'À propos', href: '/about' },
         { name: 'Contact', href: '/contact' },
@@ -130,43 +130,43 @@ export default function Header() {
                                                     ? 'text-[#2d4a6a] font-bold'
                                                     : 'text-gray-600 hover:text-[#3d5a7a]'
                                                     }`}
-                                                aria-expanded={isServicesOpen}
+                                                aria-expanded={isPortfoliosOpen}
                                                 aria-haspopup="true"
-                                                onMouseEnter={() => setIsServicesOpen(true)}
-                                                onMouseLeave={() => setIsServicesOpen(false)}
+                                                onMouseEnter={() => setIsPortfoliosOpen(true)}
+                                                onMouseLeave={() => setIsPortfoliosOpen(false)}
                                                 role="menuitem"
                                                 aria-current={isActive(item.href) ? 'page' : undefined}
                                             >
                                                 {item.name}
                                                 <ChevronDown
-                                                    className={`w-4 h-4 transition-transform ${isServicesOpen ? 'rotate-180' : ''
+                                                    className={`w-4 h-4 transition-transform ${isPortfoliosOpen ? 'rotate-180' : ''
                                                         }`}
                                                 />
                                             </button>
 
                                             {/* Dropdown Menu */}
                                             <div
-                                                className={`absolute top-full left-0 mt-1 w-56 bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden transition-all duration-200 ${isServicesOpen
+                                                className={`absolute top-full left-0 mt-1 w-56 bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden transition-all duration-200 ${isPortfoliosOpen
                                                     ? 'opacity-100 visible translate-y-0'
                                                     : 'opacity-0 invisible -translate-y-2'
                                                     }`}
-                                                onMouseEnter={() => setIsServicesOpen(true)}
-                                                onMouseLeave={() => setIsServicesOpen(false)}
+                                                onMouseEnter={() => setIsPortfoliosOpen(true)}
+                                                onMouseLeave={() => setIsPortfoliosOpen(false)}
                                                 role="menu"
-                                                aria-label="Sous-menu Services"
+                                                aria-label="Sous-menu Portfolio"
                                             >
-                                                {item.submenu?.map((service) => (
+                                                {item.submenu?.map((portfolio) => (
                                                     <Link
-                                                        key={service.name}
-                                                        href={service.href}
-                                                        className={`block px-4 py-3 transition-colors ${pathname === service.href
+                                                        key={portfolio.name}
+                                                        href={portfolio.href}
+                                                        className={`block px-4 py-3 transition-colors ${pathname === portfolio.href
                                                             ? 'bg-[#3d5a7a] text-white font-semibold'
                                                             : 'text-gray-700 hover:bg-[#3d5a7a] hover:text-white'
                                                             }`}
                                                         role="menuitem"
-                                                        aria-current={pathname === service.href ? 'page' : undefined}
+                                                        aria-current={pathname === portfolio.href ? 'page' : undefined}
                                                     >
-                                                        {service.name}
+                                                        {portfolio.name}
                                                     </Link>
                                                 ))}
                                             </div>
@@ -235,35 +235,35 @@ export default function Header() {
                                                 ? 'text-[#2d4a6a] font-bold'
                                                 : 'text-gray-600 hover:text-[#3d5a7a]'
                                                 }`}
-                                            onClick={() => setIsServicesOpen(!isServicesOpen)}
-                                            aria-expanded={isServicesOpen}
+                                            onClick={() => setIsPortfoliosOpen(!isPortfoliosOpen)}
+                                            aria-expanded={isPortfoliosOpen}
                                             role="menuitem"
                                             aria-current={isActive(item.href) ? 'page' : undefined}
                                         >
                                             {item.name}
                                             <ChevronDown
-                                                className={`w-4 h-4 transition-transform ${isServicesOpen ? 'rotate-180' : ''
+                                                className={`w-4 h-4 transition-transform ${isPortfoliosOpen ? 'rotate-180' : ''
                                                     }`}
                                             />
                                         </button>
 
                                         {/* Submenu Mobile */}
                                         <div
-                                            className={`overflow-hidden transition-all duration-300 ${isServicesOpen ? 'max-h-96' : 'max-h-0'
+                                            className={`overflow-hidden transition-all duration-300 ${isPortfoliosOpen ? 'max-h-96' : 'max-h-0'
                                                 }`}
                                         >
-                                            {item.submenu?.map((service) => (
+                                            {item.submenu?.map((portfolio) => (
                                                 <Link
-                                                    key={service.name}
-                                                    href={service.href}
-                                                    className={`block pl-8 pr-4 py-2.5 text-sm rounded-lg transition-colors ${pathname === service.href
+                                                    key={portfolio.name}
+                                                    href={portfolio.href}
+                                                    className={`block pl-8 pr-4 py-2.5 text-sm rounded-lg transition-colors ${pathname === portfolio.href
                                                         ? 'bg-[#3d5a7a] text-white font-semibold'
                                                         : 'text-gray-600 hover:bg-gray-50 hover:text-[#3d5a7a]'
                                                         }`}
                                                     role="menuitem"
-                                                    aria-current={pathname === service.href ? 'page' : undefined}
+                                                    aria-current={pathname === portfolio.href ? 'page' : undefined}
                                                 >
-                                                    {service.name}
+                                                    {portfolio.name}
                                                 </Link>
                                             ))}
                                         </div>
