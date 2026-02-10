@@ -70,7 +70,7 @@ export default function HeroFlexServev2() {
                             >
                                 <div className="bg-white p-1 shadow-xl border border-gray-100 rounded-sm">
                                     <Image
-                                        src="/images/photo-1.jpg"
+                                        src="/images/V1.webp"
                                         alt="Portfolio 1"
                                         width={200}
                                         height={200}
@@ -89,7 +89,7 @@ export default function HeroFlexServev2() {
                             >
                                 <div className="bg-white p-1 shadow-xl border border-gray-100 rounded-sm">
                                     <Image
-                                        src="/images/photo-2.jpg"
+                                        src="/images/F2.webp"
                                         alt="Portfolio 2"
                                         width={200}
                                         height={200}
@@ -108,7 +108,7 @@ export default function HeroFlexServev2() {
                             >
                                 <div className="bg-white p-1 shadow-2xl border border-gray-100 rounded-sm">
                                     <Image
-                                        src="/images/photo-3.jpg"
+                                        src="/images/Mamy.webp"
                                         alt="Portfolio 3"
                                         width={220}
                                         height={220}

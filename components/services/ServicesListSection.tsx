@@ -17,32 +17,32 @@ const services: Service[] = [
     {
         id: 1,
         name: 'Portrait',
-        href: '/services/portrait',
-        images: ['/images/portrait-1.jpg', '/images/portrait-2.jpg'],
+        href: '/portfolio/portrait',
+        images: ['/images/portrait/B1.webp', '/images/portrait/MS (3).webp'],
         description: 'Capturer l\'essence unique de chaque personne à travers des portraits authentiques et intemporels. Une séance photo personnalisée pour révéler votre vraie nature.',
         tag: 'Authenticité',
     },
     {
         id: 2,
         name: 'Événementiel',
-        href: '/services/evenementiel',
-        images: ['/images/portrait-2.jpg', '/images/portrait-3.jpg'],
+        href: '/portfolio/evenementiel',
+        images: ['/images/event/Stefdekarda 3.webp', '/images/event/F1.webp'],
         description: 'Immortaliser les moments forts de vos événements professionnels et privés. De la conférence au cocktail, chaque instant mérite d\'être préservé.',
         tag: 'Professionnel',
     },
     {
         id: 3,
         name: 'Mariage',
-        href: '/services/mariage',
-        images: ['/images/portrait-3.jpg', '/images/portrait-1.jpg'],
+        href: '/portfolio/mariage',
+        images: ['/images/mariage/55-thumb.webp', '/images/mariage/Mamy B2-thumb.webp'],
         description: 'Raconter votre histoire d\'amour à travers des images empreintes d\'émotion. Du oui jusqu\'à la dernière danse, chaque moment devient éternel.',
         tag: 'Émotions',
     },
     {
         id: 4,
         name: 'PUB',
-        href: '/services/videographie',
-        images: ['/images/portrait-1.jpg', '/images/portrait-3.jpg'],
+        href: '/portfolio/pub',
+        images: ['/images/portrait/FX_03581.webp', '/images/portrait/FX_03588.webp'],
         description: 'Créer des visuels percutants qui donnent vie à votre marque. De la photo produit aux campagnes publicitaires, sublimez votre image.',
         tag: 'Impact Visuel',
     },
@@ -172,7 +172,7 @@ export default function ServicesSection() {
                                         >
                                             {/* Bouton Réserver */}
                                             <Link
-                                                href="/contact"
+                                                href="/reservation"
                                                 className="group relative px-8 py-4 bg-white text-[#2E4A6F] rounded-sm overflow-hidden transition-all duration-500 hover:pr-12 text-center"
                                             >
                                                 <span className="relative z-10 uppercase tracking-widest text-sm font-semibold">

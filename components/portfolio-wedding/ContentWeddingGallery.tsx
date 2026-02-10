@@ -5,28 +5,27 @@ import Image from 'next/image';
 import { useRef } from 'react';
 
 const weddingMoments = [
-    { id: 1, src: '/images/photo-1.jpg', label: 'Préparatifs' },
-    { id: 2, src: '/images/photo-2.jpg', label: 'Cérémonie' },
-    { id: 3, src: '/images/photo-3.jpg', label: 'Le Oui' },
-    { id: 4, src: '/images/photo-1.jpg', label: 'Éclats de Rire' },
-    { id: 5, src: '/images/photo-3.jpg', label: 'La Danse' },
-    { id: 6, src: '/images/photo-2.jpg', label: 'Complicité' },
-    { id: 7, src: '/images/photo-2.jpg', label: 'Décor & Détails' },
-    { id: 8, src: '/images/photo-3.jpg', label: 'Famille & Invités' },
-    { id: 9, src: '/images/photo-2.jpg', label: 'Moment Vrai' },
-    { id: 10, src: '/images/photo-1.jpg', label: 'Émotion Pure' },
+    { id: 1, src: '/images/mariage/77.webp', label: 'Préparatifs' },
+    { id: 2, src: '/images/mariage/Mamy B1.webp', label: 'L’attente' },
+    { id: 3, src: '/images/mariage/MC (3).webp', label: 'Le Oui' },
+    { id: 4, src: '/images/mariage/Mariage Vero-52.webp', label: 'Émotions' },
+    { id: 5, src: '/images/mariage/MC- (1).webp', label: 'La fête' },
+    { id: 6, src: '/images/mariage/55-thumb.webp', label: 'Dernières lueurs' },
+    { id: 7, src: '/images/mariage/A4 (3).webp', label: 'Complicité' },
+    { id: 8, src: '/images/mariage/Mamy B1.webp', label: 'Éternité' },
+
 ];
 
 const weddingGridPhotos = [
-    { id: 11, src: '/images/portrait-1.jpg', title: 'Lumière Dorée', category: 'Extérieur', size: 'lg' },
-    { id: 12, src: '/images/portrait-2.jpg', title: 'Danse des Étoiles', category: 'Soirée', size: 'md' },
-    { id: 13, src: '/images/portrait-3.jpg', title: 'Éclat Emotionnel', category: 'Cérémonie', size: 'md' },
-    { id: 14, src: '/images/portrait-3.jpg', title: 'Rires & Joie', category: 'Famille', size: 'lg' },
-    { id: 15, src: '/images/portrait-2.jpg', title: 'Décor Sublime', category: 'Détails', size: 'md' },
-    { id: 16, src: '/images/portrait-1.jpg', title: 'Regards Croisés', category: 'Couple', size: 'md' },
-    { id: 17, src: '/images/portrait-2.jpg', title: 'Moments Vrais', category: 'Émotion', size: 'lg' },
-    { id: 18, src: '/images/portrait-3.jpg', title: 'Sérénité', category: 'Extérieur', size: 'md' },
-    { id: 19, src: '/images/portrait-2.jpg', title: 'Élégance', category: 'Studio', size: 'md' },
+    { id: 11, src: '/images/mariage/55-thumb.webp', title: 'Lumière Dorée', category: 'Extérieur', size: 'lg' },
+    { id: 12, src: '/images/mariage/Mamy V2.webp', title: 'Danse des Étoiles', category: 'Soirée', size: 'md' },
+    { id: 13, src: '/images/mariage/M6 (2).webp', title: 'Éclat Emotionnel', category: 'Cérémonie', size: 'md' },
+    { id: 14, src: '/images/mariage/Mamy B2.webp', title: 'Rires & Joie', category: 'Famille', size: 'lg' },
+    { id: 15, src: '/images/mariage/A4 (3).webp', title: 'Décor Sublime', category: 'Détails', size: 'md' },
+    { id: 16, src: '/images/mariage/Mariage Vero-24.webp', title: 'Regards Croisés', category: 'Couple', size: 'md' },
+    { id: 17, src: '/images/mariage/MC (3).webp', title: 'Moments Vrais', category: 'Émotion', size: 'lg' },
+    { id: 18, src: '/images/mariage/MC (5).webp', title: 'Sérénité', category: 'Extérieur', size: 'md' },
+    { id: 19, src: '/images/mariage/Mariage Vero-17.webp', title: 'Élégance', category: 'Studio', size: 'md' },
 ];
 
 export default function ContentWeddingGallery() {

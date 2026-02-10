@@ -4,14 +4,14 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 const eventPhotos = [
-    { id: 1, src: '/images/portrait-1.jpg', title: 'Sommet Business', category: 'Corporate', gridClass: 'md:col-span-2 md:row-span-2' },
-    { id: 2, src: '/images/portrait-2.jpg', title: 'Conférence Tech', category: 'Innovation', gridClass: 'md:col-span-1 md:row-span-1' },
-    { id: 3, src: '/images/portrait-3.jpg', title: 'Gala Annuel', category: 'Cérémonie', gridClass: 'md:col-span-1 md:row-span-1' },
-    { id: 4, src: '/images/portrait-3.jpg', title: 'Lancement Produit', category: 'Marketing', gridClass: 'md:col-span-1 md:row-span-2' },
-    { id: 5, src: '/images/portrait-1.jpg', title: 'Forum Entrepreneur', category: 'Business', gridClass: 'md:col-span-1 md:row-span-1' },
-    { id: 6, src: '/images/portrait-3.jpg', title: 'Soirée Privée', category: 'Événementiel', gridClass: 'md:col-span-1 md:row-span-1' },
-    { id: 7, src: '/images/portrait-2.jpg', title: 'Soirée Privée', category: 'Événementiel', gridClass: 'md:col-span-1 md:row-span-1' },
-    { id: 7, src: '/images/portrait-2.jpg', title: 'Soirée Privée', category: 'Événementiel', gridClass: 'md:col-span-1 md:row-span-1' },
+    { id: 1, src: '/images/portrait/N.webp', title: 'Sommet Business', category: 'Corporate', gridClass: 'md:col-span-2 md:row-span-2' },
+    { id: 2, src: '/images/event/Stefdekarda 1-thumb.webp', title: 'Conférence Tech', category: 'Innovation', gridClass: 'md:col-span-1 md:row-span-1' },
+    { id: 3, src: '/images/portrait/AL (3).webp', title: 'Gala Annuel', category: 'Cérémonie', gridClass: 'md:col-span-1 md:row-span-1' },
+    { id: 4, src: '/images/event/F1-thumb.webp', title: 'Lancement Produit', category: 'Marketing', gridClass: 'md:col-span-1 md:row-span-2' },
+    { id: 5, src: '/images/portrait/v3-thumb.webp', title: 'Forum Entrepreneur', category: 'Business', gridClass: 'md:col-span-1 md:row-span-1' },
+    { id: 6, src: '/images/portrait/AL (4)-thumb.webp', title: 'Soirée Privée', category: 'Événementiel', gridClass: 'md:col-span-1 md:row-span-1' },
+    { id: 7, src: '/images/portrait/MS (3).webp', title: 'Soirée Privée', category: 'Événementiel', gridClass: 'md:col-span-1 md:row-span-1' },
+    { id: 7, src: '/images/portrait/1.webp', title: 'Soirée Privée', category: 'Événementiel', gridClass: 'md:col-span-1 md:row-span-1' },
 ];
 
 export default function EventsGallery() {

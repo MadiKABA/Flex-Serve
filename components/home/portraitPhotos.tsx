@@ -4,13 +4,13 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 const portraitPhotos = [
-    { id: 1, src: '/images/portrait-1.jpg', title: 'Regard Profond', category: 'Studio', size: 'lg' },
-    { id: 2, src: '/images/portrait-2.jpg', title: 'Lumière d\'Or', category: 'Extérieur', size: 'md' },
-    { id: 3, src: '/images/portrait-3.jpg', title: 'Sérénité', category: 'Noir & Blanc', size: 'md' },
-    { id: 4, src: '/images/portrait-3.jpg', title: 'Business Pro', category: 'Corporate', size: 'lg' },
-    { id: 5, src: '/images/portrait-2.jpg', title: 'Éclat Naturel', category: 'Lifestyle', size: 'md' },
-    { id: 6, src: '/images/portrait-2.jpg', title: 'Expression', category: 'Studio', size: 'md' },
-    { id: 6, src: '/images/portrait-1.jpg', title: 'Expression', category: 'Studio', size: 'md' },
+    { id: 1, src: '/images/portrait/AL (1).webp', title: 'Regard Profond', category: 'Studio', size: 'lg' },
+    { id: 2, src: '/images/portrait/B1.webp', title: 'Lumière d\'Or', category: 'Extérieur', size: 'md' },
+    { id: 3, src: '/images/portrait/1.webp', title: 'Sérénité', category: 'Noir & Blanc', size: 'md' },
+    { id: 4, src: '/images/portrait/N1.webp', title: 'Business Pro', category: 'Corporate', size: 'lg' },
+    { id: 5, src: '/images/portrait/MS (1).webp', title: 'Éclat Naturel', category: 'Lifestyle', size: 'md' },
+    { id: 6, src: '/images/portrait/t4-thumb.webp', title: 'Expression', category: 'Studio', size: 'md' },
+    { id: 6, src: '/images/portrait/FX_03581.webp', title: 'Expression', category: 'Studio', size: 'md' },
 ];
 
 export default function PortraitGallery() {

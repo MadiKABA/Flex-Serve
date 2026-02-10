@@ -21,7 +21,8 @@ export default function WeddingCTA() {
                             className="absolute left-0 top-0 w-2/3 h-[80%] z-10 shadow-2xl rounded-sm"
                         >
                             <Image
-                                src="/images/portrait-3.jpg"
+                                src="/images/portrait/V9.webp"
+
                                 alt="Détail Mariage"
                                 fill
                                 className="object-cover grayscale hover:grayscale-0 transition-all duration-700 rounded-sm"
@@ -34,7 +35,7 @@ export default function WeddingCTA() {
                             className="absolute right-0 bottom-0 w-2/3 h-[70%] border-[12px] rounded-sm border-[#F5F2E8]/10 shadow-2xl"
                         >
                             <Image
-                                src="/images/portrait-1.jpg"
+                                src="/images/portrait/N.webp"
                                 alt="Ambiance"
                                 fill
                                 className="object-cover rounded-sm"

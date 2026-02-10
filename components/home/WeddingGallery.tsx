@@ -5,14 +5,14 @@ import Image from 'next/image';
 import { useRef } from 'react';
 
 const moments = [
-    { id: 1, src: '/images/portrait-1.jpg', label: 'Préparatifs' },
-    { id: 2, src: '/images/portrait-2.jpg', label: 'L’attente' },
-    { id: 3, src: '/images/portrait-3.jpg', label: 'Le Oui' },
-    { id: 4, src: '/images/portrait-2.jpg', label: 'Émotions' },
-    { id: 5, src: '/images/portrait-1.jpg', label: 'La fête' },
-    { id: 6, src: '/images/portrait-.jpg', label: 'Dernières lueurs' },
-    { id: 7, src: '/images/portrait-2.jpg', label: 'Complicité' },
-    { id: 8, src: '/images/portrait-3.jpg', label: 'Éternité' },
+    { id: 1, src: '/images/mariage/77.webp', label: 'Préparatifs' },
+    { id: 2, src: '/images/mariage/Mamy B1.webp', label: 'L’attente' },
+    { id: 3, src: '/images/mariage/MC (3).webp', label: 'Le Oui' },
+    { id: 4, src: '/images/mariage/Mariage Vero-52.webp', label: 'Émotions' },
+    { id: 5, src: '/images/mariage/MC- (1).webp', label: 'La fête' },
+    { id: 6, src: '/images/mariage/55-thumb.webp', label: 'Dernières lueurs' },
+    { id: 7, src: '/images/mariage/A4 (3).webp', label: 'Complicité' },
+    { id: 8, src: '/images/mariage/Mamy B1.webp', label: 'Éternité' },
 ];
 
 export default function WeddingStorySection() {

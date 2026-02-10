@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 const eventPhotos = [
-    { id: 1, src: '/images/photo-1.jpg', title: 'Ouverture de Séminaire', category: 'Conférence', size: 'xl' },
-    { id: 2, src: '/images/photo-2.jpg', title: 'Public Engagé', category: 'Séminaire', size: 'md' },
-    { id: 3, src: '/images/photo-3.jpg', title: 'Panel d’Experts', category: 'Corporate', size: 'md' },
+    { id: 1, src: '/images/event/Stefdekarda 1-large.avif', title: 'Ouverture de Séminaire', category: 'Conférence', size: 'xl' },
+    { id: 2, src: '/images/event/F1-large.avif', title: 'Public Engagé', category: 'Séminaire', size: 'md' },
+    { id: 3, src: '/images/portrait/', title: 'Panel d’Experts', category: 'Corporate', size: 'md' },
     { id: 4, src: '/images/portrait-2.jpg', title: 'Présentation Officielle', category: 'Institutionnel', size: 'lg' },
     { id: 5, src: '/images/portrait-1.jpg', title: 'Networking Premium', category: 'Business Event', size: 'md' },
     { id: 6, src: '/images/portrait-3.jpg', title: 'Discours Clé', category: 'Conférence', size: 'lg' },
