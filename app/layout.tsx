@@ -15,8 +15,38 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FlexServe - Photography & Videography",
-  description: "Services professionnels de photographie et vidéographie",
+  title: "FlexServeStudio - Photographe & Vidéaste à Dakar, Sénégal",
+  description:
+    "FlexServeStudio Dakar propose des services professionnels de photographie et vidéographie, spécialisé en mariages, événements, publicité et portraits.",
+  keywords:
+    "photographe Dakar, vidéaste Dakar, mariage Dakar, portrait photo, photographie événementielle, publicité, FlexServeStudio",
+  authors: [{ name: "FlexServeStudio" }],
+  creator: "FlexServeStudio",
+  openGraph: {
+    title: "FlexServeStudio - Photographe & Vidéaste à Dakar",
+    description:
+      "Services professionnels de photographie et vidéographie à Dakar : mariages, événements, publicité et portraits.",
+    url: "https://www.flexservestudio.com",
+    siteName: "FlexServeStudio Dakar",
+    images: [
+      {
+        url: "https://www.flexservestudio.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Portfolio FlexServeStudio Dakar",
+      },
+    ],
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FlexServeStudio - Photographe & Vidéaste à Dakar",
+    description:
+      "Services professionnels en mariages, événements, publicité et portraits à Dakar.",
+    images: ["https://www.flexservestudio.com/og-image.jpg"],
+  },
+  metadataBase: new URL("https://www.flexservestudio.com"),
 };
 
 export default function RootLayout({
@@ -26,9 +56,39 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <head>
+        {/* JSON-LD Structured Data pour Google */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ProfessionalService",
+              name: "FlexServeStudio",
+              image: "https://www.flexservestudio.com/og-image.jpg",
+              description:
+                "Photographie et vidéographie professionnelle à Dakar, spécialisé en mariages, événements, publicité et portraits.",
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Dakar",
+                addressCountry: "SN",
+              },
+              url: "https://www.flexservestudio.com",
+              sameAs: [
+                "https://www.instagram.com/flexservestudio",
+                "https://www.facebook.com/flexservestudio",
+              ],
+            }),
+          }}
+        />
+      </head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <Header />
-        {children}
+
+        <main>{children}</main>
+
         <Footer />
       </body>
     </html>
