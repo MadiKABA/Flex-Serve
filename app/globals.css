@@ -124,3 +124,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Cache toutes les scrollbars mais garde le scroll actif */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari */
+}
+
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  /* IE et Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}

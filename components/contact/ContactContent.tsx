@@ -89,21 +89,23 @@ export default function ContactContent() {
                                     <div className="p-3 bg-white/10 rounded-lg text-[#F5F2E8]"><Phone size={20} /></div>
                                     <div>
                                         <p className="text-[10px] uppercase tracking-tighter text-white/40 mb-1">Téléphone</p>
-                                        <p className="text-white text-lg font-light">+221 78 488 51 51</p>
+                                        <p className="text-white text-lg font-light">
+                                            <a href="tel:++221 710360534">+221 71 036 05 34</a>
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-5">
                                     <div className="p-3 bg-white/10 rounded-lg text-[#F5F2E8]"><Mail size={20} /></div>
                                     <div>
                                         <p className="text-[10px] uppercase tracking-tighter text-white/40 mb-1">Email</p>
-                                        <p className="text-white text-lg font-light">hello@votre-studio.com</p>
+                                        <p className="text-white text-lg font-light"><a href="mailto:flexserve333@gmail.com">flexserve333@gmail.com</a></p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-5">
                                     <div className="p-3 bg-white/10 rounded-lg text-[#F5F2E8]"><MapPin size={20} /></div>
                                     <div>
                                         <p className="text-[10px] uppercase tracking-tighter text-white/40 mb-1">Localisation</p>
-                                        <p className="text-white text-lg font-light">Dakar, Sénégal <br /> Plateau, Rue Carnot</p>
+                                        <p className="text-white text-lg font-light">Dakar, Sénégal <br /> Sacre COeur, VDN</p>
                                     </div>
                                 </div>
                             </div>
@@ -116,10 +118,9 @@ export default function ContactContent() {
                             className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl flex justify-around items-center shadow-sm"
                         >
                             {[
-                                { icon: <Instagram size={22} />, link: "#" },
-                                { icon: <Linkedin size={22} />, link: "#" },
-                                { icon: <Facebook size={22} />, link: "#" },
-                                { icon: <Twitter size={22} />, link: "#" }
+                                { icon: <Instagram size={22} />, link: "https://www.instagram.com/flexserve_studio?igsh=NWx6bXoyYnVzcGtj&utm_source=qr" },
+                                { icon: <Facebook size={22} />, link: "https://www.facebook.com/share/1AgBWggXkW/?mibextid=wwXIfr" },
+                                { icon: <Facebook size={22} />, link: "https://www.facebook.com/share/1AgBWggXkW/?mibextid=wwXIfr" },
                             ].map((social, i) => (
                                 <a
                                     key={i}

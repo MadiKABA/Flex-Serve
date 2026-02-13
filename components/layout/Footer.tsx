@@ -1,14 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Facebook, Instagram, Twitter, Linkedin } from 'lucide-react';
+import { Facebook, Instagram, } from 'lucide-react';
 
 export default function Footer() {
     const socialIcons = [
-        { icon: <Facebook size={20} />, href: '#' },
-        { icon: <Instagram size={20} />, href: '#' },
-        { icon: <Twitter size={20} />, href: '#' },
-        { icon: <Linkedin size={20} />, href: '#' },
+        { icon: <Facebook size={20} />, href: 'https://www.facebook.com/share/1AgBWggXkW/?mibextid=wwXIfr' },
+        { icon: <Instagram size={20} />, href: 'https://www.instagram.com/flexserve_studio?igsh=NWx6bXoyYnVzcGtj&utm_source=qr' },
+        //{ icon: <Tiktok size={20} />, href: '#' }
     ];
 
     return (
@@ -23,10 +22,9 @@ export default function Footer() {
                     className="space-y-4"
                 >
                     <h4 className="text-xl font-semibold tracking-wider">Contact</h4>
-                    <p>123 Rue de la Photographie</p>
                     <p>Dakar, Sénégal</p>
-                    <p>Email : contact@lagence.com</p>
-                    <p>Téléphone : +221 77 123 45 67</p>
+                    <p>Email : flexserve333@gmail.com</p>
+                    <p>Téléphone : +221 71 036 05 34</p>
                 </motion.div>
 
                 {/* LIENS RAPIDES */}
@@ -58,7 +56,7 @@ export default function Footer() {
                         {socialIcons.map((item, idx) => (
                             <motion.a
                                 key={idx}
-                                href={item.href}
+                                href={item.href} target='_blank'
                                 className="text-[#EAE7DC] hover:text-white transition-colors"
                                 whileHover={{ scale: 1.3, y: -3 }}
                                 whileTap={{ scale: 0.9 }}

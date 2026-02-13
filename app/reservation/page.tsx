@@ -106,7 +106,7 @@ export default function BookingWizard() {
     };
     const sendToWhatsApp = () => {
         // Numéro de destination (avec indicatif pays 221 pour le Sénégal)
-        const phoneNumber = "221777453038";
+        const phoneNumber = "221710360534";
 
         // Construction du message avec formatage WhatsApp (astérisques pour le gras)
         const message = [
