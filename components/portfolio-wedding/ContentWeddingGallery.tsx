@@ -1,35 +1,76 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useRef } from 'react';
+import Lightbox from '@/components/gallery/Lightbox';
 
 const weddingMoments = [
-    { id: 1, src: '/images/mariage/77.webp', label: 'Préparatifs' },
-    { id: 2, src: '/images/mariage/Mamy B1.webp', label: 'L’attente' },
-    { id: 3, src: '/images/mariage/MC (3).webp', label: 'Le Oui' },
-    { id: 4, src: '/images/mariage/Mariage Vero-52.webp', label: 'Émotions' },
-    { id: 5, src: '/images/mariage/MC- (1).webp', label: 'La fête' },
-    { id: 6, src: '/images/mariage/55-thumb.webp', label: 'Dernières lueurs' },
-    { id: 7, src: '/images/mariage/A4 (3).webp', label: 'Complicité' },
-    { id: 8, src: '/images/mariage/Mamy B1.webp', label: 'Éternité' },
+    { id: 1, src: '/images/mariage/77.webp', label: '' },
+    { id: 2, src: '/images/mariage/Mamy B1.webp', label: '' },
+    { id: 3, src: '/images/mariage/MC (3).webp', label: '' },
+    { id: 4, src: '/images/mariage/Mariage Vero-52.webp', label: '' },
+    { id: 5, src: '/images/mariage/MC- (1).webp', label: '' },
+    { id: 6, src: '/images/mariage/55-thumb.webp', label: '' },
+    { id: 7, src: '/images/mariage/A4 (3).webp', label: '' },
+    { id: 8, src: '/images/mariage/Mamy B1.webp', label: '' },
 
 ];
 
 const weddingGridPhotos = [
-    { id: 11, src: '/images/mariage/55-thumb.webp', title: 'Lumière Dorée', category: 'Extérieur', size: 'lg' },
-    { id: 12, src: '/images/mariage/Mamy V2.webp', title: 'Danse des Étoiles', category: 'Soirée', size: 'md' },
-    { id: 13, src: '/images/mariage/M6 (2).webp', title: 'Éclat Emotionnel', category: 'Cérémonie', size: 'md' },
-    { id: 14, src: '/images/mariage/Mamy B2.webp', title: 'Rires & Joie', category: 'Famille', size: 'lg' },
-    { id: 15, src: '/images/mariage/A4 (3).webp', title: 'Décor Sublime', category: 'Détails', size: 'md' },
-    { id: 16, src: '/images/mariage/Mariage Vero-24.webp', title: 'Regards Croisés', category: 'Couple', size: 'md' },
-    { id: 17, src: '/images/mariage/MC (3).webp', title: 'Moments Vrais', category: 'Émotion', size: 'lg' },
-    { id: 18, src: '/images/mariage/MC (5).webp', title: 'Sérénité', category: 'Extérieur', size: 'md' },
-    { id: 19, src: '/images/mariage/Mariage Vero-17.webp', title: 'Élégance', category: 'Studio', size: 'md' },
+    { id: 11, src: '/images/mariage/55-thumb.webp', title: '', category: '', size: 'lg' },
+    { id: 12, src: '/images/mariage/Mamy V2.webp', title: '', category: '', size: 'md' },
+    { id: 13, src: '/images/mariage/M6 (2).webp', title: '', category: '', size: 'md' },
+    { id: 14, src: '/images/mariage/Mamy B2.webp', title: '', category: '', size: 'lg' },
+    { id: 15, src: '/images/mariage/A4 (3).webp', title: '', category: 'Détails', size: 'md' },
+    { id: 16, src: '/images/mariage/Mariage Vero-24.webp', title: '', category: '', size: 'md' },
+    { id: 17, src: '/images/mariage/MC (3).webp', title: '', category: '', size: 'lg' },
+    { id: 18, src: '/images/mariage/MC (5).webp', title: '', category: '', size: 'md' },
+    { id: 19, src: '/images/mariage/Mariage Vero-17.webp', title: '', category: '', size: 'md' },
 ];
-
+const lightboxPhotos = [
+    ...weddingMoments.map(p => ({
+        src: p.src,
+        title: p.label,
+        category: 'Mariage'
+    })),
+    ...weddingGridPhotos.map(p => ({
+        src: p.src,
+        title: p.title,
+        category: p.category
+    }))
+];
 export default function ContentWeddingGallery() {
+
     const ref = useRef(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
+
+    const dragX = useMotionValue(0);
+    const springX = useSpring(dragX, { stiffness: 120, damping: 20 });
+
+    const [maxDrag, setMaxDrag] = useState(0);
+
+    useEffect(() => {
+        if (!containerRef.current) return;
+
+        const scrollWidth = containerRef.current.scrollWidth;
+        const clientWidth = containerRef.current.clientWidth;
+
+        setMaxDrag(scrollWidth - clientWidth);
+    }, []);
+
+    const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+    const next = () => {
+        if (openIndex === null) return;
+        setOpenIndex((openIndex + 1) % lightboxPhotos.length);
+    };
+
+    const prev = () => {
+        if (openIndex === null) return;
+        setOpenIndex((openIndex - 1 + lightboxPhotos.length) % lightboxPhotos.length);
+    };
+
 
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -37,6 +78,7 @@ export default function ContentWeddingGallery() {
     });
 
     const x = useTransform(scrollYProgress, [0, 1], ['15%', '-60%']);
+
 
     return (
         <section className="relative py-24 md:py-40 bg-[#2E4A6F]/90 overflow-hidden" ref={ref}>
@@ -109,7 +151,7 @@ export default function ContentWeddingGallery() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[300px]">
                     {weddingGridPhotos.map((photo, index) => (
                         <motion.div
-                            key={photo.id}
+                            onClick={() => setOpenIndex(weddingMoments.length + index)}
                             initial={{ opacity: 0, y: 60, scale: 0.95 }}
                             whileInView={{ opacity: 1, y: 0, scale: 1 }}
                             transition={{ delay: index * 0.05, duration: 0.8 }}
@@ -119,7 +161,7 @@ export default function ContentWeddingGallery() {
                                 rotate: 0.5,
                                 transition: { duration: 0.4 }
                             }}
-                            className={`group relative overflow-hidden rounded-sm shadow-2xl ${photo.size === 'lg' ? 'row-span-2' : ''}`}
+                            className={`group relative overflow-hidden rounded-sm shadow-2xl cursor-pointer ${photo.size === 'lg' ? 'row-span-2' : ''}`}
                         >
                             <motion.div
                                 className="absolute inset-0"
@@ -144,6 +186,15 @@ export default function ContentWeddingGallery() {
                     ))}
                 </div>
             </div>
+            {openIndex !== null && (
+                <Lightbox
+                    photos={lightboxPhotos}
+                    index={openIndex}
+                    onClose={() => setOpenIndex(null)}
+                    onNext={next}
+                    onPrev={prev}
+                />
+            )}
         </section>
     );
 }
