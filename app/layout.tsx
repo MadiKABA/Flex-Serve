@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: "FlexServeStudio Dakar",
     images: [
       {
-        url: "https://www.flexservestudio.com/og-image.jpg",
+        url: "https://www.flexservestudio.com/logo.png",
         width: 1200,
         height: 630,
         alt: "Portfolio FlexServeStudio Dakar",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: "FlexServeStudio - Photographe & Vidéaste à Dakar",
     description:
       "Services professionnels en mariages, événements, publicité et portraits à Dakar.",
-    images: ["https://www.flexservestudio.com/og-image.jpg"],
+    images: ["https://www.flexservestudio.com/logo.png"],
   },
   metadataBase: new URL("https://www.flexservestudio.com"),
 };
@@ -65,7 +65,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "ProfessionalService",
               name: "FlexServeStudio",
-              image: "https://www.flexservestudio.com/og-image.jpg",
+              image: "https://www.flexservestudio.com/logo.png",
               description:
                 "Photographie et vidéographie professionnelle à Dakar, spécialisé en mariages, événements, publicité et portraits.",
               address: {
@@ -75,8 +75,8 @@ export default function RootLayout({
               },
               url: "https://www.flexservestudio.com",
               sameAs: [
-                "https://www.instagram.com/flexservestudio",
-                "https://www.facebook.com/flexservestudio",
+                "https://www.instagram.com/flexserve_studio?igsh=NWx6bXoyYnVzcGtj&utm_source=qr",
+                "https://www.facebook.com/share/1AgBWggXkW/?mibextid=wwXIfr",
               ],
             }),
           }}

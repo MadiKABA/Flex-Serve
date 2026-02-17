@@ -2,19 +2,41 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Lightbox from '@/components/gallery/Lightbox';
+import { useState } from 'react';
+
 
 const eventPhotos = [
-    { id: 1, src: '/images/portrait/N.webp', title: 'Sommet Business', category: 'Corporate', gridClass: 'md:col-span-2 md:row-span-2' },
-    { id: 2, src: '/images/event/Stefdekarda 1-thumb.webp', title: 'Conférence Tech', category: 'Innovation', gridClass: 'md:col-span-1 md:row-span-1' },
-    { id: 3, src: '/images/portrait/AL (3).webp', title: 'Gala Annuel', category: 'Cérémonie', gridClass: 'md:col-span-1 md:row-span-1' },
-    { id: 4, src: '/images/event/F1-thumb.webp', title: 'Lancement Produit', category: 'Marketing', gridClass: 'md:col-span-1 md:row-span-2' },
-    { id: 5, src: '/images/portrait/v3-thumb.webp', title: 'Forum Entrepreneur', category: 'Business', gridClass: 'md:col-span-1 md:row-span-1' },
-    { id: 6, src: '/images/portrait/AL (4)-thumb.webp', title: 'Soirée Privée', category: 'Événementiel', gridClass: 'md:col-span-1 md:row-span-1' },
-    { id: 7, src: '/images/portrait/MS (3).webp', title: 'Soirée Privée', category: 'Événementiel', gridClass: 'md:col-span-1 md:row-span-1' },
-    { id: 7, src: '/images/portrait/1.webp', title: 'Soirée Privée', category: 'Événementiel', gridClass: 'md:col-span-1 md:row-span-1' },
+    { id: 1, src: '/images/portrait/N.webp', title: '', category: '', gridClass: 'md:col-span-2 md:row-span-2' },
+    { id: 2, src: '/images/event/Stefdekarda 1-thumb.webp', title: '', category: '', gridClass: 'md:col-span-1 md:row-span-1' },
+    { id: 3, src: '/images/portrait/AL (3).webp', title: '', category: '', gridClass: 'md:col-span-1 md:row-span-1' },
+    { id: 4, src: '/images/event/F1-thumb.webp', title: '', category: '', gridClass: 'md:col-span-1 md:row-span-2' },
+    { id: 5, src: '/images/portrait/v3-thumb.webp', title: '', category: '', gridClass: 'md:col-span-1 md:row-span-1' },
+    { id: 6, src: '/images/portrait/AL (4)-thumb.webp', title: '', category: '', gridClass: 'md:col-span-1 md:row-span-1' },
+    { id: 7, src: '/images/portrait/MS (3).webp', title: '', category: '', gridClass: 'md:col-span-1 md:row-span-1' },
 ];
 
+const photosForLightbox = eventPhotos.map(p => ({
+    src: p.src,
+    title: p.title,
+    category: p.category
+}))
+
 export default function EventsGallery() {
+
+    const [openIndex, setOpenIndex] = useState<number | null>(null)
+
+    const next = () => {
+        if (openIndex === null) return
+        setOpenIndex((openIndex + 1) % photosForLightbox.length)
+    }
+
+    const prev = () => {
+        if (openIndex === null) return
+        setOpenIndex((openIndex - 1 + photosForLightbox.length) % photosForLightbox.length)
+    }
+
+
     return (
         <section className="px-6 relative overflow-hidden">
 
@@ -24,13 +46,24 @@ export default function EventsGallery() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-1 auto-rows-[200px]">
                     {eventPhotos.map((event, index) => (
                         <GalleryItem
-                            key={event.id}
+                            key={index}
                             event={event}
                             delay={index * 0.1}
+                            index={index}
+                            setOpenIndex={setOpenIndex}
                         />
                     ))}
                 </div>
             </div>
+            {openIndex !== null && (
+                <Lightbox
+                    photos={photosForLightbox}
+                    index={openIndex}
+                    onClose={() => setOpenIndex(null)}
+                    onNext={next}
+                    onPrev={prev}
+                />
+            )}
         </section>
     );
 }
@@ -38,12 +71,17 @@ export default function EventsGallery() {
 function GalleryItem({
     event,
     delay,
+    index,
+    setOpenIndex
 }: {
     event: { src: string; title: string; category: string; gridClass: string };
     delay: number;
+    index: number;
+    setOpenIndex: (i: number) => void
 }) {
     return (
         <motion.div
+            onClick={() => setOpenIndex(index)}
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ delay, duration: 0.5 }}

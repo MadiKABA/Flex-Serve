@@ -108,7 +108,7 @@ export default function HeroFlexServev2() {
                             >
                                 <div className="bg-white p-1 shadow-2xl border border-gray-100 rounded-sm">
                                     <Image
-                                        src="/images/Mamy.webp"
+                                        src="/images/mariage/11.webp"
                                         alt="Portfolio 3"
                                         width={220}
                                         height={220}
