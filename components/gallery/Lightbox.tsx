@@ -88,7 +88,8 @@ export default function Lightbox({
                     <p className="text-xs tracking-widest uppercase opacity-70">
                         {photo.category}
                     </p>
-                    <h3 className="text-xl font-semibold">{photo.title}</h3>
+                    <h3 className="text-xl font-bold">{photo.title}</h3>
+
                 </div>
             )}
         </div>
