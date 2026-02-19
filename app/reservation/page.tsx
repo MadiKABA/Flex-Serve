@@ -95,13 +95,17 @@ export default function BookingWizard() {
 
     // --- LOGIQUE DYNAMIQUE DES OPTIONS ---
     const categories = data.prestationType === 'photo'
-        ? ['Portrait', 'Mariage', 'Événement', 'Publicité']
+        ? ['Portrait', 'Mariage', 'Baptême', 'Événement', 'Henné Times', 'Shooting']
         : ['Clip Vidéo', 'Aftermovie', 'Interview', 'Publicité TV'];
 
     const getQuantities = () => {
         if (data.prestationType === 'video') return [1, 3, 5, 10, 15, 30, 60];
-        if (data.category === 'Mariage') return [100, 200, 300, 400, 500, 600];
-        if (data.category === 'Portrait') return [10, 20, 30, 50];
+        if (data.category === 'Mariage') return [60, 80, 100, 120, 140, 160, 180, 200];
+        if (data.category === 'Shooting') return [3, 5, 7, 10, 15, 20];
+        if (data.category === 'Portrait') return [5, 10, 15, 20, 25];
+        if (data.category === 'Événement') return [30, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220];
+        if (data.category === 'Henné Times') return [60, 80, 100, 120, 140];
+        if (data.category === 'Baptême') return [60, 80, 100, 120, 140, 160, 180, 200];
         return [10, 30, 50, 100, 200, 400, 600];
     };
     const sendToWhatsApp = () => {
