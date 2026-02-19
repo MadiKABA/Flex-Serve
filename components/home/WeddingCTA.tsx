@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function WeddingCTA() {
     return (
@@ -63,7 +64,8 @@ export default function WeddingCTA() {
                             transition={{ delay: 0.4 }}
                             className="text-[#F5F2E8]/70 text-lg max-w-md leading-relaxed"
                         >
-                            Nos agendas pour l'année prochaine s'ouvrent. Réservez une consultation privée pour discuter de votre vision et capturer l'inoubliable.
+                            Nos agendas pour la prochaine saison sont ouverts.
+                            Réservez une consultation privée afin de structurer votre projet et donner à votre image l’impact qu’elle mérite.
                         </motion.p>
 
                         <motion.div
@@ -74,7 +76,9 @@ export default function WeddingCTA() {
                         >
                             <button className="group relative px-8 py-4 bg-[#F5F2E8] text-[#2E4A6F] rounded-sm overflow-hidden transition-all duration-500 hover:pr-12">
                                 <span className="relative z-10 uppercase tracking-widest text-sm font-semibold">
-                                    Réserver Maintenant
+                                    <Link href={"/reservation"}>
+                                        Réserver Maintenant
+                                    </Link>
                                 </span>
                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:right-6 transition-all duration-500">
                                     →
