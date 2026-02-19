@@ -19,7 +19,7 @@ const services: Service[] = [
         name: 'Portrait',
         href: '/portfolio/portrait',
         images: ['/images/portrait/B1.webp', '/images/portrait/MS (3).webp'],
-        description: 'Capturer l\'essence unique de chaque personne à travers des portraits authentiques et intemporels. Une séance photo personnalisée pour révéler votre vraie nature.',
+        description: 'Des portraits conçus pour révéler votre personnalité avec justesse et élégance. Chaque séance est pensée avec direction artistique et précision afin de produire des images fortes, naturelles et intemporelles.',
         tag: 'Authenticité',
     },
     {
@@ -27,7 +27,7 @@ const services: Service[] = [
         name: 'Événementiel',
         href: '/portfolio/evenementiel',
         images: ['/images/event/Stefdekarda 3.webp', '/images/event/F1.webp'],
-        description: 'Immortaliser les moments forts de vos événements professionnels et privés. De la conférence au cocktail, chaque instant mérite d\'être préservé.',
+        description: 'Une couverture maîtrisée de vos événements professionnels et privés. Conférences, lancements, cérémonies ou réceptions : chaque moment est capturé avec précision, discrétion et exigence pour en préserver toute l’intensité.',
         tag: 'Professionnel',
     },
     {
@@ -35,15 +35,15 @@ const services: Service[] = [
         name: 'Mariage',
         href: '/portfolio/mariage',
         images: ['/images/mariage/55-thumb.webp', '/images/mariage/Mamy B2-thumb.webp'],
-        description: 'Raconter votre histoire d\'amour à travers des images empreintes d\'émotion. Du oui jusqu\'à la dernière danse, chaque moment devient éternel.',
+        description: 'Un accompagnement sur mesure pour raconter votre union avec élégance et sensibilité. Du premier regard à la dernière célébration, chaque instant est capturé avec précision afin de créer des souvenirs intemporels.',
         tag: 'Émotions',
     },
     {
         id: 4,
-        name: 'PUB',
+        name: 'Publicité',
         href: '/portfolio/pub',
         images: ['/images/portrait/FX_03581.webp', '/images/portrait/FX_03588.webp'],
-        description: 'Créer des visuels percutants qui donnent vie à votre marque. De la photo produit aux campagnes publicitaires, sublimez votre image.',
+        description: 'Des visuels stratégiques conçus pour renforcer l’identité et la présence de votre marque. De la photographie produit aux campagnes créatives, chaque projet est pensé pour maximiser votre impact.',
         tag: 'Impact Visuel',
     },
 ];

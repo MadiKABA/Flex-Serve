@@ -64,7 +64,8 @@ export default function ServicesHero() {
                         transition={{ duration: 1, delay: 0.5 }}
                         className="max-w-md text-[#F5F2E8]/80 text-lg font-light leading-relaxed border-l border-[#F5F2E8]/30 pl-6"
                     >
-                        Découvrez nos services : Portrait, Événementiel, Mariage et PUB, conçus pour capturer chaque moment unique avec style et émotion.
+                        Portrait | Événementiel | Mariage | Publicité<br />
+                        Des prestations pensées avec exigence, direction artistique et précision pour donner à chaque projet l’impact qu’il mérite.
                     </motion.p>
                 </motion.div>
             </div>
