@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
+
 
 export default function HeroFlexServev2() {
     return (
@@ -38,21 +40,24 @@ export default function HeroFlexServev2() {
                             className="space-y-8"
                         >
                             <h1 className="text-4xl md:text-5xl xl:text-6xl font-semibold text-white leading-tight">
-                                Donnez une image forte <br />
-                                <span className="font-bold">à votre vision</span>
+                                Votre image est votre pouvoir<br />
                             </h1>
 
                             <p className="max-w-xl text-lg text-white/80">
-                                Des visuels professionnels, précis et intemporels,
-                                pensés pour les marques exigeantes.
+                                FlexServe Studio crée des visuels d’exception pour les marques, les entrepreneurs et les événements exigeants<br />
+                                Précision, élégance et exigence à chaque détail.
                             </p>
 
                             <div className="flex flex-wrap gap-4">
                                 <button className="rounded-xl bg-[#2E4A6F] px-6 py-3 text-white font-medium">
-                                    Voir le portfolio
+                                    <Link href={"/portfolio/mariage"}>
+                                        Voir le portfolio
+                                    </Link>
                                 </button>
                                 <button className="rounded-xl border border-white px-6 py-3 text-white font-medium">
-                                    Nous contacter
+                                    <Link href={"/contact"}>
+                                        Nous contacter
+                                    </Link>
                                 </button>
                             </div>
                         </motion.div>
