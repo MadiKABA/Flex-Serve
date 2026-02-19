@@ -66,15 +66,15 @@ export default function AboutValuesSection() {
 
                         <div className="space-y-6 text-white/70 text-lg leading-relaxed max-w-xl">
                             <p>
-                                Plus qu&apos;une signature individuelle, notre agence réunit des talents complémentaires pour offrir une vision plurielle à vos projets. Nous croyons que la force d&apos;une image réside dans l&apos;équilibre entre expertise technique et sensibilité artistique.
+                                FlexServe Studio réunit des talents complémentaires pour offrir une vision exigeante et cohérente à chaque projet.
                             </p>
-                            {/* <p>
-                                Du portrait institutionnel aux campagnes de marque d&apos;envergure, nous accompagnons nos clients avec une structure agile et une direction artistique rigoureuse, garantissant une cohérence visuelle sur chaque support.
-                            </p> */}
+                            <p>
+                                L’excellence naît de l’équilibre entre maîtrise technique et sensibilité artistique.
+                            </p>
                         </div>
 
                         {/* Distinction / Accréditation */}
-                        <div className="pt-6 flex items-center gap-8">
+                        <div className="pt-2 flex items-center gap-8">
                             <div className="flex flex-col">
                                 <span className="text-white font-serif italic text-2xl">Studio d&apos;Art</span>
                                 <span className="text-white/40 text-[10px] uppercase tracking-widest mt-1">Production Audiovisuelle</span>

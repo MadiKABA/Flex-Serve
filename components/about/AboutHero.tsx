@@ -61,7 +61,8 @@ export default function AboutHero() {
                             transition={{ delay: 0.5, duration: 1 }}
                             className="text-lg md:text-xl text-white/70 font-light leading-relaxed max-w-md border-l-2 border-white/10 pl-8"
                         >
-                            Photographe par passion, conteur par nécessité. Mon travail consiste à capturer non pas ce que je vois, mais ce que je ressens face à l&apos;instant présent.
+                            Chez FlexServe Studio, chaque projet est pensé avec direction artistique, précision et exigence du détail.
+                            Nous créons des visuels puissants et intemporels qui renforcent votre image et marquent durablement les esprits.
                         </motion.p>
                     </motion.div>
 
@@ -82,18 +83,7 @@ export default function AboutHero() {
                             <div className="absolute inset-0 bg-[#2E4A6F]/10 mix-blend-multiply" />
                         </motion.div>
 
-                        {/* Petit encadré flottant (Citation) - Fond crème pour trancher */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 1, duration: 0.8 }}
-                            className="absolute -bottom-12 -left-6 md:left-12 bg-[#F5F2E8] p-10 md:p-14 shadow-2xl z-20 max-w-[320px] rounded-sm"
-                        >
-                            <p className="text-[#2E4A6F] font-serif italic text-2xl leading-snug">
-                                &quot;La photographie est une brève complicité entre la prévoyance et le hasard.&quot;
-                            </p>
-                            <div className="mt-6 w-12 h-[1px] bg-[#2E4A6F]/20" />
-                        </motion.div>
+
                     </div>
 
                 </div>

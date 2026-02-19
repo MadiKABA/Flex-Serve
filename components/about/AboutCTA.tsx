@@ -29,7 +29,8 @@ export default function AboutCTA() {
                     </h2>
 
                     <p className="text-white/60 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-                        Notre studio est prêt à déployer son expertise pour sublimer votre image. Que ce soit pour une campagne globale ou un projet intimiste.
+                        FlexServe Studio met son expertise au service de votre image.
+                        Qu’il s’agisse d’une campagne ambitieuse ou d’un projet plus intime, chaque réalisation est pensée avec exigence et précision.
                     </p>
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-10 pt-10">
@@ -46,7 +47,7 @@ export default function AboutCTA() {
 
                         {/* Lien Secondaire - Discret en Blanc */}
                         <Link
-                            href="/portfolio"
+                            href="/portfolio/mariage"
                             className="group flex items-center gap-4 text-white/80 uppercase tracking-[0.2em] text-xs font-light hover:text-white transition-all"
                         >
                             <span className="border-b border-white/20 group-hover:border-white transition-all duration-500 pb-1">
