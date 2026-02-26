@@ -28,9 +28,9 @@ export default function Header() {
 
     // Services dynamiques
     const portfolios: PortfolioItem[] = [
+        { name: 'Mariage', href: '/portfolio/mariage' },
         { name: 'Portrait', href: '/portfolio/portrait' },
         { name: 'Événementiel', href: '/portfolio/evenementiel' },
-        { name: 'Mariage', href: '/portfolio/mariage' },
         { name: 'PUB', href: '/portfolio/pub' },
     ];
 

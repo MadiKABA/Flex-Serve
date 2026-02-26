@@ -102,11 +102,14 @@ export default function ContentWeddingGallery() {
             {/* GALERIE HORIZONTALE */}
             <motion.div
                 style={{ x }}
-                className="relative flex items-center space-x-8 md:space-x-12 px-6 z-10 mb-32"
+                className="relative flex items-center z-10 space-x-8 overflow-x-auto overflow-y-hidden touch-pan-x scrollbar-hidden"
             >
                 {weddingMoments.map((item, index) => {
                     const isEven = index % 2 === 0;
-                    const rotations = ['-3deg', '4deg', '-2deg', '5deg', '-4deg', '3deg', '-5deg', '2deg', '3deg', '-2deg'];
+                    const rotations = [
+                        'rotate-[-3deg]', 'rotate-[4deg]', 'rotate-[-2deg]', 'rotate-[5deg]',
+                        'rotate-[-4deg]', 'rotate-[3deg]', 'rotate-[-5deg]', 'rotate-[2deg]'
+                    ];
 
                     return (
                         <motion.div
@@ -115,30 +118,30 @@ export default function ContentWeddingGallery() {
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.05, duration: 0.8 }}
                             viewport={{ once: true }}
-                            className={`relative flex-shrink-0 -ml-8 md:-ml-16 rotate-[${rotations[index]}]`}
-                            style={{
-                                marginTop: isEven ? '-20px' : '40px',
-                                zIndex: isEven ? 20 : 10,
-                            }}
-                            whileHover={{
-                                scale: 1.08,
-                                rotate: 0,
-                                zIndex: 100,
-                                transition: { duration: 0.3 }
-                            }}
+                            className={`relative flex-shrink-0 ${rotations[index]}`}
+                            style={{ marginTop: isEven ? '-20px' : '40px', zIndex: isEven ? 20 : 10, minWidth: 220 }}
                         >
-                            <div className="relative group w-[220px] sm:w-[280px] md:w-[360px] aspect-[3/4] bg-white rounded-sm p-2 md:p-3 shadow-2xl border-2 border-[#2E4A6F]/50 overflow-hidden">
-                                <Image
-                                    src={item.src}
-                                    alt={item.label}
-                                    fill
-                                    className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                                />
-                                <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
-                                    <p className="text-[#F8F6F2]/70 text-xs uppercase tracking-widest mb-1">
-                                        Moment
-                                    </p>
-                                    <h3 className="text-white text-lg font-semibold">{item.label}</h3>
+                            <div className="relative group">
+                                <div className="relative w-[220px] sm:w-[280px] md:w-[360px] aspect-[3/4] bg-white rounded-sm p-2 md:p-3 shadow-[15px_15px_40px_rgba(46,74,111,0.15)] border-3 border-[#2E4A6F]/50">
+                                    <div className="relative w-full h-[85%] overflow-hidden">
+                                        <Image
+                                            src={item.src}
+                                            alt={item.label}
+                                            fill
+                                            sizes="(max-width: 768px) 220px, 360px"
+                                            className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                                        />
+                                    </div>
+                                    <div className="h-[15%] flex flex-col justify-center px-1 md:px-2">
+                                        <div className="flex justify-between items-baseline">
+                                            <p className="text-[#2E4A6F] font-serif italic text-xs sm:text-sm md:text-lg truncate mr-2">
+                                                {item.label}
+                                            </p>
+                                            <span className="text-[#2E4A6F]/30 text-[7px] md:text-[9px] tracking-widest uppercase flex-shrink-0">
+                                                0{index + 1}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>
