@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description:
     "FlexServeStudio Dakar propose des services professionnels de photographie et vidéographie, spécialisé en mariages, événements, publicité et portraits.",
   keywords:
-    "photographe Dakar, vidéaste Dakar, mariage Dakar, portrait photo, photographie événementielle, publicité, FlexServeStudio",
+    "photographe Dakar, vidéaste Dakar, mariage Dakar, portrait photo, photographie événementielle, publicité, FlexServeStudio flexserve studio, photographe professionnel, vidéographie professionnelle, services photo Dakar, services vidéo Dakar drone, photographie de mariage, photographie de portrait, photographie d'événement, vidéographie de mariage, vidéographie d'événement, vidéographie publicitaire Dakar ",
   authors: [{ name: "FlexServeStudio" }],
   creator: "FlexServeStudio",
   openGraph: {

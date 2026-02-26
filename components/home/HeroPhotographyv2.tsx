@@ -40,7 +40,7 @@ export default function HeroFlexServev2() {
                             className="space-y-8"
                         >
                             <h1 className="text-4xl md:text-5xl xl:text-6xl font-semibold text-white leading-tight">
-                                Votre image est votre pouvoir<br />
+                                Votre image, Votre pouvoir<br />
                             </h1>
 
                             <p className="max-w-xl text-lg text-white/80">

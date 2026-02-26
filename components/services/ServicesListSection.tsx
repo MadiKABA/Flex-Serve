@@ -24,20 +24,21 @@ const services: Service[] = [
     },
     {
         id: 2,
+        name: 'Mariage',
+        href: '/portfolio/mariage',
+        images: ['/images/mariage/FX_04569.webp', '/images/mariage/11.webp'],
+        description: 'Un accompagnement sur mesure pour raconter votre union avec élégance et sensibilité. Du premier regard à la dernière célébration, chaque instant est capturé avec précision afin de créer des souvenirs intemporels.',
+        tag: 'Émotions',
+    },
+    {
+        id: 3,
         name: 'Événementiel',
         href: '/portfolio/evenementiel',
         images: ['/images/event/Stefdekarda 3.webp', '/images/event/F1.webp'],
         description: 'Une couverture maîtrisée de vos événements professionnels et privés. Conférences, lancements, cérémonies ou réceptions : chaque moment est capturé avec précision, discrétion et exigence pour en préserver toute l’intensité.',
         tag: 'Professionnel',
     },
-    {
-        id: 3,
-        name: 'Mariage',
-        href: '/portfolio/mariage',
-        images: ['/images/mariage/55-thumb.webp', '/images/mariage/Mamy B2-thumb.webp'],
-        description: 'Un accompagnement sur mesure pour raconter votre union avec élégance et sensibilité. Du premier regard à la dernière célébration, chaque instant est capturé avec précision afin de créer des souvenirs intemporels.',
-        tag: 'Émotions',
-    },
+
     {
         id: 4,
         name: 'Publicité',

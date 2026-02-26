@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Facebook, Instagram, Mail, Phone, MapPin, Send } from 'lucide-react';
 
 export default function ContactContent() {
     return (
@@ -98,7 +98,7 @@ export default function ContactContent() {
                                     <div className="p-3 bg-white/10 rounded-lg text-[#F5F2E8]"><Mail size={20} /></div>
                                     <div>
                                         <p className="text-[10px] uppercase tracking-tighter text-white/40 mb-1">Email</p>
-                                        <p className="text-white text-lg font-light"><a href="mailto:flexserve333@gmail.com">flexserve333@gmail.com</a></p>
+                                        <p className="text-white text-lg font-light"><a href="mailto:flexserve333@gmail.com">flexserve330@gmail.com</a></p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-5">
@@ -120,11 +120,20 @@ export default function ContactContent() {
                             {[
                                 { icon: <Instagram size={22} />, link: "https://www.instagram.com/flexserve_studio?igsh=NWx6bXoyYnVzcGtj&utm_source=qr" },
                                 { icon: <Facebook size={22} />, link: "https://www.facebook.com/share/1AgBWggXkW/?mibextid=wwXIfr" },
-                                { icon: <Facebook size={22} />, link: "https://www.facebook.com/share/1AgBWggXkW/?mibextid=wwXIfr" },
+                                {
+                                    icon: (
+                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" height="22" width="22" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.32c7.87,33.47,31.24,60.58,62.7,74.33A124.2,124.2,0,0,0,448,109.91Z"></path>
+                                        </svg>
+                                    ),
+                                    link: "https://www.tiktok.com/@flexserve_studio?_r=1&_t=ZP-93hPVZObEB5"
+                                }
                             ].map((social, i) => (
                                 <a
                                     key={i}
                                     href={social.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="p-4 bg-white/5 hover:bg-[#F5F2E8] hover:text-[#2E4A6F] text-white rounded-full transition-all duration-500 hover:scale-110 border border-white/10 shadow-lg"
                                 >
                                     {social.icon}
