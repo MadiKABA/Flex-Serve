@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Facebook, Instagram, } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Footer() {
     const socialIcons = [
@@ -43,11 +44,21 @@ export default function Footer() {
                 >
                     <h4 className="text-xl font-semibold tracking-wider">Liens rapides</h4>
                     <ul className="space-y-2">
-                        <li className="hover:text-white transition-colors cursor-pointer">Accueil</li>
-                        <li className="hover:text-white transition-colors cursor-pointer">Portfolio</li>
-                        <li className="hover:text-white transition-colors cursor-pointer">Services</li>
-                        <li className="hover:text-white transition-colors cursor-pointer">À propos</li>
-                        <li className="hover:text-white transition-colors cursor-pointer">Contact</li>
+                        <li className="hover:text-white transition-colors cursor-pointer">
+                            <Link href="/" className="hover:text-white transition-colors cursor-pointer">Accueil</Link>
+                        </li>
+                        <li className="hover:text-white transition-colors cursor-pointer">
+                            <Link href="/portfolio/mariage" className="hover:text-white transition-colors cursor-pointer">Portfolio</Link>
+                        </li>
+                        <li className="hover:text-white transition-colors cursor-pointer">
+                            <Link href="/services" className="hover:text-white transition-colors cursor-pointer">Services</Link>
+                        </li>
+                        <li className="hover:text-white transition-colors cursor-pointer">
+                            <Link href="/about" className="hover:text-white transition-colors cursor-pointer">À propos</Link>
+                        </li>
+                        <li className="hover:text-white transition-colors cursor-pointer">
+                            <Link href="/contact" className="hover:text-white transition-colors cursor-pointer">Contact</Link>
+                        </li>
                     </ul>
                 </motion.div>
 
