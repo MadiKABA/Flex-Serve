@@ -10,11 +10,11 @@ export default function Footer() {
         { icon: <Instagram size={20} />, href: 'https://www.instagram.com/flexserve_studio?igsh=NWx6bXoyYnVzcGtj&utm_source=qr' },
         {
             icon: (
-                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" height="22" width="22" xmlns="http://www.w3.org/2000/svg">
+                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
                     <path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.32c7.87,33.47,31.24,60.58,62.7,74.33A124.2,124.2,0,0,0,448,109.91Z"></path>
                 </svg>
             ),
-            link: "https://www.tiktok.com/@flexserve_studio?_r=1&_t=ZP-93hPVZObEB5"
+            href: "https://www.tiktok.com/@flexserve_studio?_r=1&_t=ZP-93hPVZObEB5"
         }
     ];
 
