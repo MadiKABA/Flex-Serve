@@ -84,7 +84,7 @@ export default function Footer() {
                         ))}
                     </div>
                     <p className="text-sm mt-4">
-                        &copy; {new Date().getFullYear()} L'Agence. Tous droits réservés.
+                        &copy; {new Date().getFullYear()} FLexServe Studio. Tous droits réservés.
                     </p>
                 </motion.div>
 
