@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import Lightbox from '../gallery/Lightbox';
+import Lightbox from '@/components/gallery/Lightbox';
 import { useState } from 'react';
 
 const portraitPhotos = [
@@ -26,72 +26,82 @@ const portraitPhotos = [
     { id: 21, src: '/images/portrait/MS (3).webp', title: '', category: '', size: 'lg' },
 ];
 
-const lightboxPhotos = [
-    ...portraitPhotos.map(p => ({
-        src: p.src,
-        title: p.title,
-        category: p.category
-    })),
-];
+const photosForLightbox = portraitPhotos.map((p) => ({
+    src: p.src,
+    title: p.title,
+    category: p.category,
+}));
+
+// Spacer en haut de chaque colonne pour créer le décalage
+// Les images gardent leur taille naturelle, zéro espace blanc entre elles
+const colSpacers = [0, 64, 32, 96]; // px
 
 export default function ContentPortraitGallery() {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
     const next = () => {
         if (openIndex === null) return;
-        setOpenIndex((openIndex + 1) % lightboxPhotos.length);
+        setOpenIndex((openIndex + 1) % photosForLightbox.length);
     };
 
     const prev = () => {
         if (openIndex === null) return;
-        setOpenIndex((openIndex - 1 + lightboxPhotos.length) % lightboxPhotos.length);
+        setOpenIndex(
+            (openIndex - 1 + photosForLightbox.length) % photosForLightbox.length
+        );
     };
 
+    const columns: typeof portraitPhotos[] = [[], [], [], []];
+    portraitPhotos.forEach((photo, i) => {
+        columns[i % 4].push(photo);
+    });
+
     return (
-        <section className="py-2 px-6 bg-[#2E4A6F]/85">
-            <div className="container mx-auto px-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[300px]">
-                    {portraitPhotos.map((photo, index) => (
-                        <motion.div
-                            key={photo.id} // Ajout de la clé unique ici
-                            onClick={() => setOpenIndex(index)}
-                            initial={{ opacity: 0, y: 60, scale: 0.95 }}
-                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ delay: index * 0.05, duration: 0.8 }}
-                            viewport={{ once: true }}
-                            whileHover={{
-                                scale: 1.04,
-                                rotate: 0.5,
-                                transition: { duration: 0.4 }
-                            }}
-                            className={`group relative overflow-hidden rounded-sm shadow-2xl cursor-pointer ${photo.size === 'lg' ? 'row-span-2' : ''}`}
-                        >
-                            <motion.div
-                                className="absolute inset-0"
-                                animate={{ scale: 1.05 }}
-                                transition={{ duration: 20, repeat: Infinity, repeatType: 'reverse', ease: 'linear' }}
-                            >
-                                <Image
-                                    src={photo.src}
-                                    alt={photo.title}
-                                    fill
-                                    className="object-cover"
-                                />
-                            </motion.div>
+        <section className="px-6 py-0">
+            <div className="container mx-auto">
 
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition duration-500" />
+                <div className="hidden lg:flex gap-0 items-start">
+                    {columns.map((col, colIndex) => (
+                        <div key={colIndex} className="flex-1 flex flex-col gap-0">
 
-                            <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                <p className="text-[#F5F2E8]/70 text-xs uppercase tracking-widest mb-1">{photo.category}</p>
-                                <h3 className="text-white text-xl font-semibold">{photo.title}</h3>
-                            </div>
-                        </motion.div>
+                            {/* Spacer invisible — crée le décalage sans espace entre les images */}
+                            {colSpacers[colIndex] > 0 && (
+                                <div style={{ height: colSpacers[colIndex] }} aria-hidden="true" />
+                            )}
+
+                            {col.map((photo) => {
+                                const index = portraitPhotos.findIndex((p) => p.id === photo.id);
+                                return (
+                                    <GalleryItem
+                                        key={photo.id}
+                                        event={photo}
+                                        index={index}
+                                        delay={index * 0.05}
+                                        setOpenIndex={setOpenIndex}
+                                    />
+                                );
+                            })}
+                        </div>
+                    ))}
+                </div>
+
+                {/* Fallback mobile/tablet : masonry classique */}
+                <div className="lg:hidden columns-1 sm:columns-2 md:columns-3 [column-gap:16px]">
+                    {portraitPhotos.map((event, index) => (
+                        <GalleryItem
+                            key={event.id}
+                            event={event}
+                            delay={index * 0.05}
+                            index={index}
+                            setOpenIndex={setOpenIndex}
+                        />
                     ))}
                 </div>
             </div>
+
             {openIndex !== null && (
                 <Lightbox
-                    photos={lightboxPhotos}
+                    photos={photosForLightbox}
                     index={openIndex}
                     onClose={() => setOpenIndex(null)}
                     onNext={next}
@@ -99,5 +109,37 @@ export default function ContentPortraitGallery() {
                 />
             )}
         </section>
+    );
+}
+
+function GalleryItem({
+    event,
+    delay,
+    index,
+    setOpenIndex,
+}: {
+    event: { src: string; title: string; category: string };
+    delay: number;
+    index: number;
+    setOpenIndex: (i: number) => void;
+}) {
+    return (
+        <motion.div
+            onClick={() => setOpenIndex(index)}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay, duration: 0.5 }}
+            viewport={{ once: true }}
+            className="relative break-inside-avoid overflow-hidden cursor-pointer group"
+        >
+            <Image
+                src={event.src}
+                alt="gallery image"
+                width={1000}
+                height={1500}
+                className="w-full h-auto object-cover"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-300" />
+        </motion.div>
     );
 }
