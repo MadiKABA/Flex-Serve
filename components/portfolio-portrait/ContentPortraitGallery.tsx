@@ -6,24 +6,24 @@ import Lightbox from '@/components/gallery/Lightbox';
 import { useState } from 'react';
 
 const portraitPhotos = [
-    { id: 1, src: '/images/portrait/1-large.avif', title: '', category: '', size: 'lg' },
-    { id: 2, src: '/images/portrait/AL (1).webp', title: '', category: '', size: 'md' },
+    { id: 1, src: '/images/portrait/i8.webp', title: '', category: '', size: 'lg' },
+    { id: 2, src: '/images/portrait/t1.webp', title: '', category: '', size: 'md' },
     { id: 3, src: '/images/portrait/B1.webp', title: '', category: '', size: 'md' },
     { id: 4, src: '/images/portrait/MS (1).webp', title: '', category: '', size: 'lg' },
     { id: 5, src: '/images/portrait/N1.webp', title: '', category: '', size: 'md' },
-    { id: 6, src: '/images/portrait/AL (3).webp', title: '', category: '', size: 'md' },
-    { id: 7, src: '/images/portrait/t4.webp', title: '', category: '', size: 'md' },
+    { id: 6, src: '/images/portrait/F3 (1).webp', title: '', category: '', size: 'md' },
+    { id: 7, src: '/images/event/3.webp', title: '', category: '', size: 'md' },
     { id: 8, src: '/images/portrait/V5-thumb.webp', title: '', category: '', size: 'lg' },
-    { id: 9, src: '/images/portrait/TB (3)-thumb.webp', title: '', category: '', size: 'md' },
-    { id: 10, src: '/images/portrait/N1.webp', title: '', category: '', size: 'md' },
+    { id: 9, src: '/images/event/5.webp', title: '', category: '', size: 'md' },
+    { id: 10, src: '/images/portrait/h2.webp', title: '', category: '', size: 'md' },
     { id: 11, src: '/images/portrait/MS (3)-thumb.webp', title: '', category: '', size: 'md' },
     { id: 12, src: '/images/portrait/N3.webp', title: '', category: '', size: 'lg' },
     { id: 13, src: '/images/portrait/FX_03588.webp', title: '', category: '', size: 'md' },
     { id: 14, src: '/images/portrait/AL (4).webp', title: '', category: '', size: 'md' },
-    { id: 15, src: '/images/portrait/N1.webp', title: '', category: '', size: 'lg' },
+    { id: 15, src: '/images/portrait/y1 (2).webp', title: '', category: '', size: 'lg' },
     { id: 19, src: '/images/portrait/v3.webp', title: '', category: '', size: 'md' },
     { id: 20, src: '/images/portrait/TB (3).webp', title: '', category: '', size: 'lg' },
-    { id: 21, src: '/images/portrait/MS (3).webp', title: '', category: '', size: 'lg' },
+    { id: 21, src: '/images/portrait/bb2 (2).webp', title: '', category: '', size: 'lg' },
 ];
 
 const photosForLightbox = portraitPhotos.map((p) => ({

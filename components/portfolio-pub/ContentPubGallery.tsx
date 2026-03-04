@@ -2,70 +2,134 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useState } from 'react';
+import Lightbox from '../gallery/Lightbox';
 
 const pubPhotos = [
-    { id: 1, src: '/images/photo-1.jpg', title: 'Campagne Print', category: 'Commercial', size: 'lg' },
-    { id: 2, src: '/images/portrait-1.jpg', title: 'Shooting Produit', category: 'Editorial', size: 'md' },
-    { id: 3, src: '/images/photo-3.jpg', title: 'Ambiance Studio', category: 'Corporate', size: 'md' },
-    { id: 4, src: '/images/portrait-2.jpg', title: 'Concept Creatif', category: 'Commercial', size: 'lg' },
-    { id: 5, src: '/images/photo-3.jpg', title: 'Light & Shadow', category: 'Editorial', size: 'md' },
-    { id: 6, src: '/images/portrait-2.jpg', title: 'Produit en Action', category: 'Commercial', size: 'md' },
-    { id: 7, src: '/images/photo-3.jpg', title: 'Séminaire', category: 'Corporate', size: 'lg' },
-    { id: 8, src: '/images/portrait-1.jpg', title: 'Publicité Digitale', category: 'Marketing', size: 'md' },
-    { id: 9, src: '/images/portrait-2.jpg', title: 'Brand Story', category: 'Editorial', size: 'md' },
-    { id: 10, src: '/images/photo-1.jpg', title: 'Lancement Produit', category: 'Commercial', size: 'lg' },
+    { id: 1, src: '/images/photo-1.jpg', title: '', category: '', size: 'lg' },
+    { id: 2, src: '/images/portrait-1.jpg', title: '', category: '', size: 'md' },
+    { id: 3, src: '/images/photo-3.jpg', title: '', category: '', size: 'md' },
+    { id: 4, src: '/images/portrait-2.jpg', title: '', category: '', size: 'lg' },
+    { id: 5, src: '/images/photo-3.jpg', title: '', category: '', size: 'md' },
+    { id: 6, src: '/images/portrait-2.jpg', title: '', category: '', size: 'md' },
+    { id: 7, src: '/images/photo-3.jpg', title: '', category: '', size: 'lg' },
+    { id: 8, src: '/images/portrait-1.jpg', title: '', category: '', size: 'md' },
 ];
 
+const photosForLightbox = pubPhotos.map((p) => ({
+    src: p.src,
+    title: p.title,
+    category: p.category,
+}));
+
+// Spacer en haut de chaque colonne pour créer le décalage
+// Les images gardent leur taille naturelle, zéro espace blanc entre elles
+const colSpacers = [0, 64, 32, 96]; // px
+
 export default function ContentPubGallery() {
+    const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+    const next = () => {
+        if (openIndex === null) return;
+        setOpenIndex((openIndex + 1) % photosForLightbox.length);
+    };
+
+    const prev = () => {
+        if (openIndex === null) return;
+        setOpenIndex(
+            (openIndex - 1 + photosForLightbox.length) % photosForLightbox.length
+        );
+    };
+
+    const columns: typeof pubPhotos[] = [[], [], [], []];
+    pubPhotos.forEach((photo, i) => {
+        columns[i % 4].push(photo);
+    });
+
     return (
-        <section className="py-12 px-6 bg-gradient-to-b from-[#2E4A6F]/85 to-[#2E4A6F]/70">
-            <div className="container mx-auto space-y-12">
+        <section className="px-6 py-0">
+            <div className="container mx-auto">
 
-                {/* GRID PRINCIPAL */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[300px]">
-                    {pubPhotos.slice(0, 10).map((photo, index) => (
-                        <motion.div
-                            key={photo.id}
-                            initial={{ opacity: 0, y: 60, scale: 0.95 }}
-                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ delay: index * 0.05, duration: 0.8 }}
-                            viewport={{ once: true }}
-                            whileHover={{
-                                scale: 1.04,
-                                rotate: 0.5,
-                                transition: { duration: 0.4 }
-                            }}
-                            className={`group relative overflow-hidden rounded-sm shadow-2xl ${photo.size === 'lg' ? 'row-span-2' : ''}`}
-                        >
-                            {/* IMAGE ZOOM LENT */}
-                            <motion.div
-                                className="absolute inset-0"
-                                animate={{ scale: 1.08 }}
-                                transition={{ duration: 20, repeat: Infinity, repeatType: 'reverse', ease: 'linear' }}
-                            >
-                                <Image
-                                    src={photo.src}
-                                    alt={photo.title}
-                                    fill
-                                    className="object-cover"
-                                />
-                            </motion.div>
+                <div className="hidden lg:flex gap-0 items-start">
+                    {columns.map((col, colIndex) => (
+                        <div key={colIndex} className="flex-1 flex flex-col gap-0">
 
-                            {/* OVERLAY CINÉMATOGRAPHIQUE */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition duration-500" />
+                            {/* Spacer invisible — crée le décalage sans espace entre les images */}
+                            {colSpacers[colIndex] > 0 && (
+                                <div style={{ height: colSpacers[colIndex] }} aria-hidden="true" />
+                            )}
 
-                            {/* TEXTE IMMERSIF */}
-                            <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                <p className="text-[#F5F2E8]/70 text-xs uppercase tracking-widest mb-1">{photo.category}</p>
-                                <h3 className="text-white text-xl font-semibold">{photo.title}</h3>
-                            </div>
-                        </motion.div>
+                            {col.map((photo) => {
+                                const index = pubPhotos.findIndex((p) => p.id === photo.id);
+                                return (
+                                    <GalleryItem
+                                        key={photo.id}
+                                        event={photo}
+                                        index={index}
+                                        delay={index * 0.05}
+                                        setOpenIndex={setOpenIndex}
+                                    />
+                                );
+                            })}
+                        </div>
                     ))}
                 </div>
 
-
-
+                {/* Fallback mobile/tablet : masonry classique */}
+                <div className="lg:hidden columns-1 sm:columns-2 md:columns-3 [column-gap:16px]">
+                    {pubPhotos.map((event, index) => (
+                        <GalleryItem
+                            key={event.id}
+                            event={event}
+                            delay={index * 0.05}
+                            index={index}
+                            setOpenIndex={setOpenIndex}
+                        />
+                    ))}
+                </div>
             </div>
+
+            {openIndex !== null && (
+                <Lightbox
+                    photos={photosForLightbox}
+                    index={openIndex}
+                    onClose={() => setOpenIndex(null)}
+                    onNext={next}
+                    onPrev={prev}
+                />
+            )}
         </section>
+    );
+}
+
+function GalleryItem({
+    event,
+    delay,
+    index,
+    setOpenIndex,
+}: {
+    event: { src: string; title: string; category: string };
+    delay: number;
+    index: number;
+    setOpenIndex: (i: number) => void;
+}) {
+    return (
+        <motion.div
+            onClick={() => setOpenIndex(index)}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay, duration: 0.5 }}
+            viewport={{ once: true }}
+            className="relative break-inside-avoid overflow-hidden cursor-pointer group"
+        >
+            <Image
+                src={event.src}
+                alt="gallery image"
+                width={1000}
+                height={1500}
+                className="w-full h-auto object-cover"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-300" />
+        </motion.div>
     );
 }
