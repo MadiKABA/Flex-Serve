@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "optimize:images": "ts-node scripts/optimize-images.ts"
+    "optimize:images": "ts-node scripts/optimize-images.ts",
+    "migrate:images": "node --env-file=.env.local -r ts-node/register scripts/migrate-images.ts"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.8",
