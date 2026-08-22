@@ -123,7 +123,7 @@ export default function ResetPasswordPage() {
                 )}
 
                 {linkStatus === 'ready' && !success && (
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                         <CardContent className="space-y-4">
                             {error && (
                                 <Alert variant="destructive">

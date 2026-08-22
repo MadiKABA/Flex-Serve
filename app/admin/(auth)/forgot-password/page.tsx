@@ -59,7 +59,7 @@ export default function ForgotPasswordPage() {
                         </Link>
                     </CardContent>
                 ) : (
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                         <CardContent className="space-y-4">
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email</Label>

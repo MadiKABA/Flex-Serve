@@ -70,7 +70,7 @@ function LoginForm() {
                 <CardTitle className="text-2xl font-semibold text-[#2E4A6F]">FlexServeStudio</CardTitle>
                 <CardDescription>Administration — connexion</CardDescription>
             </CardHeader>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                 <CardContent className="space-y-4">
                     {error && (
                         <Alert variant="destructive">
