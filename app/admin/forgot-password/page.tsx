@@ -71,6 +71,7 @@ export default function ForgotPasswordPage() {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     disabled={loading}
+                                    className="h-11 px-4"
                                 />
                             </div>
                         </CardContent>
@@ -79,7 +80,7 @@ export default function ForgotPasswordPage() {
                             <Button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-[#3d5a7a] hover:bg-[#2d4a6a] text-white"
+                                className="w-full h-11 px-6 bg-[#3d5a7a] hover:bg-[#2d4a6a] text-white"
                             >
                                 {loading ? (
                                     <>

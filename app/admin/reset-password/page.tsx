@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
 import { supabaseBrowser } from '@/lib/supabase/browser';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { Label } from '@/components/ui/label';
 import {
     Card,
@@ -115,7 +115,7 @@ export default function ResetPasswordPage() {
                             </AlertDescription>
                         </Alert>
                         <Link href="/admin/forgot-password">
-                            <Button className="w-full bg-[#3d5a7a] hover:bg-[#2d4a6a] text-white">
+                            <Button className="w-full h-11 px-6 bg-[#3d5a7a] hover:bg-[#2d4a6a] text-white">
                                 Redemander un lien
                             </Button>
                         </Link>
@@ -134,29 +134,29 @@ export default function ResetPasswordPage() {
 
                             <div className="grid gap-2">
                                 <Label htmlFor="password">Nouveau mot de passe</Label>
-                                <Input
+                                <PasswordInput
                                     id="password"
-                                    type="password"
                                     required
                                     minLength={8}
                                     autoComplete="new-password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     disabled={loading}
+                                    className="h-11 px-4"
                                 />
                             </div>
 
                             <div className="grid gap-2">
                                 <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
-                                <Input
+                                <PasswordInput
                                     id="confirmPassword"
-                                    type="password"
                                     required
                                     minLength={8}
                                     autoComplete="new-password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     disabled={loading}
+                                    className="h-11 px-4"
                                 />
                             </div>
                         </CardContent>
@@ -165,7 +165,7 @@ export default function ResetPasswordPage() {
                             <Button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-[#3d5a7a] hover:bg-[#2d4a6a] text-white"
+                                className="w-full h-11 px-6 bg-[#3d5a7a] hover:bg-[#2d4a6a] text-white"
                             >
                                 {loading ? (
                                     <>

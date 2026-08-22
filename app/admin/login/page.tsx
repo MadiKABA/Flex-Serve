@@ -7,6 +7,7 @@ import { Loader2, ShieldAlert } from 'lucide-react';
 import { supabaseBrowser } from '@/lib/supabase/browser';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { Label } from '@/components/ui/label';
 import {
     Card,
@@ -88,19 +89,20 @@ function LoginForm() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             disabled={loading}
+                            className="h-11 px-4"
                         />
                     </div>
 
                     <div className="grid gap-2">
                         <Label htmlFor="password">Mot de passe</Label>
-                        <Input
+                        <PasswordInput
                             id="password"
-                            type="password"
                             required
                             autoComplete="current-password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             disabled={loading}
+                            className="h-11 px-4"
                         />
                     </div>
                 </CardContent>
@@ -109,7 +111,7 @@ function LoginForm() {
                     <Button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-[#3d5a7a] hover:bg-[#2d4a6a] text-white"
+                        className="w-full h-11 px-6 bg-[#3d5a7a] hover:bg-[#2d4a6a] text-white"
                     >
                         {loading ? (
                             <>
