@@ -57,5 +57,14 @@ export async function POST(req: NextRequest) {
         process.env.CLOUDINARY_API_SECRET!
     );
 
-    return NextResponse.json({ timestamp, signature });
+    return NextResponse.json({
+        timestamp,
+        signature,
+        folder,
+        // Pas des secrets : cloud_name et api_key sont destinés à être publics
+        // (nécessaires pour l'appel d'upload direct Cloudinary depuis le navigateur).
+        cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+        apiKey: process.env.CLOUDINARY_API_KEY,
+        uploadPreset: UPLOAD_PRESET,
+    });
 }

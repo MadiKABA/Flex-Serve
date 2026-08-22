@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Toaster } from 'sonner';
 import AdminNavbar from '@/components/admin/AdminNavbar';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 
@@ -15,6 +16,7 @@ export default function AdminShell({
 
     return (
         <div className="min-h-screen bg-white">
+            <Toaster position="top-right" richColors closeButton />
             <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
             <div className="lg:pl-64">
