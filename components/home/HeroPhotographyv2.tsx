@@ -3,9 +3,29 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import type { MediaItem } from '@/lib/types/content';
 
-
-export default function HeroFlexServev2() {
+export default function HeroFlexServev2({
+    title,
+    body,
+    ctaLabel,
+    ctaUrl,
+    ctaLabel2,
+    ctaUrl2,
+    image1,
+    image2,
+    image3,
+}: {
+    title: string;
+    body?: string | null;
+    ctaLabel?: string | null;
+    ctaUrl?: string | null;
+    ctaLabel2?: string | null;
+    ctaUrl2?: string | null;
+    image1?: MediaItem;
+    image2?: MediaItem;
+    image3?: MediaItem;
+}) {
     return (
         <section className="pt-24 relative overflow-hidden bg-[#2E4A6F]/70 min-h-screen flex flex-col">
             {/* SVG DECOR TOP */}
@@ -40,25 +60,30 @@ export default function HeroFlexServev2() {
                             className="space-y-8"
                         >
                             <h1 className="text-4xl md:text-5xl xl:text-6xl font-semibold text-white leading-tight">
-                                Votre image. Votre pouvoir.<br />
+                                {title}<br />
                             </h1>
 
-                            <p className="max-w-xl text-lg text-white/80">
-                                FlexServe Studio crée des visuels d’exception pour les marques, les entrepreneurs et les événements exigeants<br />
-                                Précision, élégance et exigence à chaque détail.
-                            </p>
+                            {body && (
+                                <p className="max-w-xl text-lg text-white/80">
+                                    {body}
+                                </p>
+                            )}
 
                             <div className="flex flex-wrap gap-4">
-                                <button className="rounded-xl bg-[#2E4A6F] px-6 py-3 text-white font-medium">
-                                    <Link href={"/portfolio/mariage"}>
-                                        Voir le portfolio
-                                    </Link>
-                                </button>
-                                <button className="rounded-xl border border-white px-6 py-3 text-white font-medium">
-                                    <Link href={"/contact"}>
-                                        Nous contacter
-                                    </Link>
-                                </button>
+                                {ctaLabel && ctaUrl && (
+                                    <button className="rounded-xl bg-[#2E4A6F] px-6 py-3 text-white font-medium">
+                                        <Link href={ctaUrl}>
+                                            {ctaLabel}
+                                        </Link>
+                                    </button>
+                                )}
+                                {ctaLabel2 && ctaUrl2 && (
+                                    <button className="rounded-xl border border-white px-6 py-3 text-white font-medium">
+                                        <Link href={ctaUrl2}>
+                                            {ctaLabel2}
+                                        </Link>
+                                    </button>
+                                )}
                             </div>
                         </motion.div>
 
@@ -66,61 +91,67 @@ export default function HeroFlexServev2() {
                         <div className="relative mx-auto h-[420px] sm:h-[460px] lg:h-[520px] w-full max-w-lg">
 
                             {/* Image gauche */}
-                            <motion.div
-                                initial={{ opacity: 0, x: -20, y: 20 }}
-                                animate={{ opacity: 1, x: 0, y: 0 }}
-                                transition={{ delay: 0.2, duration: 0.7 }}
-                                whileHover={{ scale: 1.05, zIndex: 40 }}
-                                className="absolute left-6 top-6 rotate-[25deg]"
-                            >
-                                <div className="bg-white p-1 shadow-xl border border-gray-100 rounded-sm">
-                                    <Image
-                                        src="/images/portrait/B1.webp"
-                                        alt="Portfolio 1"
-                                        width={200}
-                                        height={200}
-                                        className="object-cover rounded-sm"
-                                    />
-                                </div>
-                            </motion.div>
+                            {image1 && (
+                                <motion.div
+                                    initial={{ opacity: 0, x: -20, y: 20 }}
+                                    animate={{ opacity: 1, x: 0, y: 0 }}
+                                    transition={{ delay: 0.2, duration: 0.7 }}
+                                    whileHover={{ scale: 1.05, zIndex: 40 }}
+                                    className="absolute left-6 top-6 rotate-[25deg]"
+                                >
+                                    <div className="bg-white p-1 shadow-xl border border-gray-100 rounded-sm">
+                                        <Image
+                                            src={image1.cloudinary_url}
+                                            alt={image1.alt_text || "Portfolio 1"}
+                                            width={200}
+                                            height={200}
+                                            className="object-cover rounded-sm"
+                                        />
+                                    </div>
+                                </motion.div>
+                            )}
 
                             {/* Image droite */}
-                            <motion.div
-                                initial={{ opacity: 0, x: 20, y: 20 }}
-                                animate={{ opacity: 1, x: 0, y: 0 }}
-                                transition={{ delay: 0.35, duration: 0.7 }}
-                                whileHover={{ scale: 1.05, zIndex: 40 }}
-                                className="absolute right-6 top-6 rotate-[-25deg]"
-                            >
-                                <div className="bg-white p-1 shadow-xl border border-gray-100 rounded-sm">
-                                    <Image
-                                        src="/images/F2.webp"
-                                        alt="Portfolio 2"
-                                        width={200}
-                                        height={200}
-                                        className="object-cover rounded-sm"
-                                    />
-                                </div>
-                            </motion.div>
+                            {image2 && (
+                                <motion.div
+                                    initial={{ opacity: 0, x: 20, y: 20 }}
+                                    animate={{ opacity: 1, x: 0, y: 0 }}
+                                    transition={{ delay: 0.35, duration: 0.7 }}
+                                    whileHover={{ scale: 1.05, zIndex: 40 }}
+                                    className="absolute right-6 top-6 rotate-[-25deg]"
+                                >
+                                    <div className="bg-white p-1 shadow-xl border border-gray-100 rounded-sm">
+                                        <Image
+                                            src={image2.cloudinary_url}
+                                            alt={image2.alt_text || "Portfolio 2"}
+                                            width={200}
+                                            height={200}
+                                            className="object-cover rounded-sm"
+                                        />
+                                    </div>
+                                </motion.div>
+                            )}
 
                             {/* Image centrale */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 40 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.5, duration: 0.7 }}
-                                whileHover={{ scale: 1.05, zIndex: 40 }}
-                                className="absolute left-1/2 bottom-6 -translate-x-1/2"
-                            >
-                                <div className="bg-white p-1 shadow-2xl border border-gray-100 rounded-sm">
-                                    <Image
-                                        src="/images/mariage/11.webp"
-                                        alt="Portfolio 3"
-                                        width={220}
-                                        height={220}
-                                        className="object-cover rounded-sm"
-                                    />
-                                </div>
-                            </motion.div>
+                            {image3 && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 40 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.5, duration: 0.7 }}
+                                    whileHover={{ scale: 1.05, zIndex: 40 }}
+                                    className="absolute left-1/2 bottom-6 -translate-x-1/2"
+                                >
+                                    <div className="bg-white p-1 shadow-2xl border border-gray-100 rounded-sm">
+                                        <Image
+                                            src={image3.cloudinary_url}
+                                            alt={image3.alt_text || "Portfolio 3"}
+                                            width={220}
+                                            height={220}
+                                            className="object-cover rounded-sm"
+                                        />
+                                    </div>
+                                </motion.div>
+                            )}
 
                         </div>
                     </div>
