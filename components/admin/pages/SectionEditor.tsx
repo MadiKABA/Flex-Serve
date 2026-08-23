@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import MediaManager from '@/components/admin/pages/MediaManager';
+import HeroBackgroundImage from '@/components/admin/pages/HeroBackgroundImage';
 import { saveSectionLayout, saveSectionText, toggleSectionVisibility } from '@/app/admin/(dashboard)/pages/actions';
 import type { GalleryLayout, MediaItem, PortfolioCategory, Section } from '@/lib/types/content';
 
@@ -39,9 +40,17 @@ export default function SectionEditor({
     const [body, setBody] = useState(section.body ?? '');
     const [ctaLabel, setCtaLabel] = useState(section.cta_label ?? '');
     const [ctaUrl, setCtaUrl] = useState(section.cta_url ?? '');
+    const [showCta2, setShowCta2] = useState(Boolean(section.cta_label_2 || section.cta_url_2));
+    const [ctaLabel2, setCtaLabel2] = useState(section.cta_label_2 ?? '');
+    const [ctaUrl2, setCtaUrl2] = useState(section.cta_url_2 ?? '');
     const [visible, setVisible] = useState(section.is_visible);
     const [layout, setLayout] = useState<GalleryLayout>(section.layout);
     const [isSaving, startSaveTransition] = useTransition();
+
+    const isHeroWithBackground = section.type === 'hero' && dbSlug !== 'accueil';
+    const currentBackground = section.background_media_id
+        ? media.find((m) => m.id === section.background_media_id) ?? null
+        : null;
 
     const handleSave = () => {
         startSaveTransition(async () => {
@@ -51,6 +60,8 @@ export default function SectionEditor({
                 body,
                 cta_label: ctaLabel,
                 cta_url: ctaUrl,
+                cta_label_2: ctaLabel2,
+                cta_url_2: ctaUrl2,
             });
             if (!result.success) {
                 toast.error(result.error);
@@ -121,6 +132,43 @@ export default function SectionEditor({
                     <Input id={`cta-url-${section.id}`} value={ctaUrl} onChange={(e) => setCtaUrl(e.target.value)} />
                 </div>
             </div>
+
+            {showCta2 ? (
+                <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="grid gap-2">
+                        <Label htmlFor={`cta-label-2-${section.id}`}>Libellé du 2ᵉ bouton</Label>
+                        <Input
+                            id={`cta-label-2-${section.id}`}
+                            value={ctaLabel2}
+                            onChange={(e) => setCtaLabel2(e.target.value)}
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor={`cta-url-2-${section.id}`}>Lien du 2ᵉ bouton</Label>
+                        <Input
+                            id={`cta-url-2-${section.id}`}
+                            value={ctaUrl2}
+                            onChange={(e) => setCtaUrl2(e.target.value)}
+                        />
+                    </div>
+                </div>
+            ) : (
+                <Button type="button" variant="outline" size="sm" onClick={() => setShowCta2(true)}>
+                    + Ajouter un 2ᵉ bouton
+                </Button>
+            )}
+
+            {isHeroWithBackground && (
+                <div className="grid gap-2">
+                    <Label>Image de fond</Label>
+                    <HeroBackgroundImage
+                        sectionId={section.id}
+                        dbSlug={dbSlug}
+                        uploadFolder={uploadFolder}
+                        current={currentBackground}
+                    />
+                </div>
+            )}
 
             <Button
                 type="button"

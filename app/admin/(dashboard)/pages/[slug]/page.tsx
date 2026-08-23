@@ -3,6 +3,7 @@ import { supabaseAdmin } from '@/lib/supabase/server';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import SectionEditor from '@/components/admin/pages/SectionEditor';
 import HeroThreeImages from '@/components/admin/pages/HeroThreeImages';
+import WeddingCtaImages from '@/components/admin/pages/WeddingCtaImages';
 import AboutStatsEditor from '@/components/admin/pages/AboutStatsEditor';
 import AboutPartnersEditor from '@/components/admin/pages/AboutPartnersEditor';
 import { getPortfolioCategory, getUploadFolder } from '@/lib/utils/page-routes';
@@ -139,6 +140,19 @@ export default async function AdminPageEditor({ params }: { params: Promise<{ sl
                                     uploadFolder={uploadFolder}
                                     media={mediaBySection.get(section.id) ?? []}
                                 />
+                                {section.type === 'cta' && (
+                                    <div className="border-t border-border pt-6 mt-6">
+                                        <p className="mb-3 text-sm font-medium text-[#2E4A6F]">
+                                            Images de composition (exactement 2)
+                                        </p>
+                                        <WeddingCtaImages
+                                            sectionId={section.id}
+                                            dbSlug={page.slug}
+                                            uploadFolder={uploadFolder}
+                                            media={mediaBySection.get(section.id) ?? []}
+                                        />
+                                    </div>
+                                )}
                             </div>
                         )
                     )}

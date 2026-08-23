@@ -57,7 +57,15 @@ export async function togglePagePublished(
 export async function saveSectionText(
     sectionId: string,
     dbSlug: string,
-    data: { title: string; subtitle: string; body: string; cta_label: string; cta_url: string }
+    data: {
+        title: string;
+        subtitle: string;
+        body: string;
+        cta_label: string;
+        cta_url: string;
+        cta_label_2: string;
+        cta_url_2: string;
+    }
 ): Promise<ActionResult> {
     const guard = await assertAdmin();
     if (!guard.success) return guard;
@@ -70,6 +78,8 @@ export async function saveSectionText(
             body: data.body || null,
             cta_label: data.cta_label || null,
             cta_url: data.cta_url || null,
+            cta_label_2: data.cta_label_2 || null,
+            cta_url_2: data.cta_url_2 || null,
             updated_at: new Date().toISOString(),
         })
         .eq('id', sectionId);
@@ -147,18 +157,23 @@ export async function confirmMediaUpload(input: {
 }
 
 /**
- * Ajout d'une photo dans le hero accueil (exactement 3 emplacements fixes,
- * positions 0/1/2). Refuse toute 4e image plutôt que de remplacer en silence.
+ * Ajout d'une photo dans une section à emplacements fixes (hero accueil :
+ * 3 images ; WeddingCTA : 2 images). Refuse toute image au-delà de
+ * `maxImages` plutôt que de remplacer en silence. `maxImages` défaut à 3
+ * pour rester rétrocompatible avec le hero accueil (seul appelant existant).
  */
 export async function confirmHeroImage(input: {
     sectionId: string;
     dbSlug: string;
-    position: 0 | 1 | 2;
+    position: number;
     publicId: string;
     url: string;
+    maxImages?: number;
 }): Promise<ActionResult> {
     const guard = await assertAdmin();
     if (!guard.success) return guard;
+
+    const limit = input.maxImages ?? 3;
 
     const { count, error: countError } = await supabaseAdmin
         .from('media_items')
@@ -167,10 +182,10 @@ export async function confirmHeroImage(input: {
 
     if (countError) return { success: false, error: `Échec de lecture : ${countError.message}` };
 
-    if ((count ?? 0) >= 3) {
+    if ((count ?? 0) >= limit) {
         return {
             success: false,
-            error: "Cette section accepte exactement 3 images. Supprimez-en une avant d'en ajouter une nouvelle.",
+            error: `Cette section accepte exactement ${limit} image${limit > 1 ? 's' : ''}. Supprimez-en une avant d'en ajouter une nouvelle.`,
         };
     }
 
@@ -182,6 +197,58 @@ export async function confirmHeroImage(input: {
     });
 
     if (error) return { success: false, error: `Échec de l'enregistrement : ${error.message}` };
+
+    revalidatePublicPage(input.dbSlug);
+    return { success: true };
+}
+
+/**
+ * Remplace l'image de fond d'un hero (background_media_id) : upload +
+ * insert media_items, bascule sections.background_media_id vers la
+ * nouvelle ligne, puis supprime l'ancienne image (Cloudinary puis ligne)
+ * une fois le remplacement confirmé en base.
+ */
+export async function updateHeroBackground(input: {
+    sectionId: string;
+    dbSlug: string;
+    publicId: string;
+    url: string;
+    previousMediaId: string | null;
+    previousPublicId: string | null;
+}): Promise<ActionResult> {
+    const guard = await assertAdmin();
+    if (!guard.success) return guard;
+
+    const { data: inserted, error: insertError } = await supabaseAdmin
+        .from('media_items')
+        .insert({
+            section_id: input.sectionId,
+            cloudinary_public_id: input.publicId,
+            cloudinary_url: input.url,
+            position: 0,
+        })
+        .select('id')
+        .single();
+
+    if (insertError || !inserted) {
+        return { success: false, error: `Échec de l'enregistrement : ${insertError?.message ?? 'inconnue'}` };
+    }
+
+    const { error: updateError } = await supabaseAdmin
+        .from('sections')
+        .update({ background_media_id: inserted.id, updated_at: new Date().toISOString() })
+        .eq('id', input.sectionId);
+
+    if (updateError) {
+        return { success: false, error: `Échec de la mise à jour de la section : ${updateError.message}` };
+    }
+
+    if (input.previousMediaId) {
+        if (input.previousPublicId) {
+            await deleteCloudinaryAsset(input.previousPublicId);
+        }
+        await supabaseAdmin.from('media_items').delete().eq('id', input.previousMediaId);
+    }
 
     revalidatePublicPage(input.dbSlug);
     return { success: true };
