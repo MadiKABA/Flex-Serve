@@ -3,53 +3,9 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import type { ServiceWithMedia } from '@/lib/data/services';
 
-interface Service {
-    id: number;
-    name: string;
-    href: string;
-    images: [string, string]; // 2 images pour la composition
-    description: string;
-    tag: string;
-}
-
-const services: Service[] = [
-    {
-        id: 1,
-        name: 'Portrait',
-        href: '/portfolio/portrait',
-        images: ['/images/portrait/B1.webp', '/images/portrait/MS (3).webp'],
-        description: 'Des portraits conçus pour révéler votre personnalité avec justesse et élégance. Chaque séance est pensée avec direction artistique et précision afin de produire des images fortes, naturelles et intemporelles.',
-        tag: 'Authenticité',
-    },
-    {
-        id: 2,
-        name: 'Mariage',
-        href: '/portfolio/mariage',
-        images: ['/images/mariage/FX_04569.webp', '/images/mariage/11.webp'],
-        description: 'Un accompagnement sur mesure pour raconter votre union avec élégance et sensibilité. Du premier regard à la dernière célébration, chaque instant est capturé avec précision afin de créer des souvenirs intemporels.',
-        tag: 'Émotions',
-    },
-    {
-        id: 3,
-        name: 'Événementiel',
-        href: '/portfolio/evenementiel',
-        images: ['/images/event/Stefdekarda 3.webp', '/images/event/F1.webp'],
-        description: 'Une couverture maîtrisée de vos événements professionnels et privés. Conférences, lancements, cérémonies ou réceptions : chaque moment est capturé avec précision, discrétion et exigence pour en préserver toute l’intensité.',
-        tag: 'Professionnel',
-    },
-
-    {
-        id: 4,
-        name: 'Publicité',
-        href: '/portfolio/pub',
-        images: ['/images/portrait/FX_03581.webp', '/images/portrait/FX_03588.webp'],
-        description: 'Des visuels stratégiques conçus pour renforcer l’identité et la présence de votre marque. De la photographie produit aux campagnes créatives, chaque projet est pensé pour maximiser votre impact.',
-        tag: 'Impact Visuel',
-    },
-];
-
-export default function ServicesSection() {
+export default function ServicesSection({ services }: { services: ServiceWithMedia[] }) {
     return (
         <section className="relative py-16 md:py-32 bg-[#2E4A6F]/75 overflow-hidden">
             {/* SERVICES arrière-plan */}
@@ -73,6 +29,7 @@ export default function ServicesSection() {
             <div className="relative z-10">
                 {services.map((service, index) => {
                     const isEven = index % 2 === 0;
+                    const [image1, image2] = service.media;
 
                     return (
                         <div
@@ -92,34 +49,38 @@ export default function ServicesSection() {
                                         className={`relative h-[400px] md:h-[600px] ${isEven ? '' : 'lg:col-start-2'
                                             }`}
                                     >
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 40 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            transition={{ duration: 1 }}
-                                            viewport={{ once: true }}
-                                            className="absolute left-0 top-0 w-2/3 h-[80%] z-10 shadow-2xl rounded-sm"
-                                        >
-                                            <Image
-                                                src={service.images[0]}
-                                                alt={`${service.name} - Image 1`}
-                                                fill
-                                                className="object-cover grayscale hover:grayscale-0 transition-all duration-700 rounded-sm"
-                                            />
-                                        </motion.div>
-                                        <motion.div
-                                            initial={{ opacity: 0, x: 40 }}
-                                            whileInView={{ opacity: 1, x: 0 }}
-                                            transition={{ duration: 1, delay: 0.3 }}
-                                            viewport={{ once: true }}
-                                            className="absolute right-0 bottom-0 w-2/3 h-[70%] border-[12px] rounded-sm border-white/10 shadow-2xl"
-                                        >
-                                            <Image
-                                                src={service.images[1]}
-                                                alt={`${service.name} - Image 2`}
-                                                fill
-                                                className="object-cover rounded-sm"
-                                            />
-                                        </motion.div>
+                                        {image1 && (
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 40 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                transition={{ duration: 1 }}
+                                                viewport={{ once: true }}
+                                                className="absolute left-0 top-0 w-2/3 h-[80%] z-10 shadow-2xl rounded-sm"
+                                            >
+                                                <Image
+                                                    src={image1.cloudinary_url}
+                                                    alt={image1.alt_text || `${service.name} - Image 1`}
+                                                    fill
+                                                    className="object-cover grayscale hover:grayscale-0 transition-all duration-700 rounded-sm"
+                                                />
+                                            </motion.div>
+                                        )}
+                                        {image2 && (
+                                            <motion.div
+                                                initial={{ opacity: 0, x: 40 }}
+                                                whileInView={{ opacity: 1, x: 0 }}
+                                                transition={{ duration: 1, delay: 0.3 }}
+                                                viewport={{ once: true }}
+                                                className="absolute right-0 bottom-0 w-2/3 h-[70%] border-[12px] rounded-sm border-white/10 shadow-2xl"
+                                            >
+                                                <Image
+                                                    src={image2.cloudinary_url}
+                                                    alt={image2.alt_text || `${service.name} - Image 2`}
+                                                    fill
+                                                    className="object-cover rounded-sm"
+                                                />
+                                            </motion.div>
+                                        )}
 
                                         {/* Badge numéro */}
                                         <motion.div
@@ -130,7 +91,7 @@ export default function ServicesSection() {
                                             className="absolute top-4 right-4 w-16 h-16 md:w-20 md:h-20 bg-white rounded-full flex items-center justify-center shadow-lg z-20"
                                         >
                                             <span className="text-[#2E4A6F] font-bold text-xl md:text-2xl">
-                                                0{service.id}
+                                                0{index + 1}
                                             </span>
                                         </motion.div>
                                     </div>
@@ -146,23 +107,27 @@ export default function ServicesSection() {
                                             transition={{ duration: 0.8 }}
                                             viewport={{ once: true }}
                                         >
-                                            <span className="text-xs uppercase tracking-[0.5em] opacity-60">
-                                                {service.tag}
-                                            </span>
+                                            {service.tag && (
+                                                <span className="text-xs uppercase tracking-[0.5em] opacity-60">
+                                                    {service.tag}
+                                                </span>
+                                            )}
                                             <h2 className="text-4xl md:text-6xl lg:text-7xl font-light mt-4 leading-tight">
                                                 {service.name}
                                             </h2>
                                         </motion.div>
 
-                                        <motion.p
-                                            initial={{ opacity: 0 }}
-                                            whileInView={{ opacity: 1 }}
-                                            transition={{ delay: 0.4 }}
-                                            viewport={{ once: true }}
-                                            className="text-white/70 text-base md:text-lg max-w-md leading-relaxed"
-                                        >
-                                            {service.description}
-                                        </motion.p>
+                                        {service.description && (
+                                            <motion.p
+                                                initial={{ opacity: 0 }}
+                                                whileInView={{ opacity: 1 }}
+                                                transition={{ delay: 0.4 }}
+                                                viewport={{ once: true }}
+                                                className="text-white/70 text-base md:text-lg max-w-md leading-relaxed"
+                                            >
+                                                {service.description}
+                                            </motion.p>
+                                        )}
 
                                         <motion.div
                                             initial={{ opacity: 0, y: 20 }}

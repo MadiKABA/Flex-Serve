@@ -2,7 +2,13 @@
 
 import { motion } from 'framer-motion';
 
-export default function ContactHero() {
+export default function ContactHero({
+    title,
+    subtitle,
+}: {
+    title: string;
+    subtitle?: string | null;
+}) {
     return (
         <section className="relative pt-32 pb-20 bg-[#2E4A6F] overflow-hidden">
             {/* Texte en arrière-plan avec flou */}
@@ -24,10 +30,11 @@ export default function ContactHero() {
                     transition={{ duration: 0.8 }}
                     className="max-w-3xl mx-auto space-y-6"
                 >
-                    <span className="text-[#F5F2E8] text-xs uppercase tracking-[0.6em] block">Contact</span>
+                    {subtitle && (
+                        <span className="text-[#F5F2E8] text-xs uppercase tracking-[0.6em] block">{subtitle}</span>
+                    )}
                     <h1 className="text-6xl md:text-8xl font-light text-white leading-tight">
-                        Donnons vie à <br />
-                        <span className="italic font-serif text-[#F5F2E8]">votre récit.</span>
+                        {title}
                     </h1>
                 </motion.div>
             </div>

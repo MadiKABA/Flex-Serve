@@ -40,7 +40,17 @@ const stats = [
     { id: 4, label: 'Années d’Activité', value: '08' },
 ];
 
-export default function AboutValuesSection() {
+export default function AboutValuesSection({
+    title,
+    subtitle,
+    body,
+}: {
+    title?: string | null;
+    subtitle?: string | null;
+    body?: string | null;
+}) {
+    const paragraphs = (body ?? '').split(/\n\n+/).filter(Boolean);
+
     return (
         <section className="relative py-24 md:py-40 bg-[#2E4A6F]/90 overflow-hidden">
             <div className="container mx-auto px-6 md:px-12">
@@ -55,23 +65,25 @@ export default function AboutValuesSection() {
                         className="space-y-12"
                     >
                         <div className="space-y-4">
-                            <span className="text-[#F5F2E8] text-xs uppercase tracking-[0.4em] font-semibold">
-                                L'Excellence Collective
-                            </span>
-                            <h3 className="text-4xl md:text-6xl font-light text-white leading-[1.1]">
-                                Un studio. <br />
-                                <span className="italic font-serif text-[#F5F2E8]">Des regards croisés.</span>
-                            </h3>
+                            {subtitle && (
+                                <span className="text-[#F5F2E8] text-xs uppercase tracking-[0.4em] font-semibold">
+                                    {subtitle}
+                                </span>
+                            )}
+                            {title && (
+                                <h3 className="text-4xl md:text-6xl font-light text-white leading-[1.1]">
+                                    {title}
+                                </h3>
+                            )}
                         </div>
 
-                        <div className="space-y-6 text-white/70 text-lg leading-relaxed max-w-xl">
-                            <p>
-                                FlexServe Studio réunit des talents complémentaires pour offrir une vision exigeante et cohérente à chaque projet.
-                            </p>
-                            <p>
-                                L’excellence naît de l’équilibre entre maîtrise technique et sensibilité artistique.
-                            </p>
-                        </div>
+                        {paragraphs.length > 0 && (
+                            <div className="space-y-6 text-white/70 text-lg leading-relaxed max-w-xl">
+                                {paragraphs.map((p, i) => (
+                                    <p key={i}>{p}</p>
+                                ))}
+                            </div>
+                        )}
 
                         {/* Distinction / Accréditation */}
                         <div className="pt-2 flex items-center gap-8">

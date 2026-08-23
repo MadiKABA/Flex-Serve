@@ -11,21 +11,23 @@ const partners = [
     { name: "Brand Six", logo: "BRAND 06" },
 ];
 
-export default function PartnersSection() {
+export default function PartnersSection({ subtitle }: { subtitle?: string | null }) {
     // On double la liste pour créer l'effet de boucle infinie sans saut
     const duplicatedPartners = [...partners, ...partners];
 
     return (
         <section className="py-20 bg-[#2E4A6F]/90 border-t border-b border-white/5 overflow-hidden">
-            <div className="container mx-auto px-6 mb-12">
-                <motion.span
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    className="text-[#F5F2E8] text-[10px] uppercase tracking-[0.5em] block text-center"
-                >
-                    Ils nous font confiance
-                </motion.span>
-            </div>
+            {subtitle && (
+                <div className="container mx-auto px-6 mb-12">
+                    <motion.span
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        className="text-[#F5F2E8] text-[10px] uppercase tracking-[0.5em] block text-center"
+                    >
+                        {subtitle}
+                    </motion.span>
+                </div>
+            )}
 
             <div className="relative flex">
                 {/* Conteneur du défilement infini */}

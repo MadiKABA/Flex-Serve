@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SiteChrome from "@/components/layout/SiteChrome";
+import { getSiteSettings } from "@/lib/data/site-settings";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,11 +49,14 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.flexservestudio.com"),
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteSettings = await getSiteSettings();
+  const sameAs = [siteSettings.instagram_url, siteSettings.facebook_url, siteSettings.tiktok_url].filter(Boolean);
+
   return (
     <html lang="fr">
       <head>
@@ -67,16 +71,15 @@ export default function RootLayout({
               image: "https://www.flexservestudio.com/logo.png",
               description:
                 "Photographie et vidéographie professionnelle à Dakar, spécialisé en mariages, événements, publicité et portraits.",
+              email: siteSettings.contact_email,
+              telephone: siteSettings.contact_phone,
               address: {
                 "@type": "PostalAddress",
-                addressLocality: "Dakar",
+                addressLocality: siteSettings.address.split(",")[0]?.trim() || "Dakar",
                 addressCountry: "SN",
               },
               url: "https://www.flexservestudio.com",
-              sameAs: [
-                "https://www.instagram.com/flexserve_studio?igsh=NWx6bXoyYnVzcGtj&utm_source=qr",
-                "https://www.facebook.com/share/1AgBWggXkW/?mibextid=wwXIfr",
-              ],
+              sameAs,
             }),
           }}
         />
@@ -84,7 +87,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SiteChrome>{children}</SiteChrome>
+        <SiteChrome siteSettings={siteSettings}>{children}</SiteChrome>
       </body>
     </html>
   );

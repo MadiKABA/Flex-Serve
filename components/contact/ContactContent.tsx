@@ -2,8 +2,30 @@
 
 import { motion } from 'framer-motion';
 import { Facebook, Instagram, Mail, Phone, MapPin, Send } from 'lucide-react';
+import type { SiteSettings } from '@/lib/data/site-settings';
 
-export default function ContactContent() {
+export default function ContactContent({
+    title,
+    subtitle,
+    siteSettings,
+}: {
+    title?: string | null;
+    subtitle?: string | null;
+    siteSettings: SiteSettings;
+}) {
+    const socials = [
+        { icon: <Instagram size={22} />, link: siteSettings.instagram_url },
+        { icon: <Facebook size={22} />, link: siteSettings.facebook_url },
+        {
+            icon: (
+                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" height="22" width="22" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.32c7.87,33.47,31.24,60.58,62.7,74.33A124.2,124.2,0,0,0,448,109.91Z"></path>
+                </svg>
+            ),
+            link: siteSettings.tiktok_url,
+        },
+    ].filter((social) => social.link);
+
     return (
         <section className="py-24 bg-[#2E4A6F]/90 backdrop-blur-md relative overflow-hidden">
             {/* Décoration de fond pour accentuer le glass effect */}
@@ -20,8 +42,8 @@ export default function ContactContent() {
                         className="lg:col-span-7 bg-white/5 p-8 md:p-12 rounded-2xl border border-white/10 backdrop-blur-xl shadow-md"
                     >
                         <div className="mb-10">
-                            <h2 className="text-3xl text-white font-light mb-2">Envoyez-nous un message</h2>
-                            <p className="text-[#F5F2E8]/50 text-sm italic">Nous étudions chaque demande avec précision.</p>
+                            <h2 className="text-3xl text-white font-light mb-2">{title ?? 'Envoyez-nous un message'}</h2>
+                            {subtitle && <p className="text-[#F5F2E8]/50 text-sm italic">{subtitle}</p>}
                         </div>
 
                         <form className="space-y-6">
@@ -90,7 +112,7 @@ export default function ContactContent() {
                                     <div>
                                         <p className="text-[10px] uppercase tracking-tighter text-white/40 mb-1">Téléphone</p>
                                         <p className="text-white text-lg font-light">
-                                            <a href="tel:++221 710360534">+221 71 036 05 34</a>
+                                            <a href={`tel:${siteSettings.contact_phone.replace(/\s+/g, '')}`}>{siteSettings.contact_phone}</a>
                                         </p>
                                     </div>
                                 </div>
@@ -98,14 +120,14 @@ export default function ContactContent() {
                                     <div className="p-3 bg-white/10 rounded-lg text-[#F5F2E8]"><Mail size={20} /></div>
                                     <div>
                                         <p className="text-[10px] uppercase tracking-tighter text-white/40 mb-1">Email</p>
-                                        <p className="text-white text-lg font-light"><a href="mailto:flexserve333@gmail.com">flexserve330@gmail.com</a></p>
+                                        <p className="text-white text-lg font-light"><a href={`mailto:${siteSettings.contact_email}`}>{siteSettings.contact_email}</a></p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-5">
                                     <div className="p-3 bg-white/10 rounded-lg text-[#F5F2E8]"><MapPin size={20} /></div>
                                     <div>
                                         <p className="text-[10px] uppercase tracking-tighter text-white/40 mb-1">Localisation</p>
-                                        <p className="text-white text-lg font-light">Dakar, Sénégal <br /> Sacre COeur, VDN</p>
+                                        <p className="text-white text-lg font-light">{siteSettings.address}</p>
                                     </div>
                                 </div>
                             </div>
@@ -117,18 +139,7 @@ export default function ContactContent() {
                             whileInView={{ opacity: 1, y: 0 }}
                             className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl flex justify-around items-center shadow-sm"
                         >
-                            {[
-                                { icon: <Instagram size={22} />, link: "https://www.instagram.com/flexserve_studio?igsh=NWx6bXoyYnVzcGtj&utm_source=qr" },
-                                { icon: <Facebook size={22} />, link: "https://www.facebook.com/share/1AgBWggXkW/?mibextid=wwXIfr" },
-                                {
-                                    icon: (
-                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" height="22" width="22" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.32c7.87,33.47,31.24,60.58,62.7,74.33A124.2,124.2,0,0,0,448,109.91Z"></path>
-                                        </svg>
-                                    ),
-                                    link: "https://www.tiktok.com/@flexserve_studio?_r=1&_t=ZP-93hPVZObEB5"
-                                }
-                            ].map((social, i) => (
+                            {socials.map((social, i) => (
                                 <a
                                     key={i}
                                     href={social.link}

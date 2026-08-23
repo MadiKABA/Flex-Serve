@@ -3,20 +3,21 @@
 import { motion } from 'framer-motion';
 import { Facebook, Instagram, } from 'lucide-react';
 import Link from 'next/link';
+import type { SiteSettings } from '@/lib/data/site-settings';
 
-export default function Footer() {
+export default function Footer({ siteSettings }: { siteSettings: SiteSettings }) {
     const socialIcons = [
-        { icon: <Facebook size={20} />, href: 'https://www.facebook.com/share/1AgBWggXkW/?mibextid=wwXIfr' },
-        { icon: <Instagram size={20} />, href: 'https://www.instagram.com/flexserve_studio?igsh=NWx6bXoyYnVzcGtj&utm_source=qr' },
+        { icon: <Facebook size={20} />, href: siteSettings.facebook_url },
+        { icon: <Instagram size={20} />, href: siteSettings.instagram_url },
         {
             icon: (
                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
                     <path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.32c7.87,33.47,31.24,60.58,62.7,74.33A124.2,124.2,0,0,0,448,109.91Z"></path>
                 </svg>
             ),
-            href: "https://www.tiktok.com/@flexserve_studio?_r=1&_t=ZP-93hPVZObEB5"
+            href: siteSettings.tiktok_url,
         }
-    ];
+    ].filter((item) => item.href);
 
     return (
         <footer className="relative bg-[#2E4A6F] backdrop-blur-lg text-[#EAE7DC] py-16 overflow-hidden">
@@ -30,9 +31,9 @@ export default function Footer() {
                     className="space-y-4"
                 >
                     <h4 className="text-xl font-semibold tracking-wider">Contact</h4>
-                    <p>Dakar, Sénégal</p>
-                    <p>Email : flexserve330@gmail.com</p>
-                    <p>Téléphone : +221 71 036 05 34</p>
+                    <p>{siteSettings.address}</p>
+                    <p>Email : {siteSettings.contact_email}</p>
+                    <p>Téléphone : {siteSettings.contact_phone}</p>
                 </motion.div>
 
                 {/* LIENS RAPIDES */}

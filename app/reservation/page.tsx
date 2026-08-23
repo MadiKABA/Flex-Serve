@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, Video, ChevronRight, ChevronLeft, MapPin, User, AlertCircle, Star } from 'lucide-react';
+import { getSiteSettings } from '@/lib/data/site-settings';
 
 // Shadcn UI
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,7 @@ interface BookingData {
 export default function BookingWizard() {
     const [step, setStep] = useState(1);
     const [error, setError] = useState<string | null>(null);
+    const [contactPhone, setContactPhone] = useState('');
     const [data, setData] = useState<BookingData>({
         prestationType: null,
         category: '',
@@ -46,6 +48,10 @@ export default function BookingWizard() {
 
     const totalSteps = 7;
     const progress = (step / totalSteps) * 100;
+
+    useEffect(() => {
+        getSiteSettings().then((settings) => setContactPhone(settings.contact_phone.replace(/\D/g, '')));
+    }, []);
 
     // --- LOGIQUE DE NAVIGATION CORRIGÉE ---
     const updateDataAndNext = (field: keyof BookingData, value: any) => {
@@ -109,8 +115,8 @@ export default function BookingWizard() {
         return [10, 30, 50, 100, 200, 400, 600];
     };
     const sendToWhatsApp = () => {
-        // Numéro de destination (avec indicatif pays 221 pour le Sénégal)
-        const phoneNumber = "221710360534";
+        // Numéro de destination, lu depuis site_settings.contact_phone
+        const phoneNumber = contactPhone;
 
         // Construction du message avec formatage WhatsApp (astérisques pour le gras)
         const message = [
@@ -281,6 +287,7 @@ export default function BookingWizard() {
                                 </div>
                                 <Button
                                     onClick={sendToWhatsApp}
+                                    disabled={!contactPhone}
                                     className="w-full h-16 bg-white text-[#2E4A6F] text-xl font-bold hover:bg-white/90 shadow-xl"
                                 >
                                     Confirmer via WhatsApp

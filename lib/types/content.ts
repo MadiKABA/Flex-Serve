@@ -24,9 +24,24 @@ export interface Section {
     body: string | null;
     cta_label: string | null;
     cta_url: string | null;
+    cta_label_2: string | null;
+    cta_url_2: string | null;
     background_media_id: string | null;
     is_visible: boolean;
     layout: GalleryLayout;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Service {
+    id: string;
+    slug: string;
+    name: string;
+    description: string | null;
+    tag: string | null;
+    href: string;
+    position: number;
+    is_visible: boolean;
     created_at: string;
     updated_at: string;
 }

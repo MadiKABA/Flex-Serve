@@ -4,7 +4,19 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { useRef } from 'react';
 
-export default function AboutHero() {
+export default function AboutHero({
+    title,
+    subtitle,
+    body,
+    backgroundUrl,
+    backgroundAlt,
+}: {
+    title: string;
+    subtitle?: string | null;
+    body?: string | null;
+    backgroundUrl?: string | null;
+    backgroundAlt?: string | null;
+}) {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -46,45 +58,47 @@ export default function AboutHero() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                         >
-                            <span className="text-xs uppercase tracking-[0.6em] text-white/50 block mb-6">
-                                Depuis 2018
-                            </span>
+                            {subtitle && (
+                                <span className="text-xs uppercase tracking-[0.6em] text-white/50 block mb-6">
+                                    {subtitle}
+                                </span>
+                            )}
                             <h1 className="text-6xl md:text-8xl font-light text-white leading-[1.05]">
-                                Au-delà de <br />
-                                <span className="italic font-serif pl-10 md:pl-20 text-[#F5F2E8]">l&apos;image.</span>
+                                {title}
                             </h1>
                         </motion.div>
 
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.5, duration: 1 }}
-                            className="text-lg md:text-xl text-white/70 font-light leading-relaxed max-w-md border-l-2 border-white/10 pl-8"
-                        >
-                            Chez FlexServe Studio, chaque projet est pensé avec direction artistique, précision et exigence du détail.
-                            Nous créons des visuels puissants et intemporels qui renforcent votre image et marquent durablement les esprits.
-                        </motion.p>
+                        {body && (
+                            <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.5, duration: 1 }}
+                                className="text-lg md:text-xl text-white/70 font-light leading-relaxed max-w-md border-l-2 border-white/10 pl-8"
+                            >
+                                {body}
+                            </motion.p>
+                        )}
                     </motion.div>
 
                     {/* CÔTÉ DROIT : PORTRAIT / IMAGE SIGNATURE */}
-                    <div className="lg:col-span-7 relative lg:pl-10">
-                        <motion.div
-                            style={{ y: yImage }}
-                            className="relative w-full aspect-[4/5] md:aspect-[4/3] lg:w-[115%] overflow-hidden shadow-2xl rounded-sm"
-                        >
-                            <Image
-                                src="/images/about/photographer-portrait.png"
-                                alt="Le photographe au travail"
-                                fill
-                                priority
-                                className="object-cover"
-                            />
-                            {/* Overlay subtil pour intégrer l'image au bleu */}
-                            <div className="absolute inset-0 bg-[#2E4A6F]/10 mix-blend-multiply" />
-                        </motion.div>
-
-
-                    </div>
+                    {backgroundUrl && (
+                        <div className="lg:col-span-7 relative lg:pl-10">
+                            <motion.div
+                                style={{ y: yImage }}
+                                className="relative w-full aspect-[4/5] md:aspect-[4/3] lg:w-[115%] overflow-hidden shadow-2xl rounded-sm"
+                            >
+                                <Image
+                                    src={backgroundUrl}
+                                    alt={backgroundAlt || "Le photographe au travail"}
+                                    fill
+                                    priority
+                                    className="object-cover"
+                                />
+                                {/* Overlay subtil pour intégrer l'image au bleu */}
+                                <div className="absolute inset-0 bg-[#2E4A6F]/10 mix-blend-multiply" />
+                            </motion.div>
+                        </div>
+                    )}
 
                 </div>
             </div>

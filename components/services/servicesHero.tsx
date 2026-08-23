@@ -4,7 +4,19 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { useRef } from 'react';
 
-export default function ServicesHero() {
+export default function ServicesHero({
+    title,
+    subtitle,
+    body,
+    backgroundUrl,
+    backgroundAlt,
+}: {
+    title: string;
+    subtitle?: string | null;
+    body?: string | null;
+    backgroundUrl?: string | null;
+    backgroundAlt?: string | null;
+}) {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -25,13 +37,15 @@ export default function ServicesHero() {
                 style={{ scale: scaleImg }}
                 className="absolute inset-0 z-0"
             >
-                <Image
-                    src="/images/service/services-hero.png" // Image d'ambiance (ex: un appareil photo argentique ou un couple au loin)
-                    alt="Photographie professionnelle"
-                    fill
-                    priority
-                    className="object-cover brightness-[0.85]"
-                />
+                {backgroundUrl && (
+                    <Image
+                        src={backgroundUrl}
+                        alt={backgroundAlt || "Photographie professionnelle"}
+                        fill
+                        priority
+                        className="object-cover brightness-[0.85]"
+                    />
+                )}
                 {/* Overlay dégradé pour la lisibilité */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-[#F5F2E8]" />
             </motion.div>
@@ -39,14 +53,16 @@ export default function ServicesHero() {
             {/* Contenu Texte */}
             <div className="relative z-10 h-full max-w-7xl mx-auto px-6 flex flex-col justify-center">
                 <motion.div style={{ y: yText }} className="space-y-6">
-                    <motion.span
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="inline-block text-[#F5F2E8] uppercase tracking-[0.5em] text-xs md:text-sm font-medium"
-                    >
-                        Expertise & Art
-                    </motion.span>
+                    {subtitle && (
+                        <motion.span
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="inline-block text-[#F5F2E8] uppercase tracking-[0.5em] text-xs md:text-sm font-medium"
+                        >
+                            {subtitle}
+                        </motion.span>
+                    )}
 
                     <motion.h1
                         initial={{ opacity: 0, y: 30 }}
@@ -54,19 +70,19 @@ export default function ServicesHero() {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="text-6xl md:text-9xl text-white font-light leading-none"
                     >
-                        Nos <br />
-                        <span className="italic font-serif pl-12 md:pl-24">Services</span>
+                        {title}
                     </motion.h1>
 
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1, delay: 0.5 }}
-                        className="max-w-md text-[#F5F2E8]/80 text-lg font-light leading-relaxed border-l border-[#F5F2E8]/30 pl-6"
-                    >
-                        Portrait | Événementiel | Mariage | Publicité<br />
-                        Des prestations pensées avec exigence, direction artistique et précision pour donner à chaque projet l’impact qu’il mérite.
-                    </motion.p>
+                    {body && (
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 1, delay: 0.5 }}
+                            className="max-w-md text-[#F5F2E8]/80 text-lg font-light leading-relaxed border-l border-[#F5F2E8]/30 pl-6"
+                        >
+                            {body}
+                        </motion.p>
+                    )}
                 </motion.div>
             </div>
 

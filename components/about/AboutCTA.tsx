@@ -3,7 +3,23 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-export default function AboutCTA() {
+export default function AboutCTA({
+    title,
+    subtitle,
+    body,
+    ctaLabel,
+    ctaUrl,
+    ctaLabel2,
+    ctaUrl2,
+}: {
+    title?: string | null;
+    subtitle?: string | null;
+    body?: string | null;
+    ctaLabel?: string | null;
+    ctaUrl?: string | null;
+    ctaLabel2?: string | null;
+    ctaUrl2?: string | null;
+}) {
     return (
         <section className="relative py-32 md:py-48 bg-[#2E4A6F] overflow-hidden">
             {/* Éléments décoratifs d'arrière-plan */}
@@ -19,47 +35,55 @@ export default function AboutCTA() {
                     transition={{ duration: 1 }}
                     className="max-w-4xl mx-auto space-y-12"
                 >
-                    <span className="text-[#F5F2E8]/50 text-xs uppercase tracking-[0.6em] font-light block">
-                        Parlons de votre projet
-                    </span>
+                    {subtitle && (
+                        <span className="text-[#F5F2E8]/50 text-xs uppercase tracking-[0.6em] font-light block">
+                            {subtitle}
+                        </span>
+                    )}
 
-                    <h2 className="text-5xl md:text-8xl font-light text-white leading-[1.1]">
-                        Donnons vie à vos <br />
-                        <span className="italic font-serif text-[#F5F2E8]">ambitions.</span>
-                    </h2>
+                    {title && (
+                        <h2 className="text-5xl md:text-8xl font-light text-white leading-[1.1]">
+                            {title}
+                        </h2>
+                    )}
 
-                    <p className="text-white/60 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-                        FlexServe Studio met son expertise au service de votre image.
-                        Qu’il s’agisse d’une campagne ambitieuse ou d’un projet plus intime, chaque réalisation est pensée avec exigence et précision.
-                    </p>
+                    {body && (
+                        <p className="text-white/60 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
+                            {body}
+                        </p>
+                    )}
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-10 pt-10">
                         {/* Bouton Principal - Contraste fort en Crème */}
-                        <Link
-                            href="/contact"
-                            className="group relative px-14 py-6 bg-[#F5F2E8] text-[#2E4A6F] overflow-hidden transition-all duration-500 rounded-sm"
-                        >
-                            <span className="relative z-10 uppercase tracking-[0.2em] text-xs font-bold">
-                                Engager le studio
-                            </span>
-                            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                        </Link>
+                        {ctaLabel && ctaUrl && (
+                            <Link
+                                href={ctaUrl}
+                                className="group relative px-14 py-6 bg-[#F5F2E8] text-[#2E4A6F] overflow-hidden transition-all duration-500 rounded-sm"
+                            >
+                                <span className="relative z-10 uppercase tracking-[0.2em] text-xs font-bold">
+                                    {ctaLabel}
+                                </span>
+                                <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                            </Link>
+                        )}
 
                         {/* Lien Secondaire - Discret en Blanc */}
-                        <Link
-                            href="/portfolio/mariage"
-                            className="group flex items-center gap-4 text-white/80 uppercase tracking-[0.2em] text-xs font-light hover:text-white transition-all"
-                        >
-                            <span className="border-b border-white/20 group-hover:border-white transition-all duration-500 pb-1">
-                                Explorer le portfolio
-                            </span>
-                            <motion.span
-                                animate={{ x: [0, 5, 0] }}
-                                transition={{ repeat: Infinity, duration: 2 }}
+                        {ctaLabel2 && ctaUrl2 && (
+                            <Link
+                                href={ctaUrl2}
+                                className="group flex items-center gap-4 text-white/80 uppercase tracking-[0.2em] text-xs font-light hover:text-white transition-all"
                             >
-                                →
-                            </motion.span>
-                        </Link>
+                                <span className="border-b border-white/20 group-hover:border-white transition-all duration-500 pb-1">
+                                    {ctaLabel2}
+                                </span>
+                                <motion.span
+                                    animate={{ x: [0, 5, 0] }}
+                                    transition={{ repeat: Infinity, duration: 2 }}
+                                >
+                                    →
+                                </motion.span>
+                            </Link>
+                        )}
                     </div>
                 </motion.div>
             </div>
