@@ -6,12 +6,13 @@ import Lightbox from '@/components/gallery/Lightbox';
 import { useState } from 'react';
 
 const eventPhotos = [
-    { id: 1, src: '/images/portrait/AL (3).webp', title: '', category: '', size: 'lg' },
+    { id: 1, src: '/images/news/Tash T1 1.jpg', title: '', category: '' },
+
     { id: 2, src: '/images/portrait/B1.webp', title: '', category: '', size: 'md' },
     { id: 3, src: '/images/event/Stefdekarda 1-thumb.webp', title: '', category: '', size: 'md' },
     { id: 4, src: '/images/mariage/4.webp', title: '', category: '', size: 'lg' },
     { id: 5, src: '/images/event/3.webp', title: '', category: '', size: 'md' },
-    { id: 6, src: '/images/event/t2.webp', title: '', category: '', size: 'md' },
+    { id: 6, src: '/images/news/Mode Alpha 1.jpg', title: '', category: '', size: 'md' },
     { id: 7, src: '/images/mariage/11_copy.webp', title: '', category: '', size: 'md' },
     { id: 8, src: '/images/mariage/M6 (2).webp', title: '', category: '', size: 'md' },
     { id: 9, src: '/images/portrait/N.webp', title: '', category: '' },
@@ -21,7 +22,11 @@ const eventPhotos = [
     { id: 13, src: '/images/portrait/v3-thumb.webp', title: '', category: '' },
     { id: 14, src: '/images/portrait/bb2 (3).webp', title: '', category: '' },
     { id: 15, src: '/images/portrait/MS (3).webp', title: '', category: '' },
-    { id: 16, src: '/images/portrait/h2.webp', title: '', category: '' },
+    { id: 16, src: '/images/news/h2.webp', title: '', category: '' },
+    { id: 17, src: '/images/news/h2.webp', title: '', category: '' },
+    { id: 18, src: '/images/news/h2.webp', title: '', category: '' },
+    { id: 19, src: '/images/news/h2.webp', title: '', category: '' },
+    { id: 20, src: '/images/news/Tash T1 1.jpg', title: '', category: '' },
 ];
 
 const photosForLightbox = eventPhotos.map((p) => ({
