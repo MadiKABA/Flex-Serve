@@ -4,11 +4,16 @@ import AboutHero from "@/components/about/AboutHero";
 import AboutValuesSection from "@/components/about/AboutValuesSection";
 import PartnersSection from "@/components/about/PartnersSection";
 import { getPageData } from "@/lib/data/page";
+import { getAboutPartners, getAboutStats } from "@/lib/data/about";
 
 export const revalidate = 3600;
 
 export default async function AboutPage() {
-    const data = await getPageData('about');
+    const [data, stats, partnerBrands] = await Promise.all([
+        getPageData('about'),
+        getAboutStats(),
+        getAboutPartners(),
+    ]);
 
     if (!data || !data.page.is_published) {
         notFound();
@@ -46,7 +51,7 @@ export default async function AboutPage() {
             {/* Valeurs et approche */}
             <section aria-label="Nos valeurs et approche">
                 {values && (
-                    <AboutValuesSection title={values.title} subtitle={values.subtitle} body={values.body} />
+                    <AboutValuesSection title={values.title} subtitle={values.subtitle} body={values.body} stats={stats} />
                 )}
             </section>
 
@@ -66,9 +71,11 @@ export default async function AboutPage() {
             </section>
 
             {/* Partenaires */}
-            <section aria-label="Partenaires FlexServeStudio">
-                {partners && <PartnersSection subtitle={partners.subtitle} />}
-            </section>
+            {partnerBrands.length > 0 && (
+                <section aria-label="Partenaires FlexServeStudio">
+                    <PartnersSection subtitle={partners?.subtitle} partners={partnerBrands} />
+                </section>
+            )}
 
         </main>
     );

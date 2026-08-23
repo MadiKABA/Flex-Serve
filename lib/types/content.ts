@@ -49,6 +49,24 @@ export interface Service {
     updated_at: string;
 }
 
+export interface AboutStat {
+    id: string;
+    label: string;
+    value: string;
+    position: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface AboutPartner {
+    id: string;
+    name: string;
+    position: number;
+    is_visible: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
 export interface MediaItem {
     id: string;
     cloudinary_public_id: string;

@@ -1,17 +1,17 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import type { AboutPartner } from '@/lib/types/content';
 
-const partners = [
-    { name: "Brand One", logo: "BRAND 01" },
-    { name: "Brand Two", logo: "BRAND 02" },
-    { name: "Brand Three", logo: "BRAND 03" },
-    { name: "Brand Four", logo: "BRAND 04" },
-    { name: "Brand Five", logo: "BRAND 05" },
-    { name: "Brand Six", logo: "BRAND 06" },
-];
+export default function PartnersSection({
+    subtitle,
+    partners,
+}: {
+    subtitle?: string | null;
+    partners: AboutPartner[];
+}) {
+    if (partners.length === 0) return null;
 
-export default function PartnersSection({ subtitle }: { subtitle?: string | null }) {
     // On double la liste pour créer l'effet de boucle infinie sans saut
     const duplicatedPartners = [...partners, ...partners];
 
@@ -46,7 +46,7 @@ export default function PartnersSection({ subtitle }: { subtitle?: string | null
                             className="flex items-center justify-center px-12 md:px-20 min-w-[200px] md:min-w-[300px]"
                         >
                             <span className="text-white/20 text-2xl md:text-4xl font-serif italic hover:text-[#F5F2E8]/60 transition-colors duration-500 cursor-default select-none uppercase tracking-tighter">
-                                {partner.logo}
+                                {partner.name}
                             </span>
                         </div>
                     ))}

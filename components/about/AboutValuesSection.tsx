@@ -2,52 +2,57 @@
 
 import { motion, useMotionValue, useSpring, useTransform, useInView } from 'framer-motion';
 import { useEffect, useRef } from 'react';
+import type { AboutStat } from '@/lib/types/content';
 
-// Composant pour l'animation du chiffre
+// Composant pour l'animation du chiffre. "value" est un texte libre venant de
+// Supabase (ex: "450+", "08") : on isole préfixe / partie numérique / suffixe
+// pour n'animer que le nombre, et on repad les zéros non significatifs
+// (ex: "08" reste "08" à l'arrivée, pas "8").
 function Counter({ value }: { value: string }) {
-    // On extrait le nombre du string (ex: "150+" -> 150)
-    const numericValue = parseInt(value.replace(/\D/g, ''));
-    const suffix = value.replace(/[0-9]/g, '');
+    const match = value.match(/^(\D*)(\d+)(\D*)$/);
+    const prefix = match ? match[1] : value;
+    const digits = match?.[2] ?? '';
+    const suffix = match ? match[3] : '';
+    const hasNumber = digits.length > 0;
+    const numericValue = hasNumber ? parseInt(digits, 10) : 0;
+    const padLength = digits.length;
 
     const count = useMotionValue(0);
-    const rounded = useTransform(count, (latest) => Math.round(latest));
 
     // spring pour un mouvement fluide (pas linéaire)
     const springValue = useSpring(count, { stiffness: 40, damping: 20 });
-    const displayValue = useTransform(springValue, (latest) => Math.round(latest));
+    const displayValue = useTransform(springValue, (latest) =>
+        hasNumber ? String(Math.round(latest)).padStart(padLength, '0') : ''
+    );
 
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true });
 
     useEffect(() => {
-        if (isInView) {
+        if (isInView && hasNumber) {
             count.set(numericValue);
         }
-    }, [isInView, count, numericValue]);
+    }, [isInView, count, numericValue, hasNumber]);
 
     return (
         <span ref={ref}>
-            <motion.span>{displayValue}</motion.span>
+            {prefix}
+            {hasNumber && <motion.span>{displayValue}</motion.span>}
             {suffix}
         </span>
     );
 }
 
-const stats = [
-    { id: 1, label: 'Projets Livrés', value: '450+' },
-    { id: 2, label: 'Clients Corporate', value: '85' },
-    { id: 3, label: 'Collaborateurs', value: '12' },
-    { id: 4, label: 'Années d’Activité', value: '08' },
-];
-
 export default function AboutValuesSection({
     title,
     subtitle,
     body,
+    stats,
 }: {
     title?: string | null;
     subtitle?: string | null;
     body?: string | null;
+    stats: AboutStat[];
 }) {
     const paragraphs = (body ?? '').split(/\n\n+/).filter(Boolean);
 
