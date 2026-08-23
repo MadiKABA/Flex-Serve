@@ -7,6 +7,7 @@ import { ArrowDown, ArrowUp, Loader2, Trash2, Upload, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { uploadToCloudinary } from '@/lib/cloudinary-upload';
+import { compressImage, exceedsCloudinaryLimit } from '@/lib/utils/compress-image';
 import {
     confirmMediaUpload,
     deleteMediaItem,
@@ -15,11 +16,14 @@ import {
 } from '@/app/admin/(dashboard)/pages/actions';
 import type { MediaItem, PortfolioCategory } from '@/lib/types/content';
 
+const TOO_LARGE_MESSAGE =
+    'Cette image est trop volumineuse même après compression. Essayez une résolution plus basse ou un autre fichier.';
+
 interface PendingFile {
     id: string;
     file: File;
-    previewUrl: string;
-    status: 'pending' | 'uploading' | 'error';
+    previewUrl?: string;
+    status: 'compressing' | 'pending' | 'uploading' | 'error' | 'too-large';
     error?: string;
 }
 
@@ -43,26 +47,48 @@ export default function MediaManager({
 
     const handleFilesSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files ?? []);
-        const next: PendingFile[] = files.map((file) => ({
+        e.target.value = '';
+
+        const entries = files.map((file) => ({
             id: `${file.name}-${file.size}-${Math.random().toString(36).slice(2)}`,
             file,
-            previewUrl: URL.createObjectURL(file),
-            status: 'pending',
         }));
-        setPendingFiles((prev) => [...prev, ...next]);
-        e.target.value = '';
+        setPendingFiles((prev) => [
+            ...prev,
+            ...entries.map(({ id, file }): PendingFile => ({ id, file, status: 'compressing' })),
+        ]);
+
+        for (const { id, file } of entries) {
+            compressImage(file).then((compressed) => {
+                if (exceedsCloudinaryLimit(compressed)) {
+                    setPendingFiles((prev) =>
+                        prev.map((p) =>
+                            p.id === id ? { ...p, file: compressed, status: 'too-large', error: TOO_LARGE_MESSAGE } : p
+                        )
+                    );
+                    return;
+                }
+                setPendingFiles((prev) =>
+                    prev.map((p) =>
+                        p.id === id
+                            ? { ...p, file: compressed, previewUrl: URL.createObjectURL(compressed), status: 'pending' }
+                            : p
+                    )
+                );
+            });
+        }
     };
 
     const removePending = (id: string) => {
         setPendingFiles((prev) => {
             const target = prev.find((p) => p.id === id);
-            if (target) URL.revokeObjectURL(target.previewUrl);
+            if (target?.previewUrl) URL.revokeObjectURL(target.previewUrl);
             return prev.filter((p) => p.id !== id);
         });
     };
 
     const confirmAll = async () => {
-        const toUpload = pendingFiles.filter((p) => p.status !== 'uploading');
+        const toUpload = pendingFiles.filter((p) => p.status === 'pending' || p.status === 'error');
 
         for (const item of toUpload) {
             setPendingFiles((prev) =>
@@ -74,7 +100,7 @@ export default function MediaManager({
                 const result = await confirmMediaUpload({ sectionId, dbSlug, category, publicId, url });
                 if (!result.success) throw new Error(result.error);
 
-                URL.revokeObjectURL(item.previewUrl);
+                if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
                 setPendingFiles((prev) => prev.filter((p) => p.id !== item.id));
                 toast.success(`"${item.file.name}" ajoutée.`);
             } catch (err) {
@@ -132,10 +158,12 @@ export default function MediaManager({
                         key={pending.id}
                         className="relative aspect-square overflow-hidden rounded-lg border-2 border-dashed border-[#2E4A6F]/40 bg-[#2E4A6F]/5"
                     >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={pending.previewUrl} alt="" className="h-full w-full object-cover opacity-80" />
+                        {pending.previewUrl && (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={pending.previewUrl} alt="" className="h-full w-full object-cover opacity-80" />
+                        )}
                         <span className="absolute left-1.5 top-1.5 rounded-full bg-[#2E4A6F] px-2 py-0.5 text-[10px] font-medium text-white">
-                            À confirmer
+                            {pending.status === 'compressing' ? 'Compression...' : 'À confirmer'}
                         </span>
                         {pending.status !== 'uploading' && (
                             <button
@@ -147,12 +175,12 @@ export default function MediaManager({
                                 <X className="h-3.5 w-3.5" />
                             </button>
                         )}
-                        {pending.status === 'uploading' && (
+                        {(pending.status === 'uploading' || pending.status === 'compressing') && (
                             <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                                 <Loader2 className="h-6 w-6 animate-spin text-white" />
                             </div>
                         )}
-                        {pending.status === 'error' && (
+                        {(pending.status === 'error' || pending.status === 'too-large') && (
                             <div className="absolute inset-x-0 bottom-0 bg-destructive/90 px-2 py-1 text-[10px] text-white">
                                 {pending.error}
                             </div>
@@ -185,7 +213,9 @@ export default function MediaManager({
                         type="button"
                         size="sm"
                         onClick={confirmAll}
-                        disabled={pendingFiles.every((p) => p.status === 'uploading')}
+                        disabled={pendingFiles.every(
+                            (p) => p.status === 'uploading' || p.status === 'compressing' || p.status === 'too-large'
+                        )}
                         className="gap-2 bg-[#3d5a7a] text-white hover:bg-[#2d4a6a]"
                     >
                         Confirmer l&apos;ajout ({pendingFiles.length})

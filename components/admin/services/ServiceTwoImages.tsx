@@ -6,14 +6,17 @@ import { toast } from 'sonner';
 import { Loader2, Plus, Trash2 } from 'lucide-react';
 import { confirmServiceMediaUpload, deleteServiceMediaItem } from '@/app/admin/(dashboard)/services/actions';
 import { uploadToCloudinary } from '@/lib/cloudinary-upload';
+import { compressImage, exceedsCloudinaryLimit } from '@/lib/utils/compress-image';
 import type { MediaItem } from '@/lib/types/content';
 
 const SLOT_LABELS = ['Image 1', 'Image 2'] as const;
+const TOO_LARGE_MESSAGE =
+    'Cette image est trop volumineuse même après compression. Essayez une résolution plus basse ou un autre fichier.';
 
 interface PendingSlot {
     file: File;
-    previewUrl: string;
-    status: 'pending' | 'uploading' | 'error';
+    previewUrl?: string;
+    status: 'compressing' | 'pending' | 'uploading' | 'error' | 'too-large';
     error?: string;
 }
 
@@ -35,17 +38,33 @@ export default function ServiceTwoImages({
 
     const byPosition = (position: number) => media.find((m) => m.position === position);
 
-    const handleSelect = (position: 0 | 1, e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSelect = async (position: 0 | 1, e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         e.target.value = '';
         if (!file) return;
-        setPending((prev) => ({ ...prev, [position]: { file, previewUrl: URL.createObjectURL(file), status: 'pending' } }));
+
+        setPending((prev) => ({ ...prev, [position]: { file, status: 'compressing' } }));
+
+        const compressed = await compressImage(file);
+
+        if (exceedsCloudinaryLimit(compressed)) {
+            setPending((prev) => ({
+                ...prev,
+                [position]: { file: compressed, status: 'too-large', error: TOO_LARGE_MESSAGE },
+            }));
+            return;
+        }
+
+        setPending((prev) => ({
+            ...prev,
+            [position]: { file: compressed, previewUrl: URL.createObjectURL(compressed), status: 'pending' },
+        }));
     };
 
     const cancelPending = (position: 0 | 1) => {
         setPending((prev) => {
             const slot = prev[position];
-            if (slot) URL.revokeObjectURL(slot.previewUrl);
+            if (slot?.previewUrl) URL.revokeObjectURL(slot.previewUrl);
             const next = { ...prev };
             delete next[position];
             return next;
@@ -54,7 +73,7 @@ export default function ServiceTwoImages({
 
     const confirmSlot = async (position: 0 | 1) => {
         const slot = pending[position];
-        if (!slot) return;
+        if (!slot || slot.status === 'compressing' || slot.status === 'too-large') return;
 
         setPending((prev) => ({ ...prev, [position]: { ...slot, status: 'uploading', error: undefined } }));
 
@@ -63,7 +82,7 @@ export default function ServiceTwoImages({
             const result = await confirmServiceMediaUpload({ serviceId, serviceSlug, position, publicId, url });
             if (!result.success) throw new Error(result.error);
 
-            URL.revokeObjectURL(slot.previewUrl);
+            if (slot.previewUrl) URL.revokeObjectURL(slot.previewUrl);
             setPending((prev) => {
                 const next = { ...prev };
                 delete next[position];
@@ -133,17 +152,19 @@ export default function ServiceTwoImages({
 
                         {pendingSlot && (
                             <div className="relative aspect-[4/3] overflow-hidden rounded-lg border-2 border-dashed border-[#2E4A6F]/40 bg-[#2E4A6F]/5">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src={pendingSlot.previewUrl} alt="" className="h-full w-full object-cover opacity-80" />
+                                {pendingSlot.previewUrl && (
+                                    // eslint-disable-next-line @next/next/no-img-element
+                                    <img src={pendingSlot.previewUrl} alt="" className="h-full w-full object-cover opacity-80" />
+                                )}
                                 <span className="absolute left-1.5 top-1.5 rounded-full bg-[#2E4A6F] px-2 py-0.5 text-[10px] font-medium text-white">
-                                    À confirmer
+                                    {pendingSlot.status === 'compressing' ? 'Compression...' : 'À confirmer'}
                                 </span>
-                                {pendingSlot.status === 'uploading' && (
+                                {(pendingSlot.status === 'compressing' || pendingSlot.status === 'uploading') && (
                                     <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                                         <Loader2 className="h-6 w-6 animate-spin text-white" />
                                     </div>
                                 )}
-                                {pendingSlot.status !== 'uploading' && (
+                                {(pendingSlot.status === 'pending' || pendingSlot.status === 'error') && (
                                     <div className="absolute inset-x-0 bottom-0 flex gap-1 p-1.5">
                                         <button
                                             type="button"
@@ -161,7 +182,18 @@ export default function ServiceTwoImages({
                                         </button>
                                     </div>
                                 )}
-                                {pendingSlot.status === 'error' && (
+                                {pendingSlot.status === 'too-large' && (
+                                    <div className="absolute inset-x-0 bottom-0 p-1.5">
+                                        <button
+                                            type="button"
+                                            onClick={() => cancelPending(position)}
+                                            className="w-full rounded bg-white/90 py-1 text-[11px] text-[#2E4A6F]"
+                                        >
+                                            Retirer
+                                        </button>
+                                    </div>
+                                )}
+                                {(pendingSlot.status === 'error' || pendingSlot.status === 'too-large') && (
                                     <div className="absolute inset-x-0 top-6 bg-destructive/90 px-2 py-1 text-[10px] text-white">
                                         {pendingSlot.error}
                                     </div>
