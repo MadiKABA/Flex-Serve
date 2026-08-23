@@ -180,3 +180,22 @@ export async function deleteServiceMediaItem(
     revalidateServicePaths(serviceSlug);
     return { success: true };
 }
+
+export async function updateServiceMediaMeta(
+    mediaId: string,
+    serviceSlug: string,
+    data: { alt_text: string; title: string }
+): Promise<ActionResult> {
+    const guard = await assertAdmin();
+    if (!guard.success) return guard;
+
+    const { error } = await supabaseAdmin
+        .from('media_items')
+        .update({ alt_text: data.alt_text || null, title: data.title || null })
+        .eq('id', mediaId);
+
+    if (error) return { success: false, error: `Échec de l'enregistrement : ${error.message}` };
+
+    revalidateServicePaths(serviceSlug);
+    return { success: true };
+}

@@ -4,9 +4,10 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Loader2, Upload } from 'lucide-react';
-import { updateHeroBackground } from '@/app/admin/(dashboard)/pages/actions';
+import { updateHeroBackground, updateMediaMeta } from '@/app/admin/(dashboard)/pages/actions';
 import { uploadToCloudinary } from '@/lib/cloudinary-upload';
 import { compressImage, exceedsCloudinaryLimit } from '@/lib/utils/compress-image';
+import AltTextField from '@/components/admin/pages/AltTextField';
 import type { MediaItem } from '@/lib/types/content';
 
 const TOO_LARGE_MESSAGE =
@@ -114,6 +115,15 @@ export default function HeroBackgroundImage({
                         <span className="text-xs font-medium">{current ? 'Remplacer' : 'Ajouter une image'}</span>
                     </button>
                 </div>
+            )}
+
+            {current && !pending && (
+                <AltTextField
+                    initialValue={current.alt_text}
+                    onSave={(alt_text) =>
+                        updateMediaMeta(current.id, dbSlug, { alt_text, title: current.title ?? '' })
+                    }
+                />
             )}
 
             {pending && (

@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import Lightbox from '@/components/gallery/Lightbox';
+import { fallbackAlt } from '@/lib/utils/media-alt';
 import type { GalleryLayout, MediaItem } from '@/lib/types/content';
 
 const COL_SPACERS = [0, 64, 32, 96];
@@ -129,7 +130,7 @@ function GridItem({
         >
             <Image
                 src={item.cloudinary_url}
-                alt={item.alt_text || 'Photo du portfolio FlexServeStudio'}
+                alt={item.alt_text || fallbackAlt(item.category)}
                 width={1000}
                 height={1500}
                 className="w-full h-auto object-cover"
@@ -185,7 +186,7 @@ function ScrollLayout({
                                     <div className="relative w-full h-[85%] overflow-hidden">
                                         <Image
                                             src={item.cloudinary_url}
-                                            alt={item.alt_text || 'Photo du portfolio FlexServeStudio'}
+                                            alt={item.alt_text || fallbackAlt(item.category)}
                                             fill
                                             sizes="(max-width: 768px) 220px, 360px"
                                             className="object-cover transition-transform duration-1000 group-hover:scale-110"

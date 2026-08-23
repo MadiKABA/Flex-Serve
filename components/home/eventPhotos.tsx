@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Lightbox from '@/components/gallery/Lightbox';
 import { useState } from 'react';
+import { fallbackAlt } from '@/lib/utils/media-alt';
 import type { MediaItem } from '@/lib/types/content';
 
 // Spacer en haut de chaque colonne pour créer le décalage
@@ -114,7 +115,7 @@ function GalleryItem({
         >
             <Image
                 src={item.cloudinary_url}
-                alt={item.alt_text ?? 'gallery image'}
+                alt={item.alt_text || fallbackAlt(item.category)}
                 width={1000}
                 height={1500}
                 className="w-full h-auto object-cover"

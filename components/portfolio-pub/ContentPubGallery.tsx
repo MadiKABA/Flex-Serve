@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useState } from 'react';
 import Lightbox from '../gallery/Lightbox';
+import { fallbackAlt } from '@/lib/utils/media-alt';
 
 const pubPhotos = [
     { id: 1, src: '/images/photo-1.jpg', title: '', category: '', size: 'lg' },
@@ -124,7 +125,7 @@ function GalleryItem({
         >
             <Image
                 src={event.src}
-                alt="gallery image"
+                alt={fallbackAlt('pub')}
                 width={1000}
                 height={1500}
                 className="w-full h-auto object-cover"

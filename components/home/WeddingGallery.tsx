@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { useRef } from 'react';
+import { fallbackAlt } from '@/lib/utils/media-alt';
 import type { MediaItem } from '@/lib/types/content';
 
 const ROTATIONS = [
@@ -69,7 +70,7 @@ export default function WeddingStorySection({
                                     <div className="relative w-full h-[85%] overflow-hidden">
                                         <Image
                                             src={item.cloudinary_url}
-                                            alt={item.alt_text ?? ''}
+                                            alt={item.alt_text || fallbackAlt(item.category)}
                                             fill
                                             sizes="(max-width: 768px) 220px, 360px"
                                             className="object-cover transition-transform duration-1000 group-hover:scale-110"

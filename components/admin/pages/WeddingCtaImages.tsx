@@ -4,9 +4,10 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Loader2, Plus, Trash2 } from 'lucide-react';
-import { confirmHeroImage, deleteMediaItem } from '@/app/admin/(dashboard)/pages/actions';
+import { confirmHeroImage, deleteMediaItem, updateMediaMeta } from '@/app/admin/(dashboard)/pages/actions';
 import { uploadToCloudinary } from '@/lib/cloudinary-upload';
 import { compressImage, exceedsCloudinaryLimit } from '@/lib/utils/compress-image';
+import AltTextField from '@/components/admin/pages/AltTextField';
 import type { MediaItem } from '@/lib/types/content';
 
 const SLOT_LABELS = ['Image 1', 'Image 2'] as const;
@@ -143,6 +144,15 @@ export default function WeddingCtaImages({
                                     )}
                                 </button>
                             </div>
+                        )}
+
+                        {existing && !pendingSlot && (
+                            <AltTextField
+                                initialValue={existing.alt_text}
+                                onSave={(alt_text) =>
+                                    updateMediaMeta(existing.id, dbSlug, { alt_text, title: existing.title ?? '' })
+                                }
+                            />
                         )}
 
                         {!existing && !pendingSlot && (
