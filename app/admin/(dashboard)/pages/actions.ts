@@ -2,35 +2,11 @@
 
 import { revalidatePath } from 'next/cache';
 import { supabaseAdmin } from '@/lib/supabase/server';
-import { createSupabaseServerClient } from '@/lib/supabase/session';
+import { assertAdmin, type ActionResult } from '@/lib/supabase/assert-admin';
 import { deleteCloudinaryAsset } from '@/lib/cloudinary';
 import { getPublicPath } from '@/lib/utils/page-routes';
+import { isSafeUrl, isValidLength } from '@/lib/utils/validate-input';
 import type { GalleryLayout, PortfolioCategory } from '@/lib/types/content';
-
-type ActionResult = { success: true } | { success: false; error: string };
-
-async function assertAdmin(): Promise<ActionResult> {
-    const supabase = await createSupabaseServerClient();
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-        return { success: false, error: 'Session expirée. Merci de te reconnecter.' };
-    }
-
-    const { data: adminRow } = await supabase
-        .from('admin_users')
-        .select('user_id')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
-    if (!adminRow) {
-        return { success: false, error: 'Accès non autorisé.' };
-    }
-
-    return { success: true };
-}
 
 function revalidatePublicPage(dbSlug: string) {
     const publicPath = getPublicPath(dbSlug);
@@ -69,6 +45,19 @@ export async function saveSectionText(
 ): Promise<ActionResult> {
     const guard = await assertAdmin();
     if (!guard.success) return guard;
+
+    if (
+        !isValidLength(data.title, 200) ||
+        !isValidLength(data.subtitle, 300) ||
+        !isValidLength(data.body, 5000) ||
+        !isValidLength(data.cta_label, 100) ||
+        !isValidLength(data.cta_label_2, 100)
+    ) {
+        return { success: false, error: 'Un des champs texte dépasse la longueur autorisée.' };
+    }
+    if (!isSafeUrl(data.cta_url) || !isSafeUrl(data.cta_url_2)) {
+        return { success: false, error: 'URL de bouton invalide (schéma non autorisé).' };
+    }
 
     const { error } = await supabaseAdmin
         .from('sections')

@@ -2,32 +2,8 @@
 
 import { revalidatePath } from 'next/cache';
 import { supabaseAdmin } from '@/lib/supabase/server';
-import { createSupabaseServerClient } from '@/lib/supabase/session';
-
-type ActionResult = { success: true } | { success: false; error: string };
-
-async function assertAdmin(): Promise<ActionResult> {
-    const supabase = await createSupabaseServerClient();
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-        return { success: false, error: 'Session expirée. Merci de te reconnecter.' };
-    }
-
-    const { data: adminRow } = await supabase
-        .from('admin_users')
-        .select('user_id')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
-    if (!adminRow) {
-        return { success: false, error: 'Accès non autorisé.' };
-    }
-
-    return { success: true };
-}
+import { assertAdmin, type ActionResult } from '@/lib/supabase/assert-admin';
+import { isValidLength } from '@/lib/utils/validate-input';
 
 function revalidateAbout() {
     revalidatePath('/about');
@@ -40,6 +16,10 @@ export async function updateAboutStats(
 ): Promise<ActionResult> {
     const guard = await assertAdmin();
     if (!guard.success) return guard;
+
+    if (stats.some((s) => !isValidLength(s.label, 50) || !isValidLength(s.value, 50))) {
+        return { success: false, error: 'Label ou valeur trop long (50 caractères max).' };
+    }
 
     const now = new Date().toISOString();
     const results = await Promise.all(
@@ -118,6 +98,10 @@ export async function updatePartner(
 ): Promise<ActionResult> {
     const guard = await assertAdmin();
     if (!guard.success) return guard;
+
+    if (!isValidLength(data.name, 100)) {
+        return { success: false, error: 'Nom trop long (100 caractères max).' };
+    }
 
     const { error } = await supabaseAdmin
         .from('about_partners')

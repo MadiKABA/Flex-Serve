@@ -2,34 +2,10 @@
 
 import { revalidatePath } from 'next/cache';
 import { supabaseAdmin } from '@/lib/supabase/server';
-import { createSupabaseServerClient } from '@/lib/supabase/session';
+import { assertAdmin, type ActionResult } from '@/lib/supabase/assert-admin';
 import { deleteCloudinaryAsset } from '@/lib/cloudinary';
+import { isNonEmptyString, isSafeUrl, isValidLength } from '@/lib/utils/validate-input';
 import type { PortfolioCategory } from '@/lib/types/content';
-
-type ActionResult = { success: true } | { success: false; error: string };
-
-async function assertAdmin(): Promise<ActionResult> {
-    const supabase = await createSupabaseServerClient();
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-        return { success: false, error: 'Session expirée. Merci de te reconnecter.' };
-    }
-
-    const { data: adminRow } = await supabase
-        .from('admin_users')
-        .select('user_id')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
-    if (!adminRow) {
-        return { success: false, error: 'Accès non autorisé.' };
-    }
-
-    return { success: true };
-}
 
 function revalidateServicePaths(slug?: string) {
     revalidatePath('/services');
@@ -58,6 +34,19 @@ export async function updateService(
 ): Promise<ActionResult> {
     const guard = await assertAdmin();
     if (!guard.success) return guard;
+
+    if (!isNonEmptyString(data.name, 200)) {
+        return { success: false, error: 'Le nom est requis (200 caractères max).' };
+    }
+    if (!isValidLength(data.tag, 50) || !isValidLength(data.description, 2000)) {
+        return { success: false, error: 'Tag ou description trop longs.' };
+    }
+    if (!isSafeUrl(data.href) || !isSafeUrl(data.cta_reservation_url)) {
+        return { success: false, error: 'URL invalide (schéma non autorisé).' };
+    }
+    if (!isValidLength(data.cta_portfolio_label, 100) || !isValidLength(data.cta_reservation_label, 100)) {
+        return { success: false, error: 'Libellé de bouton trop long.' };
+    }
 
     const { error } = await supabaseAdmin
         .from('services')
