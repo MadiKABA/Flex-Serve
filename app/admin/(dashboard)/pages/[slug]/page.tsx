@@ -6,6 +6,7 @@ import HeroThreeImages from '@/components/admin/pages/HeroThreeImages';
 import WeddingCtaImages from '@/components/admin/pages/WeddingCtaImages';
 import AboutStatsEditor from '@/components/admin/pages/AboutStatsEditor';
 import AboutPartnersEditor from '@/components/admin/pages/AboutPartnersEditor';
+import MetaDescriptionEditor from '@/components/admin/pages/MetaDescriptionEditor';
 import { getPortfolioCategory, getUploadFolder } from '@/lib/utils/page-routes';
 import type { AboutPartner, AboutStat, MediaItem, Page, Section } from '@/lib/types/content';
 
@@ -92,6 +93,8 @@ export default async function AdminPageEditor({ params }: { params: Promise<{ sl
                 <p className="text-xs uppercase tracking-wide text-muted-foreground">/{page.slug}</p>
                 <h1 className="text-2xl font-semibold text-[#2E4A6F]">{page.title}</h1>
             </div>
+
+            <MetaDescriptionEditor pageId={page.id} dbSlug={page.slug} initialValue={page.meta_description} />
 
             {isUnhandledCustomPage && (
                 <div className="rounded-xl border border-dashed border-[#2E4A6F]/20 bg-[#2E4A6F]/[0.03] px-8 py-16 text-center">

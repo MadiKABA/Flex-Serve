@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import type { MediaItem, Page, Section } from '@/lib/types/content';
 
@@ -12,8 +13,12 @@ export interface PageData {
  * Lecture publique (client anon, respecte RLS) d'une page standard + ses
  * sections visibles, ordonnées par position, avec leurs media_items et
  * l'image de fond de chaque section (résolue via background_media_id).
+ *
+ * Enveloppée dans React cache() : generateMetadata() et le composant de
+ * page appellent tous deux getPageData(slug) pour le même rendu — sans ça,
+ * ce serait deux allers-retours Supabase identiques par requête.
  */
-export async function getPageData(slug: string): Promise<PageData | null> {
+export const getPageData = cache(async (slug: string): Promise<PageData | null> => {
     const { data: page } = await supabase
         .from('pages')
         .select('*')
@@ -69,4 +74,4 @@ export async function getPageData(slug: string): Promise<PageData | null> {
     }
 
     return { page, sections: visibleSections, mediaBySection, backgroundBySection };
-}
+});

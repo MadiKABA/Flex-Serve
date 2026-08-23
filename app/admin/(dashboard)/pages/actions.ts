@@ -30,6 +30,30 @@ export async function togglePagePublished(
     return { success: true };
 }
 
+/** Description SEO (balise <meta description>) de la page, lue par generateMetadata(). */
+export async function updatePageMetaDescription(
+    pageId: string,
+    dbSlug: string,
+    metaDescription: string
+): Promise<ActionResult> {
+    const guard = await assertAdmin();
+    if (!guard.success) return guard;
+
+    if (!isValidLength(metaDescription, 300)) {
+        return { success: false, error: 'La description SEO ne doit pas dépasser 300 caractères.' };
+    }
+
+    const { error } = await supabaseAdmin
+        .from('pages')
+        .update({ meta_description: metaDescription.trim() || null, updated_at: new Date().toISOString() })
+        .eq('id', pageId);
+
+    if (error) return { success: false, error: `Échec de l'enregistrement : ${error.message}` };
+
+    revalidatePublicPage(dbSlug);
+    return { success: true };
+}
+
 export async function saveSectionText(
     sectionId: string,
     dbSlug: string,

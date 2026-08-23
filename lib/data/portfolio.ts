@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import type { MediaItem, Page, Section } from '@/lib/types/content';
 
@@ -12,9 +13,17 @@ export interface PortfolioPageData {
  * Lecture publique (client anon, respecte RLS) d'une page + ses sections
  * visibles + les media_items de chaque section. L'image de fond du hero
  * est résolue via section.background_media_id.
+ *
+ * Enveloppée dans React cache() : generateMetadata() et le composant de
+ * page appellent tous deux getPortfolioPageData(slug) pour le même rendu.
  */
-export async function getPortfolioPageData(slug: string): Promise<PortfolioPageData | null> {
-    const { data: page } = await supabase.from('pages').select('*').eq('slug', slug).maybeSingle<Page>();
+export const getPortfolioPageData = cache(async (slug: string): Promise<PortfolioPageData | null> => {
+    const { data: page } = await supabase
+        .from('pages')
+        .select('*')
+        .eq('slug', slug)
+        .eq('is_published', true)
+        .maybeSingle<Page>();
     if (!page) return null;
 
     const { data: sections } = await supabase
@@ -56,4 +65,4 @@ export async function getPortfolioPageData(slug: string): Promise<PortfolioPageD
     }
 
     return { page, sections: visibleSections, mediaBySection, heroBackground };
-}
+});
