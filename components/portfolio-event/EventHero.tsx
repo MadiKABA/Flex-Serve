@@ -4,16 +4,25 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
 
-export default function EventHero() {
+export default function EventHero({
+    title,
+    subtitle,
+    body,
+    backgroundUrl,
+    backgroundAlt,
+}: {
+    title: string;
+    subtitle?: string | null;
+    body?: string | null;
+    backgroundUrl?: string | null;
+    backgroundAlt?: string | null;
+}) {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end start"]
     });
 
-    // Effets de parallaxe et de dispersion
-    const textLeft = useTransform(scrollYProgress, [0, 1], [0, -200]);
-    const textRight = useTransform(scrollYProgress, [0, 1], [0, 200]);
     const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
     const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
 
@@ -22,16 +31,17 @@ export default function EventHero() {
             ref={containerRef}
             className="relative h-screen flex items-center justify-center bg-[#2E4A6F] overflow-hidden"
         >
-            {/* BACKGROUND : Image ou Vidéo à fort impact */}
+            {/* BACKGROUND : Image à fort impact */}
             <motion.div style={{ scale }} className="absolute inset-0 z-0">
-                <Image
-                    src="/images/event-hero-bg.jpg" // Image d'une foule en mouvement ou d'un gala
-                    alt="Événementiel de prestige"
-                    fill
-                    priority
-                    className="object-cover brightness-[0.4] contrast-[1.1]"
-                />
-                {/* Overlay coloré progressif */}
+                {backgroundUrl && (
+                    <Image
+                        src={backgroundUrl}
+                        alt={backgroundAlt || "Événementiel FlexServeStudio"}
+                        fill
+                        priority
+                        className="object-cover brightness-[0.4] contrast-[1.1]"
+                    />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#2E4A6F]/20 to-[#2E4A6F]" />
             </motion.div>
 
@@ -39,39 +49,38 @@ export default function EventHero() {
             <div className="container mx-auto px-6 relative z-10">
                 <motion.div style={{ opacity }} className="text-center">
 
-                    <motion.span
-                        initial={{ opacity: 0, letterSpacing: "0.2em" }}
-                        animate={{ opacity: 1, letterSpacing: "0.8em" }}
-                        transition={{ duration: 1.5 }}
-                        className="text-[#F5F2E8] text-[10px] md:text-xs uppercase block mb-12 font-medium"
-                    >
-                        Live Experience
-                    </motion.span>
+                    {subtitle && (
+                        <motion.span
+                            initial={{ opacity: 0, letterSpacing: "0.2em" }}
+                            animate={{ opacity: 1, letterSpacing: "0.8em" }}
+                            transition={{ duration: 1.5 }}
+                            className="text-[#F5F2E8] text-[10px] md:text-xs uppercase block mb-12 font-medium"
+                        >
+                            {subtitle}
+                        </motion.span>
+                    )}
 
                     <div className="relative inline-block">
-                        {/* Titre scindé qui s'écarte au scroll */}
-                        <h1 className="text-[12vw] md:text-[10vw] font-light leading-none text-white flex flex-col items-center">
-                            <motion.span style={{ x: textLeft }} className="block">
-                                L&apos;INSTANT
-                            </motion.span>
-                            <motion.span
-                                style={{ x: textRight }}
-                                className="block italic font-serif text-[#F5F2E8] -mt-[2vw]"
-                            >
-                                IMMORTEL
-                            </motion.span>
-                        </h1>
+                        <motion.h1
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1, delay: 0.3 }}
+                            className="text-[12vw] md:text-[10vw] font-light leading-none text-white"
+                        >
+                            {title}
+                        </motion.h1>
                     </div>
 
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.8, duration: 1 }}
-                        className="mt-12 text-white/40 text-sm md:text-base font-light tracking-[0.2em] max-w-xl mx-auto uppercase"
-                    >
-                        Des galas de prestige aux lancements exclusifs, <br />
-                        nous capturons l&apos;énergie de vos événements.
-                    </motion.p>
+                    {body && (
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.8, duration: 1 }}
+                            className="mt-12 text-white/40 text-sm md:text-base font-light tracking-[0.2em] max-w-xl mx-auto uppercase"
+                        >
+                            {body}
+                        </motion.p>
+                    )}
                 </motion.div>
             </div>
 

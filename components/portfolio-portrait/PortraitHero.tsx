@@ -4,7 +4,17 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { useRef } from 'react';
 
-export default function PortraitHero() {
+export default function PortraitHero({
+    title,
+    subtitle,
+    backgroundUrl,
+    backgroundAlt,
+}: {
+    title: string;
+    subtitle?: string | null;
+    backgroundUrl?: string | null;
+    backgroundAlt?: string | null;
+}) {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -26,13 +36,15 @@ export default function PortraitHero() {
                 style={{ scale: scaleBg }}
                 className="absolute inset-0 z-0"
             >
-                <Image
-                    src="/images/hero-portrait-bg.png" // Remplace par ton image phare
-                    alt="Portrait artistique"
-                    fill
-                    priority
-                    className="object-cover"
-                />
+                {backgroundUrl && (
+                    <Image
+                        src={backgroundUrl}
+                        alt={backgroundAlt || "Portrait FlexServeStudio"}
+                        fill
+                        priority
+                        className="object-cover"
+                    />
+                )}
                 {/* OVERLAY DYNAMIQUE : Mélange du bleu signature et du noir pour la profondeur */}
                 <motion.div
                     style={{ opacity: opacityOverlay }}
@@ -40,7 +52,7 @@ export default function PortraitHero() {
                 />
             </motion.div>
 
-            {/* TEXTE GÉANT EN FILIGRANE (Optionnel avec image, mais gardé pour le style) */}
+            {/* TEXTE GÉANT EN FILIGRANE */}
             <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
                 <h2 className="text-[20vw] font-serif italic text-[#F5F2E8]/5 whitespace-nowrap leading-none blur-[2px]">
                     Essence
@@ -52,14 +64,16 @@ export default function PortraitHero() {
                     style={{ y: yText }}
                     className="text-center space-y-8"
                 >
-                    <motion.span
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-[#F5F2E8] text-xs uppercase tracking-[1em] block font-light"
-                    >
-                        Portfolio
-                    </motion.span>
+                    {subtitle && (
+                        <motion.span
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="text-[#F5F2E8] text-xs uppercase tracking-[1em] block font-light"
+                        >
+                            {subtitle}
+                        </motion.span>
+                    )}
 
                     <motion.h1
                         initial={{ opacity: 0, y: 30 }}
@@ -67,8 +81,7 @@ export default function PortraitHero() {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="text-6xl md:text-[10rem] font-light text-white leading-none"
                     >
-                        L&apos;âme par <br />
-                        <span className="italic font-serif text-[#F5F2E8]">le regard.</span>
+                        {title}
                     </motion.h1>
 
                     <motion.div
