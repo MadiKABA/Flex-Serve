@@ -15,6 +15,7 @@ export default async function ServicesPage() {
 
     const { sections, backgroundBySection } = data;
     const hero = sections.find((s) => s.position === 0);
+    const listHeading = sections.find((s) => s.position === 1);
     const heroBackground = hero ? backgroundBySection.get(hero.id) : undefined;
 
     return (
@@ -38,7 +39,11 @@ export default async function ServicesPage() {
 
             {/* Liste des services */}
             <section aria-label="Liste complète des services de FlexServeStudio">
-                <ServicesListSection services={services} />
+                <ServicesListSection
+                    title={listHeading?.title}
+                    subtitle={listHeading?.subtitle}
+                    services={services}
+                />
                 <p className="sr-only">
                     FlexServeStudio Dakar propose des services professionnels : mariages, portraits, événements et publicité.
                 </p>

@@ -5,25 +5,49 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { ServiceWithMedia } from '@/lib/data/services';
 
-export default function ServicesSection({ services }: { services: ServiceWithMedia[] }) {
+export default function ServicesSection({
+    title,
+    subtitle,
+    services,
+}: {
+    title?: string | null;
+    subtitle?: string | null;
+    services: ServiceWithMedia[];
+}) {
+    // Le titre est stocké en une seule phrase ("Nos prestations. Votre vision.") ;
+    // on isole la dernière phrase pour reproduire le saut de ligne + l'italique d'origine.
+    const titleSentences = (title ?? '').split(/\.\s+/).filter(Boolean);
+    const titleLead = titleSentences.slice(0, -1).join('. ');
+    const titleLast = titleSentences[titleSentences.length - 1];
+
     return (
         <section className="relative py-16 md:py-32 bg-[#2E4A6F]/75 overflow-hidden">
             {/* SERVICES arrière-plan */}
-            <motion.h2
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 0.04, scale: 1 }}
-                className="absolute top-10 md:top-20 right-5 text-[6rem] sm:text-[10rem] md:text-[20rem] font-bold text-white leading-none select-none pointer-events-none z-0"
-            >
-                SERVICES
-            </motion.h2>
+            {subtitle && (
+                <motion.h2
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 0.04, scale: 1 }}
+                    className="absolute top-10 md:top-20 right-5 text-[6rem] sm:text-[10rem] md:text-[20rem] font-bold text-white leading-none select-none pointer-events-none z-0"
+                >
+                    {subtitle}
+                </motion.h2>
+            )}
 
             {/* TITRE ÉDITORIAL */}
-            <div className="relative max-w-7xl mx-auto px-6 mb-16 md:mb-24 z-10">
-                <h3 className="text-4xl md:text-7xl font-light text-white leading-tight">
-                    Nos prestations. <br />
-                    <span className="italic font-serif">Votre vision.</span>
-                </h3>
-            </div>
+            {titleLast && (
+                <div className="relative max-w-7xl mx-auto px-6 mb-16 md:mb-24 z-10">
+                    <h3 className="text-4xl md:text-7xl font-light text-white leading-tight">
+                        {titleLead ? (
+                            <>
+                                {titleLead}. <br />
+                                <span className="italic font-serif">{titleLast}</span>
+                            </>
+                        ) : (
+                            titleLast
+                        )}
+                    </h3>
+                </div>
+            )}
 
             {/* LISTE DES SERVICES */}
             <div className="relative z-10">
@@ -138,11 +162,11 @@ export default function ServicesSection({ services }: { services: ServiceWithMed
                                         >
                                             {/* Bouton Réserver */}
                                             <Link
-                                                href="/reservation"
+                                                href={service.cta_reservation_url}
                                                 className="group relative px-8 py-4 bg-white text-[#2E4A6F] rounded-sm overflow-hidden transition-all duration-500 hover:pr-12 text-center"
                                             >
                                                 <span className="relative z-10 uppercase tracking-widest text-sm font-semibold">
-                                                    Réserver
+                                                    {service.cta_reservation_label}
                                                 </span>
                                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:right-6 transition-all duration-500">
                                                     →
@@ -155,7 +179,7 @@ export default function ServicesSection({ services }: { services: ServiceWithMed
                                                 className="group px-8 py-4 border-2 border-white/30 text-white rounded-sm uppercase tracking-widest text-sm font-semibold hover:border-white hover:bg-white/10 transition-all duration-300 text-center"
                                             >
                                                 <span className="flex items-center justify-center gap-2">
-                                                    Portfolio
+                                                    {service.cta_portfolio_label}
                                                     <svg
                                                         className="w-4 h-4 transition-transform group-hover:scale-110"
                                                         fill="none"

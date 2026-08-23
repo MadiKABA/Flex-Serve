@@ -40,6 +40,9 @@ export interface Service {
     description: string | null;
     tag: string | null;
     href: string;
+    cta_portfolio_label: string;
+    cta_reservation_label: string;
+    cta_reservation_url: string;
     position: number;
     is_visible: boolean;
     created_at: string;
