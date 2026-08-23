@@ -65,6 +65,7 @@ export default function AboutHero({
                             )}
                             <h1 className="text-6xl md:text-8xl font-light text-white leading-[1.05]">
                                 {title}
+                                <span className="sr-only"> — FlexServeStudio, studio photo et vidéo à Dakar, Sénégal</span>
                             </h1>
                         </motion.div>
 

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import AboutCTA from "@/components/about/AboutCTA";
 import AboutHero from "@/components/about/AboutHero";
@@ -5,8 +6,20 @@ import AboutValuesSection from "@/components/about/AboutValuesSection";
 import PartnersSection from "@/components/about/PartnersSection";
 import { getPageData } from "@/lib/data/page";
 import { getAboutPartners, getAboutStats } from "@/lib/data/about";
+import { buildPageMetadata } from '@/lib/utils/page-metadata';
 
 export const revalidate = 3600;
+
+export async function generateMetadata(): Promise<Metadata> {
+    const data = await getPageData('about');
+    if (!data) return {};
+
+    return buildPageMetadata(data.page, '/about', {
+        title: 'À propos — FlexServeStudio, Studio Photo & Vidéo à Dakar',
+        description:
+            "FlexServeStudio réunit une équipe de photographes et vidéastes à Dakar, spécialisée en mariages, portraits, événements et publicité. Découvrez notre histoire et nos valeurs.",
+    });
+}
 
 export default async function AboutPage() {
     const [data, stats, partnerBrands] = await Promise.all([
@@ -31,9 +44,6 @@ export default async function AboutPage() {
 
             {/* Hero About */}
             <section aria-label="Présentation de FlexServeStudio">
-                <h1 className="sr-only">
-                    À propos de FlexServeStudio - Photographe et vidéaste professionnel à Dakar, Sénégal
-                </h1>
                 {hero && (
                     <AboutHero
                         title={hero.title ?? ''}

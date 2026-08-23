@@ -82,6 +82,7 @@ export default function PortraitHero({
                         className="text-6xl md:text-[10rem] font-light text-white leading-none"
                     >
                         {title}
+                        <span className="sr-only"> — Portfolio Portraits professionnels à Dakar, FlexServeStudio</span>
                     </motion.h1>
 
                     <motion.div

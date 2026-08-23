@@ -1,10 +1,23 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ServicesHero from "@/components/services/servicesHero";
 import ServicesListSection from "@/components/services/ServicesListSection";
 import { getPageData } from "@/lib/data/page";
 import { getServicesData } from "@/lib/data/services";
+import { buildPageMetadata } from '@/lib/utils/page-metadata';
 
 export const revalidate = 3600;
+
+export async function generateMetadata(): Promise<Metadata> {
+    const data = await getPageData('services');
+    if (!data) return {};
+
+    return buildPageMetadata(data.page, '/services', {
+        title: 'Services de Photographie & Vidéographie à Dakar | FlexServeStudio',
+        description:
+            'Découvrez les prestations de FlexServeStudio à Dakar : mariage, portrait, événementiel et publicité. Réservez votre séance photo ou vidéo.',
+    });
+}
 
 export default async function ServicesPage() {
     const [data, services] = await Promise.all([getPageData('services'), getServicesData()]);
@@ -23,9 +36,6 @@ export default async function ServicesPage() {
 
             {/* Hero Section */}
             <section aria-label="Présentation des services FlexServeStudio">
-                <h1 className="sr-only">
-                    Services de photographie et vidéographie professionnelle à Dakar - FlexServeStudio
-                </h1>
                 {hero && (
                     <ServicesHero
                         title={hero.title ?? ''}

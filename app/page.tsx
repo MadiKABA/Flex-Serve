@@ -1,9 +1,22 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import GalleryHome from "@/components/home/GalleryHome";
 import HeroFlexServev2 from "@/components/home/HeroPhotographyv2";
 import { getPageData } from "@/lib/data/page";
+import { buildPageMetadata } from '@/lib/utils/page-metadata';
 
 export const revalidate = 3600;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getPageData('accueil');
+  if (!data) return {};
+
+  return buildPageMetadata(data.page, '/', {
+    title: 'FlexServeStudio — Photographe & Vidéaste professionnel à Dakar, Sénégal',
+    description:
+      'FlexServeStudio Dakar propose des services professionnels de photographie et vidéographie, spécialisé en mariages, événements, publicité et portraits.',
+  });
+}
 
 export default async function Home() {
   const data = await getPageData('accueil');
@@ -28,9 +41,6 @@ export default async function Home() {
 
       {/* Hero section */}
       <section aria-label="Présentation de FlexServeStudio - Photographe et vidéaste à Dakar">
-        <h1 className="sr-only">
-          FlexServeStudio - Photographe et vidéaste professionnel à Dakar, Sénégal
-        </h1>
         {hero && (
           <HeroFlexServev2
             title={hero.title ?? ''}

@@ -35,6 +35,7 @@ export default function ContactHero({
                     )}
                     <h1 className="text-6xl md:text-8xl font-light text-white leading-tight">
                         {title}
+                        <span className="sr-only"> — Contactez FlexServeStudio, photographe à Dakar, Sénégal</span>
                     </h1>
                 </motion.div>
             </div>

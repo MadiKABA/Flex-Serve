@@ -1,10 +1,23 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ContactContent from "@/components/contact/ContactContent";
 import ContactHero from "@/components/contact/ContactHero";
 import { getPageData } from "@/lib/data/page";
 import { getSiteSettings } from "@/lib/data/site-settings";
+import { buildPageMetadata } from '@/lib/utils/page-metadata';
 
 export const revalidate = 3600;
+
+export async function generateMetadata(): Promise<Metadata> {
+    const data = await getPageData('contact');
+    if (!data) return {};
+
+    return buildPageMetadata(data.page, '/contact', {
+        title: 'Contact — FlexServeStudio, Photographe à Dakar',
+        description:
+            'Contactez FlexServeStudio à Dakar pour réserver votre séance photo ou vidéo : téléphone, email et réseaux sociaux.',
+    });
+}
 
 export default async function ContactPage() {
     const [data, siteSettings] = await Promise.all([getPageData('contact'), getSiteSettings()]);
@@ -22,9 +35,6 @@ export default async function ContactPage() {
 
             {/* Hero Contact */}
             <section aria-label="Présentation de la page Contact">
-                <h1 className="sr-only">
-                    Contactez FlexServeStudio - Photographe et vidéaste professionnel à Dakar, Sénégal
-                </h1>
                 {hero && <ContactHero title={hero.title ?? ''} subtitle={hero.subtitle} />}
                 <p className="sr-only">
                     Obtenez toutes les informations pour contacter FlexServeStudio à Dakar : téléphone, email et formulaire.

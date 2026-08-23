@@ -1,9 +1,22 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import PortraitHero from "@/components/portfolio-portrait/PortraitHero";
 import GalleryGrid from "@/components/portfolio/GalleryGrid";
 import { getPortfolioPageData } from "@/lib/data/portfolio";
+import { buildPageMetadata } from '@/lib/utils/page-metadata';
 
 export const revalidate = 3600;
+
+export async function generateMetadata(): Promise<Metadata> {
+    const data = await getPortfolioPageData('portfolio-portrait');
+    if (!data) return {};
+
+    return buildPageMetadata(data.page, '/portfolio/portrait', {
+        title: 'Portfolio Portrait — Photographe Portrait à Dakar | FlexServeStudio',
+        description:
+            'Portraits professionnels réalisés à Dakar par FlexServeStudio : studio, lifestyle et corporate.',
+    });
+}
 
 export default async function PortraitPortfolioPage() {
     const data = await getPortfolioPageData('portfolio-portrait');
@@ -20,10 +33,6 @@ export default async function PortraitPortfolioPage() {
         <main className="min-h-screen bg-[#e8e4d9]" aria-label="Portfolio Portrait FlexServeStudio Dakar">
 
             <section aria-label="Galerie Portrait FlexServeStudio">
-                <h1 className="sr-only">
-                    Portfolio Portraits professionnels à Dakar - FlexServeStudio
-                </h1>
-
                 {heroSection && (
                     <PortraitHero
                         title={heroSection.title ?? ''}

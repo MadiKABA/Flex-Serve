@@ -71,6 +71,7 @@ export default function ServicesHero({
                         className="text-6xl md:text-9xl text-white font-light leading-none"
                     >
                         {title}
+                        <span className="sr-only"> — Services de photographie et vidéographie professionnelle à Dakar, FlexServeStudio</span>
                     </motion.h1>
 
                     {body && (

@@ -61,6 +61,7 @@ export default function HeroFlexServev2({
                         >
                             <h1 className="text-4xl md:text-5xl xl:text-6xl font-semibold text-white leading-tight">
                                 {title}<br />
+                                <span className="sr-only"> — FlexServeStudio, photographe et vidéaste professionnel à Dakar, Sénégal</span>
                             </h1>
 
                             {body && (
@@ -105,6 +106,7 @@ export default function HeroFlexServev2({
                                             alt={image1.alt_text || "Portfolio 1"}
                                             width={200}
                                             height={200}
+                                            priority
                                             className="object-cover rounded-sm"
                                         />
                                     </div>
@@ -126,6 +128,7 @@ export default function HeroFlexServev2({
                                             alt={image2.alt_text || "Portfolio 2"}
                                             width={200}
                                             height={200}
+                                            priority
                                             className="object-cover rounded-sm"
                                         />
                                     </div>
@@ -147,6 +150,7 @@ export default function HeroFlexServev2({
                                             alt={image3.alt_text || "Portfolio 3"}
                                             width={220}
                                             height={220}
+                                            priority
                                             className="object-cover rounded-sm"
                                         />
                                     </div>

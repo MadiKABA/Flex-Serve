@@ -68,6 +68,7 @@ export default function EventHero({
                             className="text-[12vw] md:text-[10vw] font-light leading-none text-white"
                         >
                             {title}
+                            <span className="sr-only"> — Portfolio Événements à Dakar, photographe et vidéaste, FlexServeStudio</span>
                         </motion.h1>
                     </div>
 

@@ -71,6 +71,7 @@ export default function WeddingHero({
                         className="text-[12vw] md:text-[14vw] font-light text-white leading-[0.85] tracking-tighter text-center drop-shadow-2xl"
                     >
                         {title}
+                        <span className="sr-only"> — Portfolio Mariages à Dakar, photographe professionnel, FlexServeStudio</span>
                     </motion.h1>
 
                     {body && (

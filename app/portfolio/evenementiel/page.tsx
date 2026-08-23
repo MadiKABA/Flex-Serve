@@ -1,9 +1,22 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import EventHero from "@/components/portfolio-event/EventHero";
 import GalleryGrid from "@/components/portfolio/GalleryGrid";
 import { getPortfolioPageData } from "@/lib/data/portfolio";
+import { buildPageMetadata } from '@/lib/utils/page-metadata';
 
 export const revalidate = 3600;
+
+export async function generateMetadata(): Promise<Metadata> {
+    const data = await getPortfolioPageData('portfolio-evenementiel');
+    if (!data) return {};
+
+    return buildPageMetadata(data.page, '/portfolio/evenementiel', {
+        title: "Portfolio Événementiel — Couverture d'Événements à Dakar | FlexServeStudio",
+        description:
+            "Photographie et vidéographie d'événements professionnels et privés à Dakar : conférences, lancements, cérémonies, réceptions.",
+    });
+}
 
 export default async function EventPortfolioPage() {
     const data = await getPortfolioPageData('portfolio-evenementiel');
@@ -20,10 +33,6 @@ export default async function EventPortfolioPage() {
         <main className="min-h-screen bg-[#e8e4d9]" aria-label="Portfolio Événementiel FlexServeStudio Dakar">
 
             <section aria-label="Galerie Événements FlexServeStudio">
-                <h1 className="sr-only">
-                    Portfolio Événements à Dakar - Photographe et vidéaste - FlexServeStudio
-                </h1>
-
                 {heroSection && (
                     <EventHero
                         title={heroSection.title ?? ''}
