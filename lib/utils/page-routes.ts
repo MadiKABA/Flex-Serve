@@ -1,4 +1,5 @@
 import type { PortfolioCategory } from '@/lib/types/content';
+import { getPageUploadFolder, getPortfolioCategoryForPageSlug } from '@/lib/utils/cloudinary-paths';
 
 /**
  * Mapping entre le slug stocké dans la table "pages" et la route
@@ -17,24 +18,16 @@ const PUBLIC_PATH_BY_SLUG: Record<string, string> = {
     'portfolio-pub': '/portfolio/pub',
 };
 
-/** Les 4 pages portfolio correspondent 1:1 à une valeur de l'enum media_items.category. */
-const PORTFOLIO_CATEGORY_BY_SLUG: Record<string, PortfolioCategory> = {
-    'portfolio-mariage': 'mariage',
-    'portfolio-portrait': 'portrait',
-    'portfolio-evenementiel': 'evenementiel',
-    'portfolio-pub': 'pub',
-};
-
 export function getPublicPath(dbSlug: string): string | null {
     return PUBLIC_PATH_BY_SLUG[dbSlug] ?? null;
 }
 
 /** null pour les pages qui ne correspondent à aucune catégorie portfolio (accueil, about, ...). */
 export function getPortfolioCategory(dbSlug: string): PortfolioCategory | null {
-    return PORTFOLIO_CATEGORY_BY_SLUG[dbSlug] ?? null;
+    return getPortfolioCategoryForPageSlug(dbSlug);
 }
 
-/** Dossier Cloudinary cible pour l'upload : flexserve/{catégorie} ou flexserve/{slug} à défaut. */
+/** Dossier Cloudinary cible pour l'upload — logique partagée avec scripts/migrate-images.ts. */
 export function getUploadFolder(dbSlug: string): string {
-    return `flexserve/${getPortfolioCategory(dbSlug) ?? dbSlug}`;
+    return getPageUploadFolder(dbSlug);
 }

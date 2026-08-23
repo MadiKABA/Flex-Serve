@@ -17,6 +17,8 @@ import { createHash } from "node:crypto";
 import { v2 as cloudinary } from "cloudinary";
 import { createClient } from "@supabase/supabase-js";
 import sharp from "sharp";
+import type { PortfolioCategory } from "../lib/types/content.ts";
+import { cloudinaryFolder, getPortfolioCategoryForServiceSlug } from "../lib/utils/cloudinary-paths.ts";
 
 const ROOT = process.cwd();
 const DRY_RUN = process.argv.includes("--dry-run");
@@ -33,8 +35,6 @@ const supabase = createClient(
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
     { auth: { autoRefreshToken: false, persistSession: false } }
 );
-
-type PortfolioCategory = "mariage" | "portrait" | "evenementiel" | "pub";
 
 interface ExtractedImage {
     src: string;
@@ -283,10 +283,6 @@ function deterministicPublicId(folder: string, src: string): string {
     return `${folder}/${slugify(basename)}-${hash}`;
 }
 
-function categoryOrSiteFolder(category: PortfolioCategory | null, fallback: string): string {
-    return `flexserve/${category ?? fallback}`;
-}
-
 async function findExistingCloudinaryAsset(publicId: string): Promise<string | null> {
     try {
         const res = await cloudinary.api.resource(publicId);
@@ -390,7 +386,7 @@ async function buildPlan(stats: Stats): Promise<PlanItem[]> {
         }
 
         images.forEach((img, index) => {
-            const folder = categoryOrSiteFolder(job.category, "site");
+            const folder = cloudinaryFolder(job.category, "site");
             const absPath = path.join(ROOT, "public", img.src);
             plan.push({
                 label: job.label,
@@ -421,10 +417,8 @@ async function buildPlan(stats: Stats): Promise<PlanItem[]> {
             stats.blocked.push(`Service introuvable en base pour href="${svc.href}" (slug déduit: "${slug}").`);
             continue;
         }
-        const category = (["portrait", "mariage", "evenementiel", "pub"] as const).includes(slug as PortfolioCategory)
-            ? (slug as PortfolioCategory)
-            : null;
-        const folder = categoryOrSiteFolder(category, "site");
+        const category = getPortfolioCategoryForServiceSlug(dbService.slug);
+        const folder = cloudinaryFolder(category, "services");
 
         svc.images.forEach((src, index) => {
             const absPath = path.join(ROOT, "public", src);

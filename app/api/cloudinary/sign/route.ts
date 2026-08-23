@@ -4,7 +4,6 @@ import { createSupabaseServerClient } from "@/lib/supabase/session";
 
 export const runtime = "nodejs";
 
-const UPLOAD_PRESET = "flexserve_admin";
 const ALLOWED_FOLDER_PREFIX = "flexserve/";
 
 export async function POST(req: NextRequest) {
@@ -52,8 +51,13 @@ export async function POST(req: NextRequest) {
 
     const timestamp = Math.round(Date.now() / 1000);
 
+    // Upload signé sans upload_preset : on signe exactement les paramètres
+    // envoyés (timestamp + folder), comme le fait scripts/migrate-images.ts
+    // côté serveur avec le SDK. Aucun preset n'existe sur le compte Cloudinary
+    // ("flexserve_admin" n'a jamais été créé côté dashboard) — Cloudinary
+    // n'en a pas besoin pour un upload signé.
     const signature = cloudinary.utils.api_sign_request(
-        { timestamp, folder, upload_preset: UPLOAD_PRESET },
+        { timestamp, folder },
         process.env.CLOUDINARY_API_SECRET!
     );
 
@@ -65,6 +69,5 @@ export async function POST(req: NextRequest) {
         // (nécessaires pour l'appel d'upload direct Cloudinary depuis le navigateur).
         cloudName: process.env.CLOUDINARY_CLOUD_NAME,
         apiKey: process.env.CLOUDINARY_API_KEY,
-        uploadPreset: UPLOAD_PRESET,
     });
 }

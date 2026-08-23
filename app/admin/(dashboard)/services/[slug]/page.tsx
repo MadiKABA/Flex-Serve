@@ -4,6 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import ServiceEditor from '@/components/admin/services/ServiceEditor';
 import ServiceTwoImages from '@/components/admin/services/ServiceTwoImages';
+import { getServiceUploadFolder } from '@/lib/utils/cloudinary-paths';
 import type { MediaItem, Service } from '@/lib/types/content';
 
 export default async function AdminServiceEditorPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -66,7 +67,7 @@ export default async function AdminServiceEditorPage({ params }: { params: Promi
                 <ServiceTwoImages
                     serviceId={service.id}
                     serviceSlug={service.slug}
-                    uploadFolder={`flexserve/${service.slug}`}
+                    uploadFolder={getServiceUploadFolder(service.slug)}
                     media={media ?? []}
                 />
             </div>

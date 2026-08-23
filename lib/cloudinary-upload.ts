@@ -20,14 +20,13 @@ export async function uploadToCloudinary(file: File, folder: string): Promise<Cl
         throw new Error(body?.error ?? `Échec de la demande de signature (${signRes.status}).`);
     }
 
-    const { timestamp, signature, cloudName, apiKey, uploadPreset } = await signRes.json();
+    const { timestamp, signature, cloudName, apiKey } = await signRes.json();
 
     const formData = new FormData();
     formData.append('file', file);
     formData.append('api_key', apiKey);
     formData.append('timestamp', String(timestamp));
     formData.append('signature', signature);
-    formData.append('upload_preset', uploadPreset);
     formData.append('folder', folder);
 
     const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
