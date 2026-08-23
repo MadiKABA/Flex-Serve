@@ -6,6 +6,7 @@ import WeddingCTA from './WeddingCTA';
 import type { MediaItem } from '@/lib/types/content';
 
 export default function GalleryHome({
+    eventsGalleryMedia,
     weddingStoryTitle,
     weddingStoryBody,
     weddingStoryMedia,
@@ -16,6 +17,7 @@ export default function GalleryHome({
     weddingCtaUrl,
     weddingCtaMedia,
 }: {
+    eventsGalleryMedia: MediaItem[];
     weddingStoryTitle?: string | null;
     weddingStoryBody?: string | null;
     weddingStoryMedia: MediaItem[];
@@ -29,7 +31,7 @@ export default function GalleryHome({
     return (
         <main className="pb-12 min-h-screen bg-[#2E4A6F]/75">
 
-            <EventsGallery />
+            <EventsGallery media={eventsGalleryMedia} />
             <WeddingGallery title={weddingStoryTitle} body={weddingStoryBody} media={weddingStoryMedia} />
             <WeddingCTA
                 title={weddingCtaTitle}

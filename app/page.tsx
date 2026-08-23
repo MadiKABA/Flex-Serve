@@ -14,10 +14,12 @@ export default async function Home() {
 
   const { sections, mediaBySection } = data;
   const hero = sections.find((s) => s.position === 0);
+  const eventsGallery = sections.find((s) => s.position === 1);
   const weddingStory = sections.find((s) => s.position === 2);
   const weddingCta = sections.find((s) => s.position === 3);
 
   const heroMedia = hero ? mediaBySection.get(hero.id) ?? [] : [];
+  const eventsGalleryMedia = eventsGallery ? mediaBySection.get(eventsGallery.id) ?? [] : [];
   const weddingStoryMedia = weddingStory ? mediaBySection.get(weddingStory.id) ?? [] : [];
   const weddingCtaMedia = weddingCta ? mediaBySection.get(weddingCta.id) ?? [] : [];
 
@@ -47,6 +49,7 @@ export default async function Home() {
       {/* Galerie principale */}
       <section aria-label="Galerie des services FlexServeStudio">
         <GalleryHome
+          eventsGalleryMedia={eventsGalleryMedia}
           weddingStoryTitle={weddingStory?.title}
           weddingStoryBody={weddingStory?.body}
           weddingStoryMedia={weddingStoryMedia}
