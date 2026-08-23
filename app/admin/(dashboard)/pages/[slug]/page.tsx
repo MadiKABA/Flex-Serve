@@ -3,8 +3,10 @@ import { supabaseAdmin } from '@/lib/supabase/server';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import SectionEditor from '@/components/admin/pages/SectionEditor';
 import HeroThreeImages from '@/components/admin/pages/HeroThreeImages';
+import AboutStatsEditor from '@/components/admin/pages/AboutStatsEditor';
+import AboutPartnersEditor from '@/components/admin/pages/AboutPartnersEditor';
 import { getPortfolioCategory, getUploadFolder } from '@/lib/utils/page-routes';
-import type { MediaItem, Page, Section } from '@/lib/types/content';
+import type { AboutPartner, AboutStat, MediaItem, Page, Section } from '@/lib/types/content';
 
 const SECTION_TYPE_LABELS: Record<string, string> = {
     hero: 'Hero',
@@ -67,7 +69,21 @@ export default async function AdminPageEditor({ params }: { params: Promise<{ sl
     const category = getPortfolioCategory(page.slug);
     const uploadFolder = getUploadFolder(page.slug);
     const isAccueil = page.slug === 'accueil';
+    const isAbout = page.slug === 'about';
     const isUnhandledCustomPage = page.type === 'custom' && !isAccueil;
+
+    let aboutStats: AboutStat[] = [];
+    let aboutPartners: AboutPartner[] = [];
+    if (isAbout) {
+        const [{ data: stats, error: statsError }, { data: partners, error: partnersError }] = await Promise.all([
+            supabaseAdmin.from('about_stats').select('*').order('position').returns<AboutStat[]>(),
+            supabaseAdmin.from('about_partners').select('*').order('position').returns<AboutPartner[]>(),
+        ]);
+        if (statsError) return <ErrorState message={statsError.message} />;
+        if (partnersError) return <ErrorState message={partnersError.message} />;
+        aboutStats = stats ?? [];
+        aboutPartners = partners ?? [];
+    }
 
     return (
         <div className="space-y-6">
@@ -148,6 +164,24 @@ export default async function AdminPageEditor({ params }: { params: Promise<{ sl
                             </AccordionContent>
                         </AccordionItem>
                     ))}
+
+                    {isAbout && (
+                        <AccordionItem value="about-stats">
+                            <AccordionTrigger>Stats chiffrées</AccordionTrigger>
+                            <AccordionContent>
+                                <AboutStatsEditor stats={aboutStats} />
+                            </AccordionContent>
+                        </AccordionItem>
+                    )}
+
+                    {isAbout && (
+                        <AccordionItem value="about-partners">
+                            <AccordionTrigger>Partenaires</AccordionTrigger>
+                            <AccordionContent>
+                                <AboutPartnersEditor partners={aboutPartners} />
+                            </AccordionContent>
+                        </AccordionItem>
+                    )}
                 </Accordion>
             )}
         </div>
