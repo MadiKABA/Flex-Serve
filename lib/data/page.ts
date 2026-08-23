@@ -14,7 +14,12 @@ export interface PageData {
  * l'image de fond de chaque section (résolue via background_media_id).
  */
 export async function getPageData(slug: string): Promise<PageData | null> {
-    const { data: page } = await supabase.from('pages').select('*').eq('slug', slug).maybeSingle<Page>();
+    const { data: page } = await supabase
+        .from('pages')
+        .select('*')
+        .eq('slug', slug)
+        .eq('is_published', true)
+        .maybeSingle<Page>();
     if (!page) return null;
 
     const { data: sections } = await supabase

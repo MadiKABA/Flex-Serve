@@ -64,6 +64,9 @@ export default async function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
+            // .replace(/</g, '\\u003c') : JSON.stringify n'échappe pas "<",
+            // donc une valeur admin (site_settings) contenant "</script>"
+            // pourrait sinon casser hors du tag et injecter du JS (XSS stocké).
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "ProfessionalService",
@@ -80,7 +83,7 @@ export default async function RootLayout({
               },
               url: "https://www.flexservestudio.com",
               sameAs,
-            }),
+            }).replace(/</g, '\\u003c'),
           }}
         />
       </head>

@@ -20,7 +20,7 @@ export async function uploadToCloudinary(file: File, folder: string): Promise<Cl
         throw new Error(body?.error ?? `Échec de la demande de signature (${signRes.status}).`);
     }
 
-    const { timestamp, signature, cloudName, apiKey } = await signRes.json();
+    const { timestamp, signature, cloudName, apiKey, allowedFormats } = await signRes.json();
 
     const formData = new FormData();
     formData.append('file', file);
@@ -28,6 +28,9 @@ export async function uploadToCloudinary(file: File, folder: string): Promise<Cl
     formData.append('timestamp', String(timestamp));
     formData.append('signature', signature);
     formData.append('folder', folder);
+    // Doit correspondre exactement à ce qui a été signé côté serveur, sinon
+    // Cloudinary rejette la requête (signature invalide).
+    formData.append('allowed_formats', allowedFormats);
 
     const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
         method: 'POST',
